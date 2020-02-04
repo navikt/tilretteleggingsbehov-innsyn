@@ -17,8 +17,6 @@ spec:
     readiness:
         initialDelay: 5
         path: /tilretteleggingsbehov-innsyn/internal/isReady
-    vault:
-        enabled: true
     env:
         - name: LOGIN_URL
           value: https://loginservice.nav.no/login?redirect=https://arbeidsgiver.nav.no/tilretteleggingsbehov
