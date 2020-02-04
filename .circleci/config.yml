@@ -36,7 +36,7 @@ jobs:
                   image: docker.pkg.github.com/navikt/tilretteleggingsbehov-innsyn/tilretteleggingsbehov-innsyn
                   github-app-id: 43789
                   nais-template: nais-dev.yaml
-                  environment: dev-fss
+                  environment: dev-sbs
                   team: teamtag
 
     deploy-til-prod:
@@ -52,7 +52,7 @@ jobs:
                   image: docker.pkg.github.com/navikt/tilretteleggingsbehov-innsyn/tilretteleggingsbehov-innsyn
                   github-app-id: 43789
                   nais-template: nais-prod.yaml
-                  environment: prod-fss
+                  environment: prod-sbs
                   team: teamtag
 
 workflows:
