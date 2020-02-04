@@ -1,0 +1,24 @@
+apiVersion: nais.io/v1alpha1
+kind: Application
+metadata:
+    name: tilretteleggingsbehov-innsyn
+    namespace: default
+    labels:
+        team: {{ team }}
+spec:
+    image: {{ version }}
+    team: {{ team }}
+    port: 3000
+    ingresses:
+        - https://arbeidsgiver-q.nav.no/tilretteleggingsbehov
+    liveness:
+        initialDelay: 5
+        path: /tilretteleggingsbehov-innsyn/internal/isAlive
+    readiness:
+        initialDelay: 5
+        path: /tilretteleggingsbehov-innsyn/internal/isReady
+    vault:
+        enabled: true
+    env:
+        - name: LOGIN_URL
+          value: https://loginservice.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/tilretteleggingsbehov
