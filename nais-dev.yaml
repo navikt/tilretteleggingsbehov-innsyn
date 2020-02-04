@@ -10,7 +10,7 @@ spec:
     team: {{ team }}
     port: 3000
     ingresses:
-        - https://arbeidsgiver-q.nav.no/tilretteleggingsbehov
+        - https://arbeidsgiver-q.nav.no/tilretteleggingsbehov-innsyn/
     liveness:
         initialDelay: 5
         path: /tilretteleggingsbehov-innsyn/internal/isAlive
@@ -21,4 +21,4 @@ spec:
         enabled: true
     env:
         - name: LOGIN_URL
-          value: https://loginservice.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/tilretteleggingsbehov
+          value: https://loginservice.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/tilretteleggingsbehov-innsyn/
