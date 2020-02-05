@@ -25,7 +25,9 @@
     "scripts": {
         "start": "craco start",
         "build": "craco build",
-        "eject": "craco eject"
+        "eject": "craco eject",
+        "server": "node server/server.js",
+        "server-watch": "nodemon server/server.js"
     },
     "eslintConfig": {
         "extends": "react-app"
