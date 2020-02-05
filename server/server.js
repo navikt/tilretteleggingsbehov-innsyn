@@ -7,6 +7,10 @@ const sonekryssing = require('./sonekryssing.js');
 const PORT = 3000;
 const BASE_PATH = '/tilretteleggingsbehov-innsyn';
 
+const LOCAL_LOGIN_URL = 'http://localhost:8080/finn-kandidat-api/local/selvbetjening-login';
+const LOCAL_LOGIN_WITH_REDIRECT = `${LOCAL_LOGIN_URL}?redirect=http://localhost:${PORT}${BASE_PATH}/`;
+const LOGIN_URL = process.env.LOGIN_URL || LOCAL_LOGIN_WITH_REDIRECT;
+
 const buildPath = path.join(__dirname, '../build');
 const server = express();
 
@@ -16,9 +20,12 @@ const startServer = html => {
         res.send(html);
     });
 
-    server.use(`${BASE_PATH}/api/health`, sonekryssing);
-    server.get(`${BASE_PATH}/internal/isAlive`, (req, res) => res.sendStatus(200));
-    server.get(`${BASE_PATH}/internal/isReady`, (req, res) => res.sendStatus(200));
+    server.use(`${BASE_PATH}/api/me`, sonekryssing);
+    server.get(`${BASE_PATH}/internal/isAlive`, (_, res) => res.sendStatus(200));
+    server.get(`${BASE_PATH}/internal/isReady`, (_, res) => res.sendStatus(200));
+    server.get(`${BASE_PATH}/redirect-til-login`, (_, res) => {
+        res.redirect(LOGIN_URL);
+    });
 
     server.listen(PORT, () => {
         console.log('Server kjører på port', PORT);

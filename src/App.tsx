@@ -1,15 +1,32 @@
-import React, {useEffect} from 'react';
-import hentApiHelse from './api/hentApiHelse';
+import React, { useEffect, useState } from 'react';
+import { hentMeg, Respons } from './api/api';
 
 const App = () => {
+    const [respons, setRespons] = useState<Respons>({
+        data: 'Ikke lastet',
+        status: 0,
+    });
+
     useEffect(() => {
-        hentApiHelse();
+        const hent = async () => {
+            setRespons(await hentMeg());
+        };
+
+        hent();
     }, []);
 
-    return <div className="App">
-        <div>tilretteleggingsbehov innsyn</div>
-    </div>;
+    useEffect(() => {
+        if (respons.status === 401) {
+            window.location.replace('./redirect-til-login');
+        }
+    }, [respons.status]);
 
+    return (
+        <div className="App">
+            <h1>Dine tilretteleggingsbehov</h1>
+            <code>{JSON.stringify(respons, null, 4)}</code>
+        </div>
+    );
 };
 
 export default App;
