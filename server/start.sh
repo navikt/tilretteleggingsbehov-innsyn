@@ -11,4 +11,4 @@ then
     done
 fi
 
-exec node server/server.js
+exec node server.js
