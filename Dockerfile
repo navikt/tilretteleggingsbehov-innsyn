@@ -5,5 +5,8 @@ WORKDIR /app
 COPY build/ build/
 COPY server/ server/
 
+WORKDIR /server
+RUN npm install
+
 EXPOSE 3000
-ENTRYPOINT ["node", "server/server.js"]
+ENTRYPOINT ["npm", "start"]
