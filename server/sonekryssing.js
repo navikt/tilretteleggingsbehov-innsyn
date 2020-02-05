@@ -9,7 +9,7 @@ const proxyConfig = {
     changeOrigin: true,
     target: envProperties.API_GATEWAY,
     pathRewrite: {
-        '^/tilretteleggingsbehov-innsyn/api/health': '/finn-kandidat-api/internal/actuator/health'
+        '^/tilretteleggingsbehov-innsyn/api/health': '/finn-kandidat-api/veileder/me'
     },
     secure: true,
     xfwd: true
