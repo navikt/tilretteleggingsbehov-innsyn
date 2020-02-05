@@ -5,7 +5,7 @@ WORKDIR /app
 COPY build/ build/
 COPY server/ server/
 
-WORKDIR /server
+WORKDIR /app/server
 RUN npm install
 
 EXPOSE 3000
