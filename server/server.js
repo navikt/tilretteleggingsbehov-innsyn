@@ -13,25 +13,11 @@ app.set('views', buildPath);
 const PORT = 3000;
 const BASE_PATH = '/tilretteleggingsbehov-innsyn';
 
-const renderAppMedDekoratør = dekoratør =>
-    new Promise((resolve, reject) => {
-        console.log('Injiserer dekoratør i HTML-template ...');
-        app.render('index.html', dekoratør, (err, html) => {
-            if (err) {
-                reject(err);
-            } else {
-                console.log('> Suksess!\n');
-                resolve(html);
-            }
-        });
-    });
-
 const startServer = html => {
     const ignorerIndex = { index: false };
 
     app.use(BASE_PATH, express.static(buildPath, ignorerIndex));
-
-    app.get(`${BASE_PATH}/*`, (req, res) => {
+    app.get(BASE_PATH, (_, res) => {
         res.send(html);
     });
 
@@ -43,11 +29,26 @@ const startServer = html => {
     });
 };
 
-const behandleFeil = feil => error => {
-    console.error(`${feil}:`, error);
+const renderAppMedDekoratør = dekoratør =>
+    new Promise((resolve, reject) => {
+        app.render('index.html', dekoratør, (err, html) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(html);
+            }
+        });
+    });
+
+const logError = feil => error => {
+    console.error('> ' + feil);
+    console.error('> ' + error);
+
     process.exit(1);
 };
 
+console.log('Starter server ...');
 hentDekoratør()
-    .then(renderAppMedDekoratør, behandleFeil('Kunne ikke hente dekoratør'))
-    .then(startServer, behandleFeil('Kunne ikke rendre app'));
+    .catch(logError('Kunne ikke hente dekoratør!'))
+    .then(renderAppMedDekoratør, logError('Kunne ikke injisere dekoratør!'))
+    .then(startServer, logError('Kunne ikke rendre app!'));
