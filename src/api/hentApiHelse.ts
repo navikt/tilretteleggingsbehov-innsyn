@@ -4,11 +4,9 @@ const hentApiHelse = async (): Promise<String> => {
         method: 'GET',
         credentials: 'include'
     });
-    //console.log("respons", respons);
     if (respons.ok) {
         responsBody = await respons.text();
     }
-    console.log("responsbody", responsBody);
     return responsBody;
 };
 

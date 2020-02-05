@@ -9,7 +9,6 @@ const BASE_PATH = '/tilretteleggingsbehov-innsyn';
 const buildPath = path.join(__dirname, '../build');
 
 const startServer = () => {
-    console.log("healthurls server", `${BASE_PATH}/api/health`)
     app.use(`${BASE_PATH}/api/health`, sonekryssing);
     app.use(BASE_PATH, express.static(buildPath));
     app.get(`${BASE_PATH}/internal/isAlive`, (req, res) => res.sendStatus(200));
