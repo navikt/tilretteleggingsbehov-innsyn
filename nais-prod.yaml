@@ -22,3 +22,5 @@ spec:
     env:
         - name: LOGIN_URL
           value: https://loginservice.nav.no/login?redirect=https://arbeidsgiver.nav.no/tilretteleggingsbehov-innsyn/
+        - name: APIGW_URL
+          value: https://api-gw.oera.no

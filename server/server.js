@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const hentDekoratør = require('./dekoratør');
 const mustacheExpress = require('mustache-express');
+const sonekryssing = require('./sonekryssing.js');
 
 const PORT = 3000;
 const BASE_PATH = '/tilretteleggingsbehov-innsyn';
@@ -10,13 +11,12 @@ const buildPath = path.join(__dirname, '../build');
 const server = express();
 
 const startServer = html => {
-    const ignorerIndex = { index: false };
-
-    server.use(BASE_PATH, express.static(buildPath, ignorerIndex));
+    server.use(BASE_PATH, express.static(buildPath, { index: false }));
     server.get(BASE_PATH, (_, res) => {
         res.send(html);
     });
 
+    server.use(`${BASE_PATH}/api/health`, sonekryssing);
     server.get(`${BASE_PATH}/internal/isAlive`, (req, res) => res.sendStatus(200));
     server.get(`${BASE_PATH}/internal/isReady`, (req, res) => res.sendStatus(200));
 
