@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import hentApiHelse from './api/hentApiHelse';
 
 const App = () => {
@@ -6,10 +6,11 @@ const App = () => {
         hentApiHelse();
     }, []);
 
-    return <div className="App">
-        <div>tilretteleggingsbehov innsyn</div>
-    </div>;
-
+    return (
+        <div className="App">
+            <div>tilretteleggingsbehov innsyn</div>
+        </div>
+    );
 };
 
 export default App;

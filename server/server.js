@@ -2,27 +2,38 @@ const path = require('path');
 const express = require('express');
 const hentDekoratør = require('./dekoratør');
 const mustacheExpress = require('mustache-express');
+const cookieParser = require('cookie-parser');
+const jwtDecode = require('jwt-decode');
 const sonekryssing = require('./sonekryssing.js');
 
 const PORT = 3000;
 const BASE_PATH = '/tilretteleggingsbehov-innsyn';
+const TILRETTELEGGINGSBEHOV_PATH = `${BASE_PATH}/mine-tilretteleggingsbehov`;
 
 const buildPath = path.join(__dirname, '../build');
 const server = express();
 
 const startServer = html => {
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
-    server.get(BASE_PATH, (_, res) => {
+    server.get(BASE_PATH, (req, res) => {
         res.send(html);
     });
 
-    server.use(`${BASE_PATH}/api/health`, sonekryssing);
+    server.get(TILRETTELEGGINGSBEHOV_PATH, brukFnrFraCookie);
+    server.use(TILRETTELEGGINGSBEHOV_PATH, sonekryssing);
+
     server.get(`${BASE_PATH}/internal/isAlive`, (req, res) => res.sendStatus(200));
     server.get(`${BASE_PATH}/internal/isReady`, (req, res) => res.sendStatus(200));
 
     server.listen(PORT, () => {
         console.log('Server kjører på port', PORT);
     });
+};
+
+const brukFnrFraCookie = (req, res, next) => {
+    const token = req.cookies['selvbetjening-idtoken'];
+    req.fnr = jwtDecode(token).sub;
+    next();
 };
 
 const renderAppMedDekoratør = dekoratør =>
@@ -43,15 +54,13 @@ const logError = feil => error => {
     process.exit(1);
 };
 
-const initialiserMustacheEngine = () => {
+const initialiserServer = () => {
+    console.log('Initialiserer server ...');
+
     server.engine('html', mustacheExpress());
     server.set('view engine', 'mustache');
     server.set('views', buildPath);
-};
-
-const initialiserServer = () => {
-    console.log('Initialiserer server ...');
-    initialiserMustacheEngine();
+    server.use(cookieParser());
 
     hentDekoratør()
         .catch(logError('Kunne ikke hente dekoratør!'))
