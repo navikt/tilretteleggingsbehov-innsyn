@@ -1,15 +1,16 @@
 import Behovgruppe from './Behovgruppe';
 import React, { FunctionComponent } from 'react';
+import { Normaltekst } from 'nav-frontend-typografi';
+import Lenke from 'nav-frontend-lenker';
 
+import { Kandidat } from '../api/Kandidat';
 import {
     arbeidstidTekster,
     fysiskTekster,
     grunnleggendeTekster,
     arbeidsmiljøTekster,
 } from '../api/Behovtekster';
-
 import './Visning.less';
-import { Kandidat } from '../api/Kandidat';
 
 interface Props {
     kandidat: Kandidat;
@@ -41,6 +42,11 @@ const Visning: FunctionComponent<Props> = ({ kandidat }) => {
                     behov={grunnleggendeTekster(kandidat.grunnleggendeBehov)}
                 />
             </div>
+            <h3>Stemmer ikke informasjonen?</h3>
+            <Normaltekst>
+                <span>Mener du at behovene dine for tilrettelegging ikke er riktig?</span>
+                <Lenke href="#kontakt-veileder">Ta kontakt med veilederen din.</Lenke>
+            </Normaltekst>
         </div>
     );
 };

@@ -19,13 +19,13 @@ const behovliste = (behov: Alternativtekster[]) => {
 const Behovgruppe: FunctionComponent<Props> = ({ overskrift, beskrivelse, behov }) => {
     return (
         <section className="visning__behovgruppe">
-            <Element>{overskrift}</Element>
+            <h3>{overskrift}</h3>
             <Normaltekst>{beskrivelse}</Normaltekst>
             <ul className="visning__behovliste">
                 {behov.length ? (
                     behovliste(behov)
                 ) : (
-                    <li> 
+                    <li>
                         <Normaltekst className="visning__ingenbehov">
                             Ingen registrerte behov
                         </Normaltekst>
