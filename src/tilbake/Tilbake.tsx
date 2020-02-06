@@ -6,7 +6,7 @@ import './Tilbake.less';
 const Tilbake: FunctionComponent = () => {
     return (
         <div className="tilbake">
-            <Lenke className="tilbake__lenke" href="https://www.nav.no/person/personopplysninger/">
+            <Lenke className="tilbake__lenke" href="https://www.nav.no/person/personopplysninger">
                 <VenstreChevron />
                 <span>Tilbake til personopplysninger</span>
             </Lenke>
