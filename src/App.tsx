@@ -5,7 +5,7 @@ import { enKandidat } from './mock/testdata';
 import Brødsmulesti from './brødsmulesti/Brødsmulesti';
 import Tilbake from './tilbake/Tilbake';
 import Informasjon, { Situasjon } from './informasjon/Informasjon';
-import Tavleikon from './tavleikon/Tavleikon';
+import { ReactComponent as Tavleikon } from './tavleikon/tavleikon.svg';
 import './App.less';
 
 const App = () => {
