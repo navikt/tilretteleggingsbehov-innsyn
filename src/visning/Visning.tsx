@@ -1,12 +1,6 @@
 import Behovgruppe from './Behovgruppe';
 import React, { FunctionComponent } from 'react';
-import {
-    Normaltekst,
-    Element,
-    Sidetittel,
-    Innholdstittel,
-    Undertittel,
-} from 'nav-frontend-typografi';
+import { Normaltekst, Element, Undertittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 
 import { Kandidat } from '../api/Kandidat';
