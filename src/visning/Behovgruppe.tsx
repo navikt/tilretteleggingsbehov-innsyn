@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Normaltekst, Element } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { Alternativtekster } from '../api/Behovtekster';
 
 interface Props {

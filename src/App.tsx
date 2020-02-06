@@ -4,8 +4,10 @@ import Visning from './visning/Visning';
 import { enKandidat } from './mock/testdata';
 import Brødsmulesti from './brødsmulesti/Brødsmulesti';
 import Tilbake from './tilbake/Tilbake';
-import Header from './header/Header';
+import Header from './tavleikon/Tavleikon';
 import Informasjon, { Situasjon } from './informasjon/Informasjon';
+import './App.less';
+import Tavleikon from './tavleikon/Tavleikon';
 
 const App = () => {
     const [respons, setRespons] = useState<Respons>({
@@ -30,10 +32,13 @@ const App = () => {
     const kandidat = enKandidat;
 
     return (
-        <div className="App typo-normal">
+        <div className="app typo-normal">
             <Brødsmulesti />
             <Tilbake />
-            <Header />
+            <header>
+                <Tavleikon />
+                <h1>Behov for tilrettelegging</h1>
+            </header>
             <main>
                 <Informasjon situasjon={Situasjon.HarIngenBehovForTilrettelegging} />
                 <Visning kandidat={kandidat} />
