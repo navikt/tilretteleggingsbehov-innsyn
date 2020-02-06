@@ -10,6 +10,10 @@ const PORT = 3000;
 const BASE_PATH = '/tilretteleggingsbehov-innsyn';
 const TILRETTELEGGINGSBEHOV_PATH = `${BASE_PATH}/mine-tilretteleggingsbehov`;
 
+const LOCAL_LOGIN_URL = 'http://localhost:8080/finn-kandidat-api/local/selvbetjening-login';
+const LOCAL_LOGIN_WITH_REDIRECT = `${LOCAL_LOGIN_URL}?redirect=http://localhost:${PORT}${BASE_PATH}/`;
+const LOGIN_URL = process.env.LOGIN_URL || LOCAL_LOGIN_WITH_REDIRECT;
+
 const buildPath = path.join(__dirname, '../build');
 const server = express();
 
@@ -24,6 +28,9 @@ const startServer = html => {
 
     server.get(`${BASE_PATH}/internal/isAlive`, (req, res) => res.sendStatus(200));
     server.get(`${BASE_PATH}/internal/isReady`, (req, res) => res.sendStatus(200));
+    server.get(`${BASE_PATH}/redirect-til-login`, (_, res) => {
+        res.redirect(LOGIN_URL);
+    });
 
     server.listen(PORT, () => {
         console.log('Server kjører på port', PORT);
