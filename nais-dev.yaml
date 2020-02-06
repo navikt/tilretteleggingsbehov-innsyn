@@ -16,7 +16,7 @@ spec:
         path: /person/behov-for-tilrettelegging/internal/isAlive
     readiness:
         initialDelay: 5
-        path: /person/behov-for-tilrettelegging/internal/isAlive
+        path: /person/behov-for-tilrettelegging/internal/isReady
     vault:
         enabled: true
     env:
