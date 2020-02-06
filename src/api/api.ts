@@ -9,7 +9,7 @@ export type Respons = {
 
 export const hentMeg = async (): Promise<Respons> => {
     try {
-        const respons = await fetch('/tilretteleggingsbehov-innsyn/api/me', {
+        const respons = await fetch('/tilretteleggingsbehov-innsyn/mine-tilretteleggingsbehov', {
             method: 'GET',
             credentials: 'include',
         });
