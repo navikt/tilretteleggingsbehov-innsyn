@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { hentTilretteleggingsbehov, Respons } from './api/api';
 import Visning from './visning/Visning';
 import { enKandidat } from './mock/testdata';
+import Brødsmulesti from './brødsmulesti/Brødsmulesti';
+import Tilbake from './tilbake/Tilbake';
+import Informasjon, { Situasjon } from './informasjon/Informasjon';
+import { ReactComponent as Tavleikon } from './tavleikon/tavleikon.svg';
+import { Systemtittel } from 'nav-frontend-typografi';
+import './App.less';
 
 const App = () => {
     const [respons, setRespons] = useState<Respons>({
@@ -26,10 +32,19 @@ const App = () => {
     const kandidat = enKandidat;
 
     return (
-        <div className="App">
-            <h1>Dine tilretteleggingsbehov</h1>
-            <code>{JSON.stringify(respons, null, 4)}</code>
-            <Visning kandidat={kandidat} />;
+        <div className="app typo-normal">
+            <Brødsmulesti />
+            <Tilbake />
+            <header className="app__header">
+                <Tavleikon />
+                <Systemtittel tag="h1" className="blokk-m">
+                    Behov for tilrettelegging
+                </Systemtittel>
+            </header>
+            <main className="app__main">
+                <Informasjon situasjon={Situasjon.HarIngenBehovForTilrettelegging} />
+                <Visning kandidat={kandidat} />
+            </main>
         </div>
     );
 };
