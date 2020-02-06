@@ -10,17 +10,17 @@ spec:
     team: {{ team }}
     port: 3000
     ingresses:
-        - https://www.nav.no/person/personopplysninger/behov-for-tilrettelegging/
+        - https://www.nav.no/person/behov-for-tilrettelegging/
     liveness:
         initialDelay: 5
-        path: /behov-for-tilrettelegging/internal/isAlive
+        path: /person/behov-for-tilrettelegging/internal/isAlive
     readiness:
         initialDelay: 5
-        path: /behov-for-tilrettelegging/internal/isReady
+        path: /person/behov-for-tilrettelegging/internal/isReady
     vault:
         enabled: true
     env:
         - name: LOGIN_URL
-          value: https://loginservice.nav.no/login?redirect=https://www.nav.no/person/personopplysninger/behov-for-tilrettelegging/
+          value: https://loginservice.nav.no/login?redirect=https://www.nav.no/person/behov-for-tilrettelegging/
         - name: APIGW_URL
           value: https://api-gw.oera.no

@@ -9,10 +9,13 @@ export type Respons = {
 
 export const hentTilretteleggingsbehov = async (): Promise<Respons> => {
     try {
-        const respons = await fetch('/behov-for-tilrettelegging/mine-tilretteleggingsbehov', {
-            method: 'GET',
-            credentials: 'include',
-        });
+        const respons = await fetch(
+            '/person/behov-for-tilrettelegging/mine-tilretteleggingsbehov',
+            {
+                method: 'GET',
+                credentials: 'include',
+            }
+        );
 
         if (respons.ok) {
             return {
