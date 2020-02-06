@@ -5,10 +5,12 @@ import './Tilbake.less';
 
 const Tilbake: FunctionComponent = () => {
     return (
-        <Lenke className="tilbake" href="https://www.nav.no/person/personopplysninger/">
-            <VenstreChevron />
-            <span>Tilbake til personopplysninger</span>
-        </Lenke>
+        <div className="tilbake">
+            <Lenke className="tilbake__lenke" href="https://www.nav.no/person/personopplysninger/">
+                <VenstreChevron />
+                <span>Tilbake til personopplysninger</span>
+            </Lenke>
+        </div>
     );
 };
 
