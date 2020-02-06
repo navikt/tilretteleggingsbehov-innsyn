@@ -25,7 +25,7 @@ const Behovgruppe: FunctionComponent<Props> = ({ overskrift, beskrivelse, behov 
                 {behov.length ? (
                     behovliste(behov)
                 ) : (
-                    <li> 
+                    <li>
                         <Normaltekst className="visning__ingenbehov">
                             Ingen registrerte behov
                         </Normaltekst>
