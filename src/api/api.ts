@@ -9,7 +9,7 @@ export type Respons = {
 
 export const hentTilretteleggingsbehov = async (): Promise<Respons> => {
     try {
-        const respons = await fetch('/tilretteleggingsbehov-innsyn/mine-tilretteleggingsbehov', {
+        const respons = await fetch('/behov-for-tilrettelegging/mine-tilretteleggingsbehov', {
             method: 'GET',
             credentials: 'include',
         });
