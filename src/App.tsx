@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { hentMeg, Respons } from './api/api';
+import { hentTilretteleggingsbehov, Respons } from './api/api';
 import Visning from './visning/Visning';
 import { enKandidat } from './mock/testdata';
 
@@ -11,7 +11,7 @@ const App = () => {
 
     useEffect(() => {
         const hent = async () => {
-            setRespons(await hentMeg());
+            setRespons(await hentTilretteleggingsbehov());
         };
 
         hent();
