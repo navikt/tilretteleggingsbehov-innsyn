@@ -19,13 +19,15 @@
         "typescript": "~3.7.2"
     },
     "devDependencies": {
+        "fetch-mock": "^9.0.0-beta.2",
         "prettier": "^1.19.1",
         "webpack": "^4.41.5"
     },
     "scripts": {
         "start": "craco start",
         "build": "craco build",
-        "eject": "craco eject"
+        "eject": "craco eject",
+        "mock": "REACT_APP_MOCK=true npm start"
     },
     "eslintConfig": {
         "extends": "react-app"
