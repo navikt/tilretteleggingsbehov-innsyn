@@ -21,6 +21,6 @@ spec:
         enabled: true
     env:
         - name: LOGIN_URL
-          value: https://loginservice.nav.no/login?redirect=https://www-q0.nav.no/person/behov-for-tilrettelegging/
+          value: https://loginservice-q.nav.no/login?redirect=https://www-q0.nav.no/person/behov-for-tilrettelegging/
         - name: APIGW_URL
           value: https://api-gw-q1.oera.no
