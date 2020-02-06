@@ -7,16 +7,16 @@ export type Respons = {
     status: number;
 };
 
-export const hentMeg = async (): Promise<Respons> => {
+export const hentTilretteleggingsbehov = async (): Promise<Respons> => {
     try {
-        const respons = await fetch('/tilretteleggingsbehov-innsyn/api/me', {
+        const respons = await fetch('/tilretteleggingsbehov-innsyn/mine-tilretteleggingsbehov', {
             method: 'GET',
             credentials: 'include',
         });
 
         if (respons.ok) {
             return {
-                data: await respons.text(),
+                data: await respons.json(),
                 status: respons.status,
             };
         }
@@ -26,7 +26,6 @@ export const hentMeg = async (): Promise<Respons> => {
             status: respons.status,
         };
     } catch (error) {
-        console.warn('Error from API:', error);
         return {
             data: 'Ukjent feil',
             status: -1,
