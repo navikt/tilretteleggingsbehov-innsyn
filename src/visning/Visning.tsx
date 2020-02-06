@@ -18,6 +18,7 @@ interface Props {
 const Visning: FunctionComponent<Props> = ({ kandidat }) => {
     return (
         <div className="visning">
+            <h2>Behovene som er registrert:</h2>
             <div className="visning__behovkategorier">
                 <Behovgruppe
                     overskrift="Arbeidstid"
