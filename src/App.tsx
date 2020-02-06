@@ -17,7 +17,7 @@ const App = () => {
 
     useEffect(() => {
         if (respons.status === 401) {
-            window.location.replace('./redirect-til-login');
+            //window.location.replace('./redirect-til-login');
         }
     }, [respons.status]);
 
