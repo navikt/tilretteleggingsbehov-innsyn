@@ -1,7 +1,8 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Normaltekst, Element } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
+import './Informasjon.less';
 
 export enum Situasjon {
     HarBehovForTilrettelegging,
@@ -11,7 +12,7 @@ export enum Situasjon {
 
 const BehovForTilrettelegging = () => (
     <>
-        <h2>Du har behov for tilrettelegging</h2>
+        <Element tag="h3">Du har behov for tilrettelegging</Element>
         <Normaltekst>
             Veilederen din har registrert at du har behov for tilrettelegging for å kunne jobbe.
             Mange arbeidsgivere har mulighet til å tilpasse arbeidshverdagen din.
@@ -21,7 +22,7 @@ const BehovForTilrettelegging = () => (
 
 const IngenBehovForTilrettelegging = () => (
     <>
-        <h2>Du har ikke behov for tilrettelegging</h2>
+        <Element tag="h3">Du har ikke behov for tilrettelegging</Element>
         <Normaltekst>
             Vi har ikke registrert at du har behov for tilrettelegging for å kunne jobbe. Mange
             arbeidsgivere kan tilrettelegge arbeidshverdagen eller gjøre andre tiltak.
@@ -35,7 +36,7 @@ const IngenBehovForTilrettelegging = () => (
 
 const IkkeUnderOppfølging = () => (
     <>
-        <h2>Du er ikke registrert som arbeidssøker hos NAV</h2>
+        <Element tag="h3">Du er ikke registrert som arbeidssøker hos NAV</Element>
         <Normaltekst>
             Behov for tilrettelegging for å kunne jobbe er derfor ikke registrert.
         </Normaltekst>
@@ -58,7 +59,7 @@ const Informasjon: FunctionComponent<Props> = ({ situasjon }) => {
         }
     };
 
-    return <AlertStripeInfo>{hentInnhold()}</AlertStripeInfo>;
+    return <AlertStripeInfo className="informasjon">{hentInnhold()}</AlertStripeInfo>;
 };
 
 export default Informasjon;

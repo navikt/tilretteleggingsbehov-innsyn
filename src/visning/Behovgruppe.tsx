@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Normaltekst, Element } from 'nav-frontend-typografi';
 import { Alternativtekster } from '../api/Behovtekster';
 
 interface Props {
@@ -19,7 +19,7 @@ const behovliste = (behov: Alternativtekster[]) => {
 const Behovgruppe: FunctionComponent<Props> = ({ overskrift, beskrivelse, behov }) => {
     return (
         <section className="visning__behovgruppe">
-            <h3>{overskrift}</h3>
+            <Element tag="h3">{overskrift}</Element>
             <Normaltekst>{beskrivelse}</Normaltekst>
             <ul className="visning__behovliste">
                 {behov.length ? (

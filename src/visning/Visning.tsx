@@ -1,6 +1,12 @@
 import Behovgruppe from './Behovgruppe';
 import React, { FunctionComponent } from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
+import {
+    Normaltekst,
+    Element,
+    Sidetittel,
+    Innholdstittel,
+    Undertittel,
+} from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 
 import { Kandidat } from '../api/Kandidat';
@@ -19,7 +25,7 @@ interface Props {
 const Visning: FunctionComponent<Props> = ({ kandidat }) => {
     return (
         <div className="visning">
-            <h2>Behovene som er registrert:</h2>
+            <Undertittel className="visning__undertittel">Behovene som er registrert:</Undertittel>
             <div className="visning__behovkategorier">
                 <Behovgruppe
                     overskrift="Arbeidstid"
@@ -42,9 +48,9 @@ const Visning: FunctionComponent<Props> = ({ kandidat }) => {
                     behov={grunnleggendeTekster(kandidat.grunnleggendeBehov)}
                 />
             </div>
-            <h3>Stemmer ikke informasjonen?</h3>
+            <Element tag="h3">Stemmer ikke informasjonen?</Element>
             <Normaltekst>
-                <span>Mener du at behovene dine for tilrettelegging ikke er riktig?</span>
+                <span>Mener du at behovene dine for tilrettelegging ikke er riktig? </span>
                 <Lenke href="#kontakt-veileder">Ta kontakt med veilederen din.</Lenke>
             </Normaltekst>
         </div>

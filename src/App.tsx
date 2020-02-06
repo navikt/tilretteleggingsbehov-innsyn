@@ -4,10 +4,9 @@ import Visning from './visning/Visning';
 import { enKandidat } from './mock/testdata';
 import Brødsmulesti from './brødsmulesti/Brødsmulesti';
 import Tilbake from './tilbake/Tilbake';
-import Header from './tavleikon/Tavleikon';
 import Informasjon, { Situasjon } from './informasjon/Informasjon';
-import './App.less';
 import Tavleikon from './tavleikon/Tavleikon';
+import './App.less';
 
 const App = () => {
     const [respons, setRespons] = useState<Respons>({
@@ -37,7 +36,7 @@ const App = () => {
             <Tilbake />
             <header>
                 <Tavleikon />
-                <h1>Behov for tilrettelegging</h1>
+                <h1 className="blokk-m">Behov for tilrettelegging</h1>
             </header>
             <main>
                 <Informasjon situasjon={Situasjon.HarIngenBehovForTilrettelegging} />
