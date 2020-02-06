@@ -7,7 +7,7 @@ const Tilbake: FunctionComponent = () => {
     return (
         <div className="tilbake">
             <Lenke className="tilbake__lenke" href="https://www.nav.no/person/personopplysninger">
-                <VenstreChevron />
+                <VenstreChevron className="tilbake__chevron" />
                 <span>Tilbake til personopplysninger</span>
             </Lenke>
         </div>

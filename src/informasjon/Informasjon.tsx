@@ -10,36 +10,44 @@ export enum Situasjon {
     ErIkkeUnderOppfølging,
 }
 
+const Tittel = ({ children }: { children: ReactNode }) => (
+    <Element tag="h3" className="informasjon__tittel">
+        {children}
+    </Element>
+);
+
+const Tekst = ({ children }: { children: ReactNode }) => (
+    <Normaltekst className="informasjon__tekst">{children}</Normaltekst>
+);
+
 const BehovForTilrettelegging = () => (
     <>
-        <Element tag="h3">Du har behov for tilrettelegging</Element>
-        <Normaltekst>
+        <Tittel>Du har behov for tilrettelegging</Tittel>
+        <Tekst>
             Veilederen din har registrert at du har behov for tilrettelegging for å kunne jobbe.
             Mange arbeidsgivere har mulighet til å tilpasse arbeidshverdagen din.
-        </Normaltekst>
+        </Tekst>
     </>
 );
 
 const IngenBehovForTilrettelegging = () => (
     <>
-        <Element tag="h3">Du har ikke behov for tilrettelegging</Element>
-        <Normaltekst>
+        <Tittel>Du har ikke behov for tilrettelegging</Tittel>
+        <Tekst>
             Vi har ikke registrert at du har behov for tilrettelegging for å kunne jobbe. Mange
             arbeidsgivere kan tilrettelegge arbeidshverdagen eller gjøre andre tiltak.
-        </Normaltekst>
-        <Normaltekst>
+        </Tekst>
+        <Tekst>
             <span>Har du behov for tilrettelegging? </span>
             <Lenke href="#kontakt-veileder">Ta kontakt med veilederen din.</Lenke>
-        </Normaltekst>
+        </Tekst>
     </>
 );
 
 const IkkeUnderOppfølging = () => (
     <>
-        <Element tag="h3">Du er ikke registrert som arbeidssøker hos NAV</Element>
-        <Normaltekst>
-            Behov for tilrettelegging for å kunne jobbe er derfor ikke registrert.
-        </Normaltekst>
+        <Tittel>Du er ikke registrert som arbeidssøker hos NAV</Tittel>
+        <Tekst>Behov for tilrettelegging for å kunne jobbe er derfor ikke registrert.</Tekst>
     </>
 );
 

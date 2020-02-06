@@ -6,6 +6,7 @@ import Brødsmulesti from './brødsmulesti/Brødsmulesti';
 import Tilbake from './tilbake/Tilbake';
 import Informasjon, { Situasjon } from './informasjon/Informasjon';
 import { ReactComponent as Tavleikon } from './tavleikon/tavleikon.svg';
+import { Systemtittel } from 'nav-frontend-typografi';
 import './App.less';
 
 const App = () => {
@@ -34,11 +35,13 @@ const App = () => {
         <div className="app typo-normal">
             <Brødsmulesti />
             <Tilbake />
-            <header>
+            <header className="app__header">
                 <Tavleikon />
-                <h1 className="blokk-m">Behov for tilrettelegging</h1>
+                <Systemtittel tag="h1" className="blokk-m">
+                    Behov for tilrettelegging
+                </Systemtittel>
             </header>
-            <main>
+            <main className="app__main">
                 <Informasjon situasjon={Situasjon.HarIngenBehovForTilrettelegging} />
                 <Visning kandidat={kandidat} />
             </main>
