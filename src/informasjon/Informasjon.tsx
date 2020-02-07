@@ -5,6 +5,7 @@ import Lenke from 'nav-frontend-lenker';
 import './Informasjon.less';
 import { Respons, Status } from '../api/api';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import lenker from '../lenker';
 
 const Tittel = ({ children }: { children: ReactNode }) => (
     <Element tag="h3" className="informasjon__tittel">
@@ -35,9 +36,7 @@ const IngenBehovForTilrettelegging = () => (
         </Tekst>
         <Tekst>
             <span>Har du behov for tilrettelegging? </span>
-            <Lenke href="https://aktivitetsplan.nav.no/dialog">
-                Ta kontakt med veilederen din.
-            </Lenke>
+            <Lenke href={lenker.kontaktVeileder}>Ta kontakt med veilederen din.</Lenke>
         </Tekst>
     </AlertStripeInfo>
 );

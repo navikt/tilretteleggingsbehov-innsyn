@@ -11,6 +11,7 @@ import {
     arbeidsmiljøTekster,
 } from '../api/Behovtekster';
 import './Visning.less';
+import lenker from '../lenker';
 
 interface Props {
     kandidat: Kandidat;
@@ -45,9 +46,7 @@ const Visning: FunctionComponent<Props> = ({ kandidat }) => {
             <Element tag="h3">Stemmer ikke informasjonen?</Element>
             <Normaltekst>
                 <span>Mener du at behovene dine for tilrettelegging ikke er riktig? </span>
-                <Lenke href="https://aktivitetsplan.nav.no/dialog">
-                    Ta kontakt med veilederen din.
-                </Lenke>
+                <Lenke href={lenker.kontaktVeileder}>Ta kontakt med veilederen din.</Lenke>
             </Normaltekst>
         </div>
     );
