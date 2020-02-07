@@ -9,11 +9,18 @@ const Brødsmulesti: FunctionComponent = () => {
     return (
         <nav className="brødsmulesti">
             <Kontoikon />
-            <Lenke href="https://www.nav.no/no/ditt-nav">Ditt NAV</Lenke>
+            <Lenke className="brødsmulesti__steg" href="https://www.nav.no/no/ditt-nav">
+                Ditt NAV
+            </Lenke>
             <Skilletegn />
-            <Lenke href="https://www.nav.no/person/personopplysninger">Personopplysninger</Lenke>
+            <Lenke
+                className="brødsmulesti__steg"
+                href="https://www.nav.no/person/personopplysninger"
+            >
+                Personopplysninger
+            </Lenke>
             <Skilletegn />
-            <span>Behov for tilrettelegging</span>
+            <span className="brødsmulesti__steg">Behov for tilrettelegging</span>
         </nav>
     );
 };
