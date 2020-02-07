@@ -3,12 +3,10 @@ const express = require('express');
 const hentDekoratør = require('./dekoratør');
 const mustacheExpress = require('mustache-express');
 const cookieParser = require('cookie-parser');
-const jwtDecode = require('jwt-decode');
 const sonekryssing = require('./sonekryssing.js');
 
 const PORT = 3000;
 const BASE_PATH = '/person/behov-for-tilrettelegging';
-const TILRETTELEGGINGSBEHOV_PATH = `${BASE_PATH}/mine-tilretteleggingsbehov`;
 
 const LOCAL_LOGIN_URL = 'http://localhost:8080/finn-kandidat-api/local/selvbetjening-login';
 const LOCAL_LOGIN_WITH_REDIRECT = `${LOCAL_LOGIN_URL}?redirect=http://localhost:${PORT}${BASE_PATH}/`;
@@ -23,9 +21,7 @@ const startServer = html => {
         res.send(html);
     });
 
-    server.get(TILRETTELEGGINGSBEHOV_PATH, brukFnrFraCookie);
-    server.use(TILRETTELEGGINGSBEHOV_PATH, sonekryssing);
-
+    server.use(`${BASE_PATH}/tilretteleggingsbehov`, sonekryssing);
     server.get(`${BASE_PATH}/internal/isAlive`, (req, res) => res.sendStatus(200));
     server.get(`${BASE_PATH}/internal/isReady`, (req, res) => res.sendStatus(200));
     server.get(`${BASE_PATH}/redirect-til-login`, (_, res) => {
@@ -35,12 +31,6 @@ const startServer = html => {
     server.listen(PORT, () => {
         console.log('Server kjører på port', PORT);
     });
-};
-
-const brukFnrFraCookie = (req, res, next) => {
-    const token = req.cookies['selvbetjening-idtoken'];
-    req.fnr = jwtDecode(token).sub;
-    next();
 };
 
 const renderAppMedDekoratør = dekoratør =>
