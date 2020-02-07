@@ -10,7 +10,7 @@ spec:
     team: {{ team }}
     port: 3000
     ingresses:
-        - https://www-q0.nav.no/person/behov-for-tilrettelegging/
+        - https://www-q0.nav.no/person/behov-for-tilrettelegging
     liveness:
         initialDelay: 5
         path: /person/behov-for-tilrettelegging/internal/isAlive
@@ -21,6 +21,6 @@ spec:
         enabled: true
     env:
         - name: LOGIN_URL
-          value: https://loginservice-q.nav.no/login?redirect=https://www-q0.nav.no/person/behov-for-tilrettelegging/
+          value: https://loginservice-q.nav.no/login?redirect=https://www-q0.nav.no/person/behov-for-tilrettelegging
         - name: APIGW_URL
           value: https://api-gw-q1.oera.no
