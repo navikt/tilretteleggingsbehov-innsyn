@@ -17,17 +17,17 @@ const Tekst = ({ children }: { children: ReactNode }) => (
 );
 
 const BehovForTilrettelegging = () => (
-    <>
+    <AlertStripeInfo className="informasjon">
         <Tittel>Du har behov for tilrettelegging</Tittel>
         <Tekst>
             Veilederen din har registrert at du har behov for tilrettelegging for å kunne jobbe.
             Mange arbeidsgivere har mulighet til å tilpasse arbeidshverdagen din.
         </Tekst>
-    </>
+    </AlertStripeInfo>
 );
 
 const IngenBehovForTilrettelegging = () => (
-    <>
+    <AlertStripeInfo className="informasjon">
         <Tittel>Du har ikke behov for tilrettelegging</Tittel>
         <Tekst>
             Vi har ikke registrert at du har behov for tilrettelegging for å kunne jobbe. Mange
@@ -39,14 +39,14 @@ const IngenBehovForTilrettelegging = () => (
                 Ta kontakt med veilederen din.
             </Lenke>
         </Tekst>
-    </>
+    </AlertStripeInfo>
 );
 
 const IkkeUnderOppfølging = () => (
-    <>
+    <AlertStripeInfo className="informasjon">
         <Tittel>Du er ikke registrert som arbeidssøker hos NAV</Tittel>
         <Tekst>Behov for tilrettelegging for å kunne jobbe er derfor ikke registrert.</Tekst>
-    </>
+    </AlertStripeInfo>
 );
 
 type Props = {
@@ -63,41 +63,21 @@ const Informasjon: FunctionComponent<Props> = ({ respons }) => {
                 <NavFrontendSpinner />
             </div>
         );
-    }
-
-    if (respons.status === Status.Suksess) {
-        return (
-            <AlertStripeInfo className="informasjon">
-                <BehovForTilrettelegging />
-            </AlertStripeInfo>
-        );
-    }
-
-    if (respons.status === Status.Feil && respons.statusKode === 404) {
-        return (
-            <AlertStripeInfo className="informasjon">
-                <IngenBehovForTilrettelegging />
-            </AlertStripeInfo>
-        );
-    }
-
-    if (respons.status === Status.Feil && respons.statusKode === 400) {
-        return (
-            <AlertStripeInfo className="informasjon">
-                <IkkeUnderOppfølging />
-            </AlertStripeInfo>
-        );
-    }
-
-    if (respons.status === Status.Feil || respons.status === Status.UkjentFeil) {
+    } else if (respons.status === Status.Suksess) {
+        return <BehovForTilrettelegging />;
+    } else if (respons.status === Status.Feil && respons.statusKode === 404) {
+        return <IngenBehovForTilrettelegging />;
+    } else if (respons.status === Status.Feil && respons.statusKode === 400) {
+        return <IkkeUnderOppfølging />;
+    } else if (respons.status === Status.Feil || respons.status === Status.UkjentFeil) {
         return (
             <AlertStripeFeil className="informasjon">
                 <Tekst>Det skjedde dessverre en feil, vennligst prøv igjen senere.</Tekst>
             </AlertStripeFeil>
         );
+    } else {
+        return null;
     }
-
-    return null;
 };
 
 export default Informasjon;
