@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { hentTilretteleggingsbehov, Respons } from './api/api';
-import Visning from './visning/Visning';
-import { enKandidat } from './mock/testdata';
-import Brødsmulesti from './brødsmulesti/Brødsmulesti';
-import Tilbake from './tilbake/Tilbake';
-import Informasjon, { Situasjon } from './informasjon/Informasjon';
+import { hentTilretteleggingsbehov, Respons, Status } from './api/api';
 import { ReactComponent as Tavleikon } from './tavleikon/tavleikon.svg';
 import { Systemtittel } from 'nav-frontend-typografi';
+import Brødsmulesti from './brødsmulesti/Brødsmulesti';
+import Informasjon from './informasjon/Informasjon';
+import Tilbake from './tilbake/Tilbake';
+import Visning from './visning/Visning';
 import './App.less';
 
 const App = () => {
     const [respons, setRespons] = useState<Respons>({
-        data: 'Ikke lastet',
-        status: 0,
+        status: Status.IkkeLastet,
     });
 
     useEffect(() => {
         const hent = async () => {
+            setRespons({
+                status: Status.LasterInn,
+            });
+
             setRespons(await hentTilretteleggingsbehov());
         };
 
@@ -24,12 +26,10 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        if (respons.status === 401) {
-            //window.location.replace('./redirect-til-login');
+        if (respons.status === Status.Feil && respons.statusKode === 401) {
+            window.location.replace('./redirect-til-login');
         }
-    }, [respons.status]);
-
-    const kandidat = enKandidat;
+    }, [respons]);
 
     return (
         <div className="app typo-normal">
@@ -42,8 +42,8 @@ const App = () => {
                 </Systemtittel>
             </header>
             <main className="app__main">
-                <Informasjon situasjon={Situasjon.HarIngenBehovForTilrettelegging} />
-                <Visning kandidat={kandidat} />
+                <Informasjon respons={respons} />
+                {respons.status === Status.Suksess && <Visning kandidat={respons.kandidat} />}
             </main>
         </div>
     );

@@ -1,11 +1,40 @@
+import { Kandidat } from './Kandidat';
+
 if (process.env.REACT_APP_MOCK) {
     require('./mock.ts');
 }
 
-export type Respons = {
-    data: any;
-    status: number;
+export enum Status {
+    IkkeLastet,
+    LasterInn,
+    Suksess,
+    Feil,
+    UkjentFeil,
+}
+
+type IkkeLastet = {
+    status: Status.IkkeLastet;
 };
+
+type LasterInn = {
+    status: Status.LasterInn;
+};
+
+type Suksess = {
+    status: Status.Suksess;
+    kandidat: Kandidat;
+};
+
+type Feil = {
+    status: Status.Feil;
+    statusKode: number;
+};
+
+type UkjentFeil = {
+    status: Status.UkjentFeil;
+};
+
+export type Respons = IkkeLastet | LasterInn | Suksess | Feil | UkjentFeil;
 
 export const hentTilretteleggingsbehov = async (): Promise<Respons> => {
     try {
@@ -15,20 +44,21 @@ export const hentTilretteleggingsbehov = async (): Promise<Respons> => {
         });
 
         if (respons.ok) {
+            const kandidat = await respons.json();
+
             return {
-                data: await respons.json(),
-                status: respons.status,
+                status: Status.Suksess,
+                kandidat,
             };
         }
 
         return {
-            data: 'Ikke innlogget',
-            status: respons.status,
+            status: Status.Feil,
+            statusKode: respons.status,
         };
     } catch (error) {
         return {
-            data: 'Ukjent feil',
-            status: -1,
+            status: Status.UkjentFeil,
         };
     }
 };
