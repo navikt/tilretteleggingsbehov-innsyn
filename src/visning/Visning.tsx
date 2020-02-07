@@ -45,7 +45,9 @@ const Visning: FunctionComponent<Props> = ({ kandidat }) => {
             <Element tag="h3">Stemmer ikke informasjonen?</Element>
             <Normaltekst>
                 <span>Mener du at behovene dine for tilrettelegging ikke er riktig? </span>
-                <Lenke href="#kontakt-veileder">Ta kontakt med veilederen din.</Lenke>
+                <Lenke href="https://aktivitetsplan.nav.no/dialog">
+                    Ta kontakt med veilederen din.
+                </Lenke>
             </Normaltekst>
         </div>
     );

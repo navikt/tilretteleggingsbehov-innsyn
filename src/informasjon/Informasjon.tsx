@@ -39,7 +39,9 @@ const IngenBehovForTilrettelegging = () => (
         </Tekst>
         <Tekst>
             <span>Har du behov for tilrettelegging? </span>
-            <Lenke href="#kontakt-veileder">Ta kontakt med veilederen din.</Lenke>
+            <Lenke href="https://aktivitetsplan.nav.no/dialog">
+                Ta kontakt med veilederen din.
+            </Lenke>
         </Tekst>
     </>
 );
