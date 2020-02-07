@@ -7,7 +7,7 @@ const jwtDecode = require('jwt-decode');
 const sonekryssing = require('./sonekryssing.js');
 
 const PORT = 3000;
-const BASE_PATH = '/tilretteleggingsbehov-innsyn';
+const BASE_PATH = '/person/behov-for-tilrettelegging';
 const TILRETTELEGGINGSBEHOV_PATH = `${BASE_PATH}/mine-tilretteleggingsbehov`;
 
 const LOCAL_LOGIN_URL = 'http://localhost:8080/finn-kandidat-api/local/selvbetjening-login';
