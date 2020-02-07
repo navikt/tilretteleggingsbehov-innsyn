@@ -1,5 +1,19 @@
+import { Kandidat } from './Kandidat';
 import fetchMock from 'fetch-mock';
+import { FysiskBehov } from './Behov';
 
 const basePath = '/person/behov-for-tilrettelegging';
 
-fetchMock.get(`${basePath}/api/me`, 'X123456');
+const kandidat: Kandidat = {
+    aktørId: '1234567891011',
+    fnr: '00000000000',
+    sistEndret: new Date().toISOString(),
+    sistEndretAv: 'X123456',
+    navKontor: '1001',
+    arbeidstidBehov: [],
+    fysiskeBehov: [FysiskBehov.TungeLøft],
+    arbeidsmiljøBehov: [],
+    grunnleggendeBehov: [],
+};
+
+fetchMock.get(`${basePath}/tilretteleggingsbehov`, kandidat);
