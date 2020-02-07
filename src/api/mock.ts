@@ -16,4 +16,10 @@ const kandidat: Kandidat = {
     grunnleggendeBehov: [],
 };
 
-fetchMock.get(`${basePath}/tilretteleggingsbehov`, kandidat);
+export const oppfølgingsstatus = {
+    underOppfølging: true,
+};
+
+fetchMock
+    .get(`${basePath}/tilretteleggingsbehov`, kandidat)
+    .get(`${basePath}/oppfolgingsstatus`, oppfølgingsstatus);

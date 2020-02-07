@@ -3,7 +3,7 @@ import { AlertStripeInfo, AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import './Informasjon.less';
-import { Respons, Status } from '../api/api';
+import { Respons, Status, ResponsOppfolgingsstatus } from '../api/api';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import lenker from '../lenker';
 
@@ -50,25 +50,35 @@ const IkkeUnderOppfølging = () => (
 
 type Props = {
     respons: Respons;
+    responsOppfolgingsstatus: ResponsOppfolgingsstatus;
 };
 
-const Informasjon: FunctionComponent<Props> = ({ respons }) => {
+const Informasjon: FunctionComponent<Props> = ({ respons, responsOppfolgingsstatus }) => {
     const lasterInn = respons.status === Status.LasterInn;
     const ikkeAutentisert = respons.status === Status.Feil && respons.statusKode === 401;
+    const lasterInnOppfølgingstatus = responsOppfolgingsstatus.status === Status.LasterInn;
 
-    if (lasterInn || ikkeAutentisert) {
+    if (lasterInn || ikkeAutentisert || lasterInnOppfølgingstatus) {
         return (
             <div className="app__spinner">
                 <NavFrontendSpinner />
             </div>
         );
+    } else if (
+        responsOppfolgingsstatus.status === Status.Suksess &&
+        !responsOppfolgingsstatus.oppfolgingsstatus.underOppfølging
+    ) {
+        return <IkkeUnderOppfølging />;
     } else if (respons.status === Status.Suksess) {
         return <BehovForTilrettelegging />;
     } else if (respons.status === Status.Feil && respons.statusKode === 404) {
         return <IngenBehovForTilrettelegging />;
-    } else if (respons.status === Status.Feil && respons.statusKode === 400) {
-        return <IkkeUnderOppfølging />;
-    } else if (respons.status === Status.Feil || respons.status === Status.UkjentFeil) {
+    } else if (
+        respons.status === Status.Feil ||
+        respons.status === Status.UkjentFeil ||
+        responsOppfolgingsstatus.status === Status.Feil ||
+        responsOppfolgingsstatus.status === Status.UkjentFeil
+    ) {
         return (
             <AlertStripeFeil className="informasjon">
                 <Tekst>Det skjedde dessverre en feil, vennligst prøv igjen senere.</Tekst>
