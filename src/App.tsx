@@ -30,6 +30,9 @@ const App = () => {
             setRespons({
                 status: Status.LasterInn,
             });
+            setResponsOppfolgingsstatus({
+              status: Status.LasterInn  
+            })
 
             setRespons(await hentTilretteleggingsbehov());
             setResponsOppfolgingsstatus(await hentOppfolgingsstatus());
@@ -43,8 +46,6 @@ const App = () => {
             window.location.replace('./redirect-til-login');
         }
     }, [respons]);
-
-    console.log('dd', responsOppfolgingsstatus);
 
     return (
         <div className="app typo-normal">
