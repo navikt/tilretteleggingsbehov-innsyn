@@ -21,5 +21,5 @@ export interface KandidatDto {
 }
 
 export interface Oppfølgingsstatus {
-    underOppfølging: boolean;
+    underOppfolging: boolean;
 }

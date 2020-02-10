@@ -66,7 +66,7 @@ const Informasjon: FunctionComponent<Props> = ({ respons, responsOppfolgingsstat
         );
     } else if (
         responsOppfolgingsstatus.status === Status.Suksess &&
-        !responsOppfolgingsstatus.oppfolgingsstatus.underOppfølging
+        !responsOppfolgingsstatus.oppfolgingsstatus.underOppfolging
     ) {
         return <IkkeUnderOppfølging />;
     } else if (respons.status === Status.Suksess) {

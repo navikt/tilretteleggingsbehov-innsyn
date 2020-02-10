@@ -17,7 +17,7 @@ const kandidat: Kandidat = {
 };
 
 export const oppfølgingsstatus = {
-    underOppfølging: true,
+    underOppfolging: true,
 };
 
 fetchMock

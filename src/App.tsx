@@ -63,12 +63,6 @@ const App = () => {
                     responsOppfolgingsstatus={responsOppfolgingsstatus}
                 />
                 {respons.status === Status.Suksess && <Visning kandidat={respons.kandidat} />}
-                <div>
-                    {responsOppfolgingsstatus.status === Status.Suksess &&
-                        responsOppfolgingsstatus.oppfolgingsstatus.underOppfølging && (
-                            <div>Under oppfølging</div>
-                        )}
-                </div>
             </main>
         </div>
     );
