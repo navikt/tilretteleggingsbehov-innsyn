@@ -21,7 +21,8 @@ const startServer = html => {
         res.send(html);
     });
 
-    server.use(`${BASE_PATH}/tilretteleggingsbehov`, sonekryssing);
+    server.use([`${BASE_PATH}/oppfolgingsstatus`,`${BASE_PATH}/tilretteleggingsbehov`], sonekryssing);
+    
     server.get(`${BASE_PATH}/internal/isAlive`, (req, res) => res.sendStatus(200));
     server.get(`${BASE_PATH}/internal/isReady`, (req, res) => res.sendStatus(200));
     server.get(`${BASE_PATH}/redirect-til-login`, (_, res) => {

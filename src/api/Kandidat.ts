@@ -19,3 +19,7 @@ export interface KandidatDto {
     arbeidsmiljøBehov: ArbeidsmijøBehov[];
     grunnleggendeBehov: GrunnleggendeBehov[];
 }
+
+export interface Oppfølgingsstatus {
+    underOppfolging: boolean;
+}

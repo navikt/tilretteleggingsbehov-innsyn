@@ -1,4 +1,4 @@
-import { Kandidat } from './Kandidat';
+import { Kandidat, Oppfølgingsstatus } from './Kandidat';
 
 if (process.env.REACT_APP_MOCK) {
     require('./mock.ts');
@@ -52,6 +52,44 @@ export const hentTilretteleggingsbehov = async (): Promise<Respons> => {
             };
         }
 
+        return {
+            status: Status.Feil,
+            statusKode: respons.status,
+        };
+    } catch (error) {
+        return {
+            status: Status.UkjentFeil,
+        };
+    }
+};
+
+type SuksessOppfolgingsstatus = {
+    status: Status.Suksess;
+    oppfolgingsstatus: Oppfølgingsstatus;
+};
+
+export type ResponsOppfolgingsstatus =
+    | IkkeLastet
+    | LasterInn
+    | SuksessOppfolgingsstatus
+    | Feil
+    | UkjentFeil;
+
+export const hentOppfolgingsstatus = async (): Promise<ResponsOppfolgingsstatus> => {
+    try {
+        const respons = await fetch('/person/behov-for-tilrettelegging/oppfolgingsstatus', {
+            method: 'GET',
+            credentials: 'include',
+        });
+
+        if (respons.ok) {
+            const oppfolgingsstatus: Oppfølgingsstatus = await respons.json();
+
+            return {
+                status: Status.Suksess,
+                oppfolgingsstatus: oppfolgingsstatus,
+            };
+        }
         return {
             status: Status.Feil,
             statusKode: respons.status,

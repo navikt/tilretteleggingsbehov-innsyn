@@ -8,7 +8,9 @@ const envProperties = {
 const proxyConfig = {
     changeOrigin: true,
     target: envProperties.API_GATEWAY,
-    pathRewrite: (path, req) => path.replace(req.path, '/finn-kandidat-api/tilretteleggingsbehov'),
+    pathRewrite: {
+        '^/person/behov-for-tilrettelegging': '/finn-kandidat-api'
+    },
     secure: true,
     xfwd: true,
 };
