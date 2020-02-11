@@ -1,6 +1,6 @@
 .tilbake {
     margin-bottom: 2rem;
-    align-self: flex-end;
+    align-self: flex-start;
     flex: 1;
 
     &__lenke {
@@ -11,5 +11,9 @@
 
     &__chevron {
         margin-right: 0.5rem;
+    }
+
+    @media (min-width: 40rem) {
+        align-self: flex-end;
     }
 }
