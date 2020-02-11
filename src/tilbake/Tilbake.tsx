@@ -9,7 +9,7 @@ const Tilbake: FunctionComponent = () => {
         <div className="tilbake">
             <Lenke className="tilbake__lenke" href={lenker.personopplysninger}>
                 <VenstreChevron className="tilbake__chevron" />
-                <span>Tilbake til personopplysninger</span>
+                <span>Tilbake</span>
             </Lenke>
         </div>
     );

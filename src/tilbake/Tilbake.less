@@ -1,14 +1,19 @@
 .tilbake {
     margin-bottom: 2rem;
+    align-self: flex-start;
+    flex: 1;
 
     &__lenke {
         display: inline-flex;
         align-items: center;
-        padding: 0.25rem;
-        padding-left: 0;
+        padding: 0.25rem 0.25rem 0.25rem 0;
     }
 
     &__chevron {
         margin-right: 0.5rem;
+    }
+
+    @media (min-width: 40rem) {
+        align-self: flex-end;
     }
 }

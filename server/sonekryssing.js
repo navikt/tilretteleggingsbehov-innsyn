@@ -9,7 +9,7 @@ const proxyConfig = {
     changeOrigin: true,
     target: envProperties.API_GATEWAY,
     pathRewrite: {
-        '^/person/behov-for-tilrettelegging': '/finn-kandidat-api'
+        '^/person/behov-for-tilrettelegging': '/finn-kandidat-api',
     },
     secure: true,
     xfwd: true,

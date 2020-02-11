@@ -5,8 +5,12 @@
     padding: 0 1rem 3.5rem;
     max-width: 50rem;
 
+    &__tilbake-og-header {
+        display: flex;
+        flex-direction: column;
+    }
+
     &__header {
-        align-self: center;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -14,6 +18,11 @@
         svg {
             margin-bottom: 1rem;
         }
+    }
+
+    &__spacer {
+        visibility: hidden;
+        flex: 1;
     }
 
     &__spinner {
@@ -28,6 +37,10 @@
     }
 
     @media (min-width: 40rem) {
+        &__tilbake-og-header {
+            flex-direction: row;
+        }
+
         &__main {
             padding: 4rem;
             margin: 0;
