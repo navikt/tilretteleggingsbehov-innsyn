@@ -31,8 +31,8 @@ const App = () => {
                 status: Status.LasterInn,
             });
             setResponsOppfolgingsstatus({
-              status: Status.LasterInn  
-            })
+                status: Status.LasterInn,
+            });
 
             setRespons(await hentTilretteleggingsbehov());
             setResponsOppfolgingsstatus(await hentOppfolgingsstatus());
@@ -50,13 +50,16 @@ const App = () => {
     return (
         <div className="app typo-normal">
             <Brødsmulesti />
-            <Tilbake />
-            <header className="app__header">
-                <Tavleikon />
-                <Systemtittel tag="h1" className="blokk-m">
-                    Behov for tilrettelegging
-                </Systemtittel>
-            </header>
+            <div className="app__tilbake-og-header">
+                <Tilbake />
+                <header className="app__header">
+                    <Tavleikon />
+                    <Systemtittel tag="h1" className="blokk-m">
+                        Behov for tilrettelegging
+                    </Systemtittel>
+                </header>
+                <span className="app__spacer" />
+            </div>
             <main className="app__main">
                 <Informasjon
                     respons={respons}
