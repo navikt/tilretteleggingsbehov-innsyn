@@ -1,4 +1,10 @@
-import { Behov, ArbeidstidBehov, ArbeidsmijøBehov, FysiskBehov, GrunnleggendeBehov } from './Behov';
+import {
+    Behov,
+    Arbeidstid,
+    FysiskTilrettelegging,
+    Arbeidshverdagen,
+    UtfordringerMedNorsk,
+} from './Behov';
 
 export type Alternativtekster = {
     label: string;
@@ -8,79 +14,89 @@ export type Alternativtekster = {
 export declare type Behovmapping = Map<String, Alternativtekster>;
 
 const arbeidstidMapping: Behovmapping = new Map([
-    [ArbeidstidBehov.KanIkkeJobbe, { label: 'Kan ikke jobbe nå' }],
-    [ArbeidstidBehov.Heltid, { label: 'Heltid' }],
-    [ArbeidstidBehov.IkkeHeleDager, { label: 'Kan jobbe hver ukedag, men ikke hele dager' }],
+    [Arbeidstid.IkkeHeleDager, { label: 'Kan jobbe hver ukedag, men ikke hele dager' }],
     [
-        ArbeidstidBehov.BorteFasteDagerEllerTider,
+        Arbeidstid.BorteFasteDagerEllerTider,
         { label: 'Må være borte fra jobben til faste dager eller tider' },
     ],
-    [ArbeidstidBehov.Fleksibel, { label: 'Må ha fleksible arbeidsdager' }],
+    [Arbeidstid.GradvisØkning, { label: 'Ønsker gradvis økning av stillingsprosenten' }],
+    [Arbeidstid.Fleksibel, { label: 'Må ha fleksible arbeidsdager' }],
 ]);
 
-const fysiskMapping: Behovmapping = new Map([
-    [FysiskBehov.Arbeidsstilling, { label: 'Varierte arbeidsstillinger' }],
+const fysiskTilretteleggingMapping: Behovmapping = new Map([
     [
-        FysiskBehov.Ergonomi,
+        FysiskTilrettelegging.Ergonomi,
         {
             label: 'Ergonomiske tilpasninger',
-            hjelpetekster: 'For eksempel hev/senk-pult eller tilpassede lys- eller lydforhold',
+            hjelpetekster: 'For eksempel heve-/senkepult eller spesialstol',
         },
     ],
-    [FysiskBehov.TungeLøft, { label: 'Unngå tunge løft' }],
-    [FysiskBehov.Hørsel, { label: 'Hørsel' }],
-    [FysiskBehov.Syn, { label: 'Syn' }],
-    [FysiskBehov.AndreFormer, { label: 'Andre former for fysisk tilrettelegging' }],
+    [
+        FysiskTilrettelegging.UniversellUtforming,
+        {
+            label: 'Universell utforming av arbeidsplassen',
+            hjelpetekster: 'For eksempel rullestolrampe eller trappeheis',
+        },
+    ],
+    [FysiskTilrettelegging.Arbeidsstilling, { label: 'Varierte arbeidsstillinger' }],
+    [FysiskTilrettelegging.TungeLøft, { label: 'Unngå tunge løft' }],
 ]);
 
-const arbeidsmiljøMapping: Behovmapping = new Map([
+const arbeidshverdagenMapping: Behovmapping = new Map([
     [
-        ArbeidsmijøBehov.TilrettelagtOpplæring,
+        Arbeidshverdagen.Opplæring,
         {
-            label: 'Tilrettelagt opplæring',
+            label: 'Opplæring',
             hjelpetekst: 'For eksempel hyppige tilbakemeldinger eller lengre opplæringsperiode',
         },
     ],
     [
-        ArbeidsmijøBehov.TilrettelagteArbeidsoppgaver,
+        Arbeidshverdagen.Arbeidsoppgaver,
         {
-            label: 'Tilrettelagte arbeidsoppgaver',
+            label: 'Arbeidsoppgaver',
             hjelpetekst: 'For eksempel tydelige oppgaver eller unntak fra noen typer oppgaver',
         },
     ],
     [
-        ArbeidsmijøBehov.Mentor,
-        { label: 'Mentor', hjelpetekst: 'En egen person med ansvar for tett oppfølging' },
+        Arbeidshverdagen.TettOppfølging,
+        {
+            label: 'Tett oppfølging',
+            hjelpetekst: 'For eksempel ekstra støtte fra en kollega eller mentor',
+        },
     ],
-    [ArbeidsmijøBehov.Annet, { label: 'Andre former for tilrettelegging' }],
+    [Arbeidshverdagen.StilleOgRoligMiljø, { label: 'Stille og rolig miljø' }],
 ]);
 
-const grunnleggendeMapping: Behovmapping = new Map([
-    [GrunnleggendeBehov.SnakkeNorsk, { label: 'Snakke norsk' }],
-    [GrunnleggendeBehov.SkriveNorsk, { label: 'Skrive norsk' }],
-    [GrunnleggendeBehov.LeseNorsk, { label: 'Lese norsk' }],
-    [GrunnleggendeBehov.RegningOgTallforståelse, { label: 'Regning og tallforståelse' }],
-    [GrunnleggendeBehov.AndreUtfordringer, { label: 'Andre utfordringer' }],
+const utfordringerMedNorskMapping: Behovmapping = new Map([
+    [UtfordringerMedNorsk.Snakke, { label: 'Snakke' }],
+    [UtfordringerMedNorsk.Skrive, { label: 'Skrive' }],
+    [UtfordringerMedNorsk.Lese, { label: 'Lese' }],
 ]);
 
 const hentBehovtekster = (behov: Behov, mapping: Behovmapping): Alternativtekster => {
     return mapping.get(behov) || { label: '' };
 };
 
-export const arbeidstidTekster = (arbeidstidBehov: ArbeidstidBehov[]): Alternativtekster[] => {
-    return arbeidstidBehov.map(behov => hentBehovtekster(behov, arbeidstidMapping));
+export const arbeidstidTekster = (arbeidstid: Arbeidstid[]): Alternativtekster[] => {
+    return arbeidstid.map(behov => hentBehovtekster(behov, arbeidstidMapping));
 };
 
-export const fysiskTekster = (fysiskeBehov: FysiskBehov[]): Alternativtekster[] => {
-    return fysiskeBehov.map(behov => hentBehovtekster(behov, fysiskMapping));
-};
-
-export const arbeidsmiljøTekster = (arbeidsmiljøBehov: ArbeidsmijøBehov[]): Alternativtekster[] => {
-    return arbeidsmiljøBehov.map(behov => hentBehovtekster(behov, arbeidsmiljøMapping));
-};
-
-export const grunnleggendeTekster = (
-    grunnleggendeBehov: GrunnleggendeBehov[]
+export const fysiskTekster = (
+    fysiskTilrettelegging: FysiskTilrettelegging[]
 ): Alternativtekster[] => {
-    return grunnleggendeBehov.map(behov => hentBehovtekster(behov, grunnleggendeMapping));
+    return fysiskTilrettelegging.map(behov =>
+        hentBehovtekster(behov, fysiskTilretteleggingMapping)
+    );
+};
+
+export const arbeidshverdagenTekster = (
+    arbeidshverdagen: Arbeidshverdagen[]
+): Alternativtekster[] => {
+    return arbeidshverdagen.map(behov => hentBehovtekster(behov, arbeidshverdagenMapping));
+};
+
+export const utfordringerMedNorskTekster = (
+    utfordringerMedNorsk: UtfordringerMedNorsk[]
+): Alternativtekster[] => {
+    return utfordringerMedNorsk.map(behov => hentBehovtekster(behov, utfordringerMedNorskMapping));
 };

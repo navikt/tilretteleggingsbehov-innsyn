@@ -1,33 +1,28 @@
-export enum ArbeidstidBehov {
-    KanIkkeJobbe = 'KAN_IKKE_JOBBE',
-    Heltid = 'HELTID',
+export enum Arbeidstid {
     IkkeHeleDager = 'IKKE_HELE_DAGER',
     BorteFasteDagerEllerTider = 'BORTE_FASTE_DAGER_ELLER_TIDER',
     Fleksibel = 'FLEKSIBEL',
+    GradvisØkning = 'GRADVIS_ØKNING',
 }
 
-export enum FysiskBehov {
+export enum FysiskTilrettelegging {
     Arbeidsstilling = 'ARBEIDSSTILLING',
     Ergonomi = 'ERGONOMI',
     TungeLøft = 'TUNGE_LØFT',
-    Hørsel = 'HØRSEL',
-    Syn = 'SYN',
-    AndreFormer = 'ANNET',
+    UniversellUtforming = 'UNIVERSELL_UTFORMING',
 }
 
-export enum ArbeidsmijøBehov {
-    TilrettelagtOpplæring = 'TILRETTELAGT_OPPLÆRING',
-    TilrettelagteArbeidsoppgaver = 'TILRETTELAGTE_ARBEIDSOPPGAVER',
-    Mentor = 'MENTOR',
-    Annet = 'ANNET',
+export enum Arbeidshverdagen {
+    Opplæring = 'OPPLÆRING',
+    Arbeidsoppgaver = 'OPPGAVER',
+    TettOppfølging = 'TETT_OPPFØLGING',
+    StilleOgRoligMiljø = 'STILLE_OG_ROLIG_MILJØ',
 }
 
-export enum GrunnleggendeBehov {
-    SnakkeNorsk = 'SNAKKE_NORSK',
-    SkriveNorsk = 'SKRIVE_NORSK',
-    LeseNorsk = 'LESE_NORSK',
-    RegningOgTallforståelse = 'REGNING_OG_TALLFORSTÅELSE',
-    AndreUtfordringer = 'ANDRE_UTFORDRINGER',
+export enum UtfordringerMedNorsk {
+    Snakke = 'SNAKKE',
+    Skrive = 'SKRIVE',
+    Lese = 'LESE',
 }
 
-export type Behov = ArbeidstidBehov | FysiskBehov | ArbeidsmijøBehov | GrunnleggendeBehov;
+export type Behov = Arbeidstid | FysiskTilrettelegging | Arbeidshverdagen | UtfordringerMedNorsk;

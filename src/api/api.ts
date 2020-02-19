@@ -1,7 +1,7 @@
 import { Kandidat, Oppfølgingsstatus } from './Kandidat';
 
 if (process.env.REACT_APP_MOCK) {
-    require('./mock.ts');
+    require('../mock/mock.ts');
 }
 
 export enum Status {

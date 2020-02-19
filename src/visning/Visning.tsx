@@ -5,10 +5,10 @@ import Lenke from 'nav-frontend-lenker';
 
 import { Kandidat } from '../api/Kandidat';
 import {
+    arbeidshverdagenTekster,
     arbeidstidTekster,
     fysiskTekster,
-    grunnleggendeTekster,
-    arbeidsmiljøTekster,
+    utfordringerMedNorskTekster,
 } from '../api/Behovtekster';
 import './Visning.less';
 import lenker from '../lenker';
@@ -28,19 +28,19 @@ const Visning: FunctionComponent<Props> = ({ kandidat }) => {
                     behov={arbeidstidTekster(kandidat.arbeidstidBehov)}
                 />
                 <Behovgruppe
-                    overskrift="Arbeidsmiljø"
-                    beskrivelse="Behov for tilpasninger av arbeidsmiljøet"
-                    behov={arbeidsmiljøTekster(kandidat.arbeidsmiljøBehov)}
-                />
-                <Behovgruppe
                     overskrift="Fysisk tilrettelegging"
                     beskrivelse="Behov for fysisk tilrettelegging på arbeidsplassen"
                     behov={fysiskTekster(kandidat.fysiskeBehov)}
                 />
                 <Behovgruppe
-                    overskrift="Grunnleggende ferdigheter"
-                    beskrivelse="Kandidaten har utfordringer med:"
-                    behov={grunnleggendeTekster(kandidat.grunnleggendeBehov)}
+                    overskrift="Arbeidshverdagen"
+                    beskrivelse="Behov for tilpasninger i arbeidshverdagen"
+                    behov={arbeidshverdagenTekster(kandidat.arbeidsmiljøBehov)}
+                />
+                <Behovgruppe
+                    overskrift="Utfordringer med norsk"
+                    beskrivelse="Du har utfordringer med å:"
+                    behov={utfordringerMedNorskTekster(kandidat.grunnleggendeBehov)}
                 />
             </div>
             <Element tag="h3">Stemmer ikke informasjonen?</Element>
