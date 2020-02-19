@@ -14,3 +14,7 @@ export const enKandidat: Kandidat = {
     arbeidsmiljøBehov: [],
     grunnleggendeBehov: [UtfordringerMedNorsk.Skrive, UtfordringerMedNorsk.Lese],
 };
+
+export const enOppfølgingsstatus = {
+    underOppfolging: true,
+};
