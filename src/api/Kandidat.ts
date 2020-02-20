@@ -1,15 +1,15 @@
-import { Arbeidshverdagen, Arbeidstid, FysiskTilrettelegging, UtfordringerMedNorsk } from './Behov';
+import { Arbeidshverdagen, Arbeidstid, Fysisk, UtfordringerMedNorsk } from './Behov';
 
 export interface Kandidat {
     aktørId: string;
     fnr: string;
-    sistEndret: string;
+    sistEndretAvVeileder: string;
     sistEndretAv: string;
     navKontor: string;
-    arbeidstidBehov: Arbeidstid[];
-    fysiskeBehov: FysiskTilrettelegging[];
-    arbeidsmiljøBehov: Arbeidshverdagen[];
-    grunnleggendeBehov: UtfordringerMedNorsk[];
+    arbeidstid: Arbeidstid[];
+    fysisk: Fysisk[];
+    arbeidshverdagen: Arbeidshverdagen[];
+    utfordringerMedNorsk: UtfordringerMedNorsk[];
 }
 
 export interface Oppfølgingsstatus {

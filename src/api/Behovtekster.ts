@@ -1,10 +1,4 @@
-import {
-    Behov,
-    Arbeidstid,
-    FysiskTilrettelegging,
-    Arbeidshverdagen,
-    UtfordringerMedNorsk,
-} from './Behov';
+import { Behov, Arbeidstid, Fysisk, Arbeidshverdagen, UtfordringerMedNorsk } from './Behov';
 
 export type Alternativtekster = {
     label: string;
@@ -23,23 +17,23 @@ const arbeidstidMapping: Behovmapping = new Map([
     [Arbeidstid.Fleksibel, { label: 'Må ha fleksible arbeidsdager' }],
 ]);
 
-const fysiskTilretteleggingMapping: Behovmapping = new Map([
+const fysiskMapping: Behovmapping = new Map([
     [
-        FysiskTilrettelegging.Ergonomi,
+        Fysisk.Ergonomi,
         {
             label: 'Ergonomiske tilpasninger',
             hjelpetekster: 'For eksempel heve-/senkepult eller spesialstol',
         },
     ],
     [
-        FysiskTilrettelegging.UniversellUtforming,
+        Fysisk.UniversellUtforming,
         {
             label: 'Universell utforming av arbeidsplassen',
             hjelpetekster: 'For eksempel rullestolrampe eller trappeheis',
         },
     ],
-    [FysiskTilrettelegging.Arbeidsstilling, { label: 'Varierte arbeidsstillinger' }],
-    [FysiskTilrettelegging.TungeLøft, { label: 'Unngå tunge løft' }],
+    [Fysisk.Arbeidsstilling, { label: 'Varierte arbeidsstillinger' }],
+    [Fysisk.TungeLøft, { label: 'Unngå tunge løft' }],
 ]);
 
 const arbeidshverdagenMapping: Behovmapping = new Map([
@@ -81,12 +75,8 @@ export const arbeidstidTekster = (arbeidstid: Arbeidstid[]): Alternativtekster[]
     return arbeidstid.map(behov => hentBehovtekster(behov, arbeidstidMapping));
 };
 
-export const fysiskTekster = (
-    fysiskTilrettelegging: FysiskTilrettelegging[]
-): Alternativtekster[] => {
-    return fysiskTilrettelegging.map(behov =>
-        hentBehovtekster(behov, fysiskTilretteleggingMapping)
-    );
+export const fysiskTekster = (Fysisk: Fysisk[]): Alternativtekster[] => {
+    return Fysisk.map(behov => hentBehovtekster(behov, fysiskMapping));
 };
 
 export const arbeidshverdagenTekster = (
