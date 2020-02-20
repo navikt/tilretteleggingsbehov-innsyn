@@ -25,22 +25,22 @@ const Visning: FunctionComponent<Props> = ({ kandidat }) => {
                 <Behovgruppe
                     overskrift="Arbeidstid"
                     beskrivelse="Behov for tilrettelegging av arbeidstiden"
-                    behov={arbeidstidTekster(kandidat.arbeidstidBehov)}
+                    behov={arbeidstidTekster(kandidat.arbeidstid)}
                 />
                 <Behovgruppe
                     overskrift="Fysisk tilrettelegging"
                     beskrivelse="Behov for fysisk tilrettelegging på arbeidsplassen"
-                    behov={fysiskTekster(kandidat.fysiskeBehov)}
+                    behov={fysiskTekster(kandidat.fysisk)}
                 />
                 <Behovgruppe
                     overskrift="Arbeidshverdagen"
                     beskrivelse="Behov for tilpasninger i arbeidshverdagen"
-                    behov={arbeidshverdagenTekster(kandidat.arbeidsmiljøBehov)}
+                    behov={arbeidshverdagenTekster(kandidat.arbeidshverdagen)}
                 />
                 <Behovgruppe
                     overskrift="Utfordringer med norsk"
                     beskrivelse="Du har utfordringer med å:"
-                    behov={utfordringerMedNorskTekster(kandidat.grunnleggendeBehov)}
+                    behov={utfordringerMedNorskTekster(kandidat.utfordringerMedNorsk)}
                 />
             </div>
             <Element tag="h3">Stemmer ikke informasjonen?</Element>

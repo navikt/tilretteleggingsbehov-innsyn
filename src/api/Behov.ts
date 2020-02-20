@@ -5,7 +5,7 @@ export enum Arbeidstid {
     GradvisØkning = 'GRADVIS_ØKNING',
 }
 
-export enum FysiskTilrettelegging {
+export enum Fysisk {
     Arbeidsstilling = 'ARBEIDSSTILLING',
     Ergonomi = 'ERGONOMI',
     TungeLøft = 'TUNGE_LØFT',
@@ -25,4 +25,4 @@ export enum UtfordringerMedNorsk {
     Lese = 'LESE',
 }
 
-export type Behov = Arbeidstid | FysiskTilrettelegging | Arbeidshverdagen | UtfordringerMedNorsk;
+export type Behov = Arbeidstid | Fysisk | Arbeidshverdagen | UtfordringerMedNorsk;
