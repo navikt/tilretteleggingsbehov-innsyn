@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
-import { Alternativtekster } from '../api/Behovtekster';
+import { Behovtekst } from '../api/Behovtekster';
 
 interface Props {
     overskrift: String;
     beskrivelse: String;
-    behov: Alternativtekster[];
+    behov: Behovtekst[];
 }
 
 const Behovgruppe: FunctionComponent<Props> = ({ overskrift, beskrivelse, behov }) => {

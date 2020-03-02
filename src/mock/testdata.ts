@@ -10,7 +10,7 @@ export const enKandidat: Kandidat = {
     sistEndretAv: 'X123456',
     navKontor: '1001',
     arbeidstid: [Arbeidstid.IkkeHeleDager, Arbeidstid.Fleksibel],
-    fysisk: [Fysisk.Arbeidsstilling],
+    fysisk: [Fysisk.Arbeidsstilling, Fysisk.UniversellUtforming],
     arbeidshverdagen: [],
     utfordringerMedNorsk: [UtfordringerMedNorsk.Skrive, UtfordringerMedNorsk.Lese],
 };
