@@ -1,3 +1,10 @@
+export enum Kategori {
+    Arbeidstid,
+    Fysisk,
+    Arbeidshverdagen,
+    UtfordringerMedNorsk,
+}
+
 export enum Arbeidstid {
     IkkeHeleDager = 'IKKE_HELE_DAGER',
     BorteFasteDagerEllerTider = 'BORTE_FASTE_DAGER_ELLER_TIDER',
