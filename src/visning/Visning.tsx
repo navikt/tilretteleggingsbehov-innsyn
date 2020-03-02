@@ -2,12 +2,12 @@ import React, { FunctionComponent } from 'react';
 import { Normaltekst, Element, Undertittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 
-import { hentTeksterForBehov } from '../api/Behovtekster';
+import { hentTeksterForValgteBehov } from '../api/tilretteleggingsbehov';
 import { Kandidat } from '../api/Kandidat';
-import { Kategori } from '../api/Kategori';
 import Behovgruppe from './Behovgruppe';
 import lenker from '../lenker';
 import './Visning.less';
+import { Kategori } from '../api/Behov';
 
 interface Props {
     kandidat: Kandidat;
@@ -21,27 +21,27 @@ const Visning: FunctionComponent<Props> = ({ kandidat }) => {
                 <Behovgruppe
                     overskrift="Arbeidstid"
                     beskrivelse="Behov for tilrettelegging av arbeidstiden"
-                    behov={hentTeksterForBehov(kandidat.arbeidstid, Kategori.Arbeidstid)}
+                    behov={hentTeksterForValgteBehov(Kategori.Arbeidstid, kandidat.arbeidstid)}
                 />
                 <Behovgruppe
                     overskrift="Fysisk tilrettelegging"
                     beskrivelse="Behov for fysisk tilrettelegging på arbeidsplassen"
-                    behov={hentTeksterForBehov(kandidat.fysisk, Kategori.Fysisk)}
+                    behov={hentTeksterForValgteBehov(Kategori.Fysisk, kandidat.fysisk)}
                 />
                 <Behovgruppe
                     overskrift="Arbeidshverdagen"
                     beskrivelse="Behov for tilpasninger i arbeidshverdagen"
-                    behov={hentTeksterForBehov(
-                        kandidat.arbeidshverdagen,
-                        Kategori.Arbeidshverdagen
+                    behov={hentTeksterForValgteBehov(
+                        Kategori.Arbeidshverdagen,
+                        kandidat.arbeidshverdagen
                     )}
                 />
                 <Behovgruppe
                     overskrift="Utfordringer med norsk"
                     beskrivelse="Du har utfordringer med å:"
-                    behov={hentTeksterForBehov(
-                        kandidat.utfordringerMedNorsk,
-                        Kategori.UtfordringerMedNorsk
+                    behov={hentTeksterForValgteBehov(
+                        Kategori.UtfordringerMedNorsk,
+                        kandidat.utfordringerMedNorsk
                     )}
                 />
             </div>

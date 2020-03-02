@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
-import { Behovtekst } from '../api/Behovtekster';
+import { Behovtekst } from '../api/tilretteleggingsbehov';
 
 interface Props {
     overskrift: String;
@@ -16,8 +16,8 @@ const Behovgruppe: FunctionComponent<Props> = ({ overskrift, beskrivelse, behov 
             <Normaltekst>{beskrivelse}</Normaltekst>
             <ul className="visning__behovliste">
                 {behov.map(b => (
-                    <li key={b.label}>
-                        <Normaltekst>{b.label}</Normaltekst>
+                    <li key={b.beskrivelse}>
+                        <Normaltekst>{b.beskrivelse}</Normaltekst>
                     </li>
                 ))}
             </ul>
