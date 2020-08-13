@@ -4,10 +4,9 @@ metadata:
     name: tilretteleggingsbehov-innsyn
     namespace: default
     labels:
-        team: {{ team }}
+        team: arbeidsgiver
 spec:
-    image: {{ version }}
-    team: {{ team }}
+    image: {{ image }}
     port: 3000
     ingresses:
         - https://www.nav.no/person/behov-for-tilrettelegging
