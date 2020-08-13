@@ -30,8 +30,7 @@
         "prop-types": "^15.7.2",
         "react": "^16.12.0",
         "react-dom": "^16.12.0",
-        "react-scripts": "^3.4.3",
-        "snyk": "^1.373.1",
+        "react-scripts": "3.3.1",
         "typescript": "~3.7.2"
     },
     "devDependencies": {
@@ -43,10 +42,7 @@
         "start": "craco start",
         "build": "craco build",
         "eject": "craco eject",
-        "mock": "REACT_APP_MOCK=true npm start",
-        "test": "snyk test",
-        "snyk-protect": "snyk protect",
-        "prepare": "npm run snyk-protect"
+        "mock": "REACT_APP_MOCK=true npm start"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -62,6 +58,5 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    },
-    "snyk": true
+    }
 }
