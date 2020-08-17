@@ -1,22 +1,32 @@
-import { Kategori, Behov, Arbeidshverdagen, UtfordringerMedNorsk, Fysisk } from './Behov';
+import {
+    Kategori,
+    Behov,
+    Arbeidshverdagen,
+    UtfordringerMedNorsk,
+    Fysisk,
+    Arbeidstid,
+} from './Behov';
 
 export type Behovtekst = {
     behov: Behov;
     beskrivelse: string;
 };
 
-const tilretteleggingsbehov = {
+const tilretteleggingsbehov: Record<Kategori, Behovtekst[]> = {
     [Kategori.Arbeidstid]: [
         {
-            behov: Fysisk.UniversellUtforming,
-            beskrivelse: 'Universell utforming av arbeidsplassen',
+            behov: Arbeidstid.IkkeHeleDager,
+            beskrivelse: 'Kan jobbe hver ukedag, men ikke hele dager',
         },
         {
-            behov: Fysisk.Ergonomi,
-            beskrivelse: 'Ergonomiske tilpasninger',
+            behov: Arbeidstid.BorteFasteDagerEllerTider,
+            beskrivelse: 'Må være borte fra jobben til faste dager eller tider',
         },
-        { behov: Fysisk.Arbeidsstilling, beskrivelse: 'Varierte arbeidsstillinger' },
-        { behov: Fysisk.TungeLøft, beskrivelse: 'Unngå tunge løft' },
+        { behov: Arbeidstid.Fleksibel, beskrivelse: 'Må ha fleksible arbeidsdager' },
+        {
+            behov: Arbeidstid.GradvisØkning,
+            beskrivelse: 'Ønsker gradvis økning av stillingsprosenten',
+        },
     ],
     [Kategori.Fysisk]: [
         {
