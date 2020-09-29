@@ -1,5 +1,5 @@
 import { Kandidat } from '../api/Kandidat';
-import { Arbeidstid, Fysisk, UtfordringerMedNorsk } from '../api/Behov';
+import { Arbeidshverdagen, Fysisk, Arbeidstid, UtfordringerMedNorsk } from '../api/Behov';
 
 export const etFnr = '00000000000';
 
@@ -11,7 +11,7 @@ export const enKandidat: Kandidat = {
     navKontor: '1001',
     arbeidstid: [Arbeidstid.IkkeHeleDager, Arbeidstid.Fleksibel],
     fysisk: [Fysisk.Arbeidsstilling, Fysisk.UniversellUtforming],
-    arbeidshverdagen: [],
+    arbeidshverdagen: [Arbeidshverdagen.PersonligBistand],
     utfordringerMedNorsk: [UtfordringerMedNorsk.Skrive, UtfordringerMedNorsk.Lese],
 };
 

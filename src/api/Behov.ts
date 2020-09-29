@@ -24,6 +24,7 @@ export enum Arbeidshverdagen {
     Arbeidsoppgaver = 'OPPGAVER',
     TettOppfølging = 'TETT_OPPFØLGING',
     StilleOgRoligMiljø = 'STILLE_OG_ROLIG_MILJØ',
+    PersonligBistand = 'PERSONLIG_BISTAND',
 }
 
 export enum UtfordringerMedNorsk {
