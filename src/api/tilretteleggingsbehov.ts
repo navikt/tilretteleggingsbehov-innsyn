@@ -54,6 +54,10 @@ const tilretteleggingsbehov: Record<Kategori, Behovtekst[]> = {
             beskrivelse: 'Tett oppfølging',
         },
         { behov: Arbeidshverdagen.StilleOgRoligMiljø, beskrivelse: 'Stille og rolig miljø' },
+        {
+            behov: Arbeidshverdagen.PersonligBistand,
+            beskrivelse: 'Personlig bistand',
+        },
     ],
     [Kategori.UtfordringerMedNorsk]: [
         { behov: UtfordringerMedNorsk.Snakke, beskrivelse: 'Snakke' },
