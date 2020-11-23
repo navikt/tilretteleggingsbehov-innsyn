@@ -15,6 +15,11 @@ npm run start
 npm run mock
 ```
 
+## Testing i NAVs preprod (for NAV-ansatte)
+* Sørg for at stub-oidc-provider er installert gjennom https://myapps.microsoft.com
+* Logg inn på tynnklient
+* I nettleser: logg først på med din egen NAV-ident. Deretter logg inn "Uten IDPorten", fnr: 10108000398
+* Bla ned på siden "Personopplysninger" og velg "Behov for tilrettelegging"
 
 # Henvendelser
 
