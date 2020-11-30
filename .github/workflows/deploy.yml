@@ -1,6 +1,6 @@
 name: Bygg og deploy
 
-on: [ push ]
+on: [push]
 
 env:
   IMAGE: docker.pkg.github.com/${{ github.repository }}/tilretteleggingsbehov-innsyn:${{ github.sha }}
@@ -37,7 +37,7 @@ jobs:
   deploy-til-dev:
     name: Deploy til dev
     needs: bygg-og-push-docker-image
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/oppgradere-avhengigheter'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/oppgrader-avhengigheter-uke-49'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1

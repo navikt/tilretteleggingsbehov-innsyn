@@ -1,4 +1,4 @@
-const proxy = require('http-proxy-middleware');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const envProperties = {
     API_GATEWAY: process.env.APIGW_URL || 'http://localhost:8080',
@@ -21,4 +21,4 @@ if (envProperties.APIGW_HEADER) {
     };
 }
 
-module.exports = proxy(proxyConfig);
+module.exports = createProxyMiddleware(proxyConfig);
