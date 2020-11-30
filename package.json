@@ -36,8 +36,7 @@
     "devDependencies": {
         "fetch-mock": "^9.11.0",
         "prettier": "^2.2.1",
-        "snyk": "^1.431.2",
-        "webpack": "^5.9.0"
+        "snyk": "^1.431.2"
     },
     "scripts": {
         "start": "craco start",
