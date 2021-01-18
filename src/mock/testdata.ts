@@ -8,7 +8,6 @@ export const enKandidat: Kandidat = {
     fnr: etFnr,
     sistEndretAvVeileder: new Date().toISOString(),
     sistEndretAv: 'X123456',
-    navKontor: '1001',
     arbeidstid: [Arbeidstid.IkkeHeleDager, Arbeidstid.Fleksibel],
     fysisk: [Fysisk.Arbeidsstilling, Fysisk.UniversellUtforming],
     arbeidshverdagen: [Arbeidshverdagen.PersonligBistand],
