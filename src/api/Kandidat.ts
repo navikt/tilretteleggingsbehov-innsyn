@@ -5,7 +5,6 @@ export interface Kandidat {
     fnr: string;
     sistEndretAvVeileder: string;
     sistEndretAv: string;
-    navKontor: string;
     arbeidstid: Arbeidstid[];
     fysisk: Fysisk[];
     arbeidshverdagen: Arbeidshverdagen[];
