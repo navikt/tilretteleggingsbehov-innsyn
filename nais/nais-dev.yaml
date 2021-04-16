@@ -1,23 +1,27 @@
 apiVersion: nais.io/v1alpha1
 kind: Application
 metadata:
-    name: tilretteleggingsbehov-innsyn
-    namespace: arbeidsgiver
-    labels:
-        team: arbeidsgiver
+  name: tilretteleggingsbehov-innsyn
+  namespace: arbeidsgiver
+  labels:
+    team: arbeidsgiver
 spec:
-    image: {{ image }}
-    port: 3000
-    ingresses:
-        - https://tilretteleggingsbehov-innsyn.dev.nav.no/person/behov-for-tilrettelegging
-    liveness:
-        initialDelay: 5
-        path: /person/behov-for-tilrettelegging/internal/isAlive
-    readiness:
-        initialDelay: 5
-        path: /person/behov-for-tilrettelegging/internal/isReady
-    env:
-        - name: LOGIN_URL
-          value: https://loginservice-q.nav.no/login?redirect=https://www-q0.nav.no/person/behov-for-tilrettelegging
-        - name: APIGW_URL
-          value: https://api-gw-q1.oera.no
+  image: {{ image }}
+  port: 3000
+  ingresses:
+    - https://tilretteleggingsbehov-innsyn.dev.nav.no/person/behov-for-tilrettelegging
+  liveness:
+    initialDelay: 5
+    path: /person/behov-for-tilrettelegging/internal/isAlive
+  readiness:
+    initialDelay: 5
+    path: /person/behov-for-tilrettelegging/internal/isReady
+  env:
+    - name: LOGIN_URL
+      value: https://loginservice-q.nav.no/login?redirect=https://www-q0.nav.no/person/behov-for-tilrettelegging
+    - name: APIGW_URL
+      value: https://api-gw-q1.oera.no
+  accessPolicy:
+    outbound:
+      external:
+        - host: dekoratoren.dev.nav.no

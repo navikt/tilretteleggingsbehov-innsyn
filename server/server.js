@@ -1,9 +1,9 @@
 const path = require('path');
 const express = require('express');
-const hentDekoratør = require('./dekoratør');
 const mustacheExpress = require('mustache-express');
 const cookieParser = require('cookie-parser');
 const sonekryssing = require('./sonekryssing.js');
+const {injectDecoratorServerSide} = require("@navikt/nav-dekoratoren-moduler/ssr");
 
 const PORT = 3000;
 const BASE_PATH = '/person/behov-for-tilrettelegging';
@@ -16,7 +16,7 @@ const buildPath = path.join(__dirname, '../build');
 const server = express();
 
 const startServer = html => {
-    server.use(BASE_PATH, express.static(buildPath, { index: false }));
+    server.use(BASE_PATH, express.static(buildPath, {index: false}));
     server.get(BASE_PATH, (req, res) => {
         res.send(html);
     });
@@ -37,16 +37,10 @@ const startServer = html => {
     });
 };
 
-const renderAppMedDekoratør = dekoratør =>
-    new Promise((resolve, reject) => {
-        server.render('index.html', dekoratør, (err, html) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(html);
-            }
-        });
-    });
+const renderAppMedDekoratør = () => {
+    const env = process.env.NAIS_CLUSTER_NAME === 'prod-gcp' ? 'prod' : 'dev';
+    return injectDecoratorServerSide({env, filePath: `${buildPath}/index.html`});
+};
 
 const logError = feil => error => {
     console.error('> ' + feil);
@@ -63,10 +57,7 @@ const initialiserServer = () => {
     server.set('views', buildPath);
     server.use(cookieParser());
 
-    hentDekoratør()
-        .catch(logError('Kunne ikke hente dekoratør!'))
-        .then(renderAppMedDekoratør, logError('Kunne ikke injisere dekoratør!'))
-        .then(startServer, logError('Kunne ikke rendre app!'));
+    renderAppMedDekoratør().then(startServer, logError('Kunne ikke rendre app!'));
 };
 
 initialiserServer();
