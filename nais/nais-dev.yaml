@@ -9,7 +9,7 @@ spec:
     image: {{ image }}
     port: 3000
     ingresses:
-        - https://www-q0.nav.no/person/behov-for-tilrettelegging
+        - https://tilretteleggingsbehov-innsyn.dev.nav.no/person/behov-for-tilrettelegging
     liveness:
         initialDelay: 5
         path: /person/behov-for-tilrettelegging/internal/isAlive
