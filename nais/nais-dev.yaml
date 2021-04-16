@@ -16,8 +16,6 @@ spec:
     readiness:
         initialDelay: 5
         path: /person/behov-for-tilrettelegging/internal/isReady
-    vault:
-        enabled: true
     env:
         - name: LOGIN_URL
           value: https://loginservice-q.nav.no/login?redirect=https://www-q0.nav.no/person/behov-for-tilrettelegging
