@@ -45,7 +45,7 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-sbs
-          RESOURCE: nais-dev.yaml
+          RESOURCE: nais/nais-dev.yaml
 
   deploy-to-prod:
     name: Deploy til prod
@@ -58,4 +58,4 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-sbs
-          RESOURCE: nais-prod.yaml
+          RESOURCE: nais/nais-prod.yaml
