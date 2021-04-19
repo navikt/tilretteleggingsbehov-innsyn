@@ -1,3 +1,5 @@
+import { generators } from 'openid-client';
+
 const path = require('path');
 const express = require('express');
 const mustacheExpress = require('mustache-express');
@@ -17,17 +19,14 @@ const server = express();
 
 init();
 
-const startServer = (html) => {
+const startServer = html => {
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
     server.get(BASE_PATH, (req, res) => {
         res.send(html);
     });
 
     server.get('/login', async (req, res) => {
-        const session = req.session;
-        session.nonce = generators.nonce();
-        session.state = generators.state();
-        res.redirect(auth.authUrl(session));
+        res.redirect(auth.authUrl(req.session), generators.nonce(), generators.state());
     });
 
     server.get(`${BASE_PATH}/internal/isAlive`, (req, res) => res.sendStatus(200));
@@ -46,7 +45,7 @@ const renderAppMedDekoratør = () => {
     return injectDecoratorServerSide({ env, filePath: `${buildPath}/index.html` });
 };
 
-const logError = (feil) => (error) => {
+const logError = feil => error => {
     console.error('> ' + feil);
     console.error('> ' + error);
 
