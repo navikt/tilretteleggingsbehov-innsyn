@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const mustacheExpress = require('mustache-express');
 const cookieParser = require('cookie-parser');
-const sonekryssing = require('./sonekryssing.js');
+const { init } = require('./auth');
 const { injectDecoratorServerSide } = require('@navikt/nav-dekoratoren-moduler/ssr');
 
 const PORT = 3000;
@@ -15,27 +15,20 @@ const LOGIN_URL = process.env.LOGIN_URL || LOCAL_LOGIN_WITH_REDIRECT;
 const buildPath = path.join(__dirname, '../build');
 const server = express();
 
-const startServer = html => {
+init();
+
+const startServer = (html) => {
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
     server.get(BASE_PATH, (req, res) => {
         res.send(html);
     });
 
-    server.use(
-        [`${BASE_PATH}/oppfolgingsstatus`, `${BASE_PATH}/tilretteleggingsbehov`],
-        sonekryssing
-    );
-
-    server.get('/login', async (req, res) => {});
-
-    /*
-    app.get("/login", async (req, res) => { // lgtm [js/missing-rate-limiting]
-  const session = req.session
-  session.nonce = generators.nonce()
-  session.state = generators.state()
-  res.redirect(auth.authUrl(session))
-})
-     */
+    server.get('/login', async (req, res) => {
+        const session = req.session;
+        session.nonce = generators.nonce();
+        session.state = generators.state();
+        res.redirect(auth.authUrl(session));
+    });
 
     server.get(`${BASE_PATH}/internal/isAlive`, (req, res) => res.sendStatus(200));
     server.get(`${BASE_PATH}/internal/isReady`, (req, res) => res.sendStatus(200));
@@ -53,7 +46,7 @@ const renderAppMedDekoratør = () => {
     return injectDecoratorServerSide({ env, filePath: `${buildPath}/index.html` });
 };
 
-const logError = feil => error => {
+const logError = (feil) => (error) => {
     console.error('> ' + feil);
     console.error('> ' + error);
 

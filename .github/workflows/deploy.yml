@@ -26,6 +26,10 @@ jobs:
         run: |
           export NODE_OPTIONS=--max-old-space-size=8192
           npm run build
+      - name: Installer avhengigheter for server
+        run: npm run server:install
+      - name: Bygg server
+        run: npm run server:build
       - name: Bygg og publiser Docker-image
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
