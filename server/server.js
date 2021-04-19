@@ -3,7 +3,7 @@ const express = require('express');
 const mustacheExpress = require('mustache-express');
 const cookieParser = require('cookie-parser');
 const sonekryssing = require('./sonekryssing.js');
-const {injectDecoratorServerSide} = require("@navikt/nav-dekoratoren-moduler/ssr");
+const { injectDecoratorServerSide } = require('@navikt/nav-dekoratoren-moduler/ssr');
 
 const PORT = 3000;
 const BASE_PATH = '/person/behov-for-tilrettelegging';
@@ -16,7 +16,7 @@ const buildPath = path.join(__dirname, '../build');
 const server = express();
 
 const startServer = html => {
-    server.use(BASE_PATH, express.static(buildPath, {index: false}));
+    server.use(BASE_PATH, express.static(buildPath, { index: false }));
     server.get(BASE_PATH, (req, res) => {
         res.send(html);
     });
@@ -25,6 +25,17 @@ const startServer = html => {
         [`${BASE_PATH}/oppfolgingsstatus`, `${BASE_PATH}/tilretteleggingsbehov`],
         sonekryssing
     );
+
+    server.get('/login', async (req, res) => {});
+
+    /*
+    app.get("/login", async (req, res) => { // lgtm [js/missing-rate-limiting]
+  const session = req.session
+  session.nonce = generators.nonce()
+  session.state = generators.state()
+  res.redirect(auth.authUrl(session))
+})
+     */
 
     server.get(`${BASE_PATH}/internal/isAlive`, (req, res) => res.sendStatus(200));
     server.get(`${BASE_PATH}/internal/isReady`, (req, res) => res.sendStatus(200));
@@ -39,7 +50,7 @@ const startServer = html => {
 
 const renderAppMedDekoratør = () => {
     const env = process.env.NAIS_CLUSTER_NAME === 'prod-gcp' ? 'prod' : 'dev';
-    return injectDecoratorServerSide({env, filePath: `${buildPath}/index.html`});
+    return injectDecoratorServerSide({ env, filePath: `${buildPath}/index.html` });
 };
 
 const logError = feil => error => {
