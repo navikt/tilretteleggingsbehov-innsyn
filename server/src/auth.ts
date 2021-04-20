@@ -1,9 +1,11 @@
 import { Client, Issuer } from 'openid-client';
 import { Session } from 'express-session';
 
-const discoveryUrl = process.env.IDPORTEN_WELL_KNOWN_URL!;
+const discoveryUrl =
+    process.env.IDPORTEN_WELL_KNOWN_URL ||
+    'https://oidc-ver2.difi.no/idporten-oidc-provider/.well-known/openid-configuration';
 const clientId = process.env.IDPORTEN_CLIENT_ID!;
-const redirectUri = process.env.IDPORTEN_REDIRECT_URI!;
+const redirectUri = process.env.IDPORTEN_REDIRECT_URI || 'http://localhost:3000/oauth2/callback';
 const jwk = process.env.IDPORTEN_CLIENT_JWK!;
 const idPortenScope = 'openid profile';
 
@@ -26,7 +28,7 @@ export const init = async () => {
             }
         );
     } catch (err) {
-        console.log('Kunne ikke opprette idportenClient');
+        console.log('Kunne ikke opprette idportenClient', err);
     }
 };
 
