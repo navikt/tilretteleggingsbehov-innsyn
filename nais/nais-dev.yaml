@@ -6,7 +6,7 @@ metadata:
   labels:
     team: arbeidsgiver
 spec:
-  image: {{ image }}
+  image: { { image } }
   port: 3000
   ingresses:
     - https://tilretteleggingsbehov-innsyn.dev.nav.no/person/behov-for-tilrettelegging
@@ -25,3 +25,12 @@ spec:
     outbound:
       external:
         - host: dekoratoren.dev.nav.no
+  idporten:
+    enabled: true
+    clientURI: "https://nav.no"
+    redirectPath: "/oauth2/callback"
+    frontchannelLogoutPath: "/oauth2/logout"
+    postLogoutRedirectURIs:
+      - "https://nav.no"
+    accessTokenLifetime: 3600
+    sessionLifetime: 7200

@@ -16,7 +16,7 @@ export const init = async () => {
             client_id: clientId,
             token_endpoint_auth_method: 'private_key_jwt',
             token_endpoint_auth_signing_alg: 'RS256',
-            redirect_uris: [redirectUri, 'http://localhost:3000/callback'],
+            redirect_uris: [redirectUri, 'http://localhost:3000/oauth2/callback'],
             response_types: ['code'],
         },
         {
