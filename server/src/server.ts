@@ -21,7 +21,7 @@ const server = express();
 const startServer = async (html: string) => {
     await init();
 
-    server.use(session({ secret: "anySecret" })); // TODO
+    server.use(session({ secret: 'anySecret' })); // TODO
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
     server.get(BASE_PATH, (req: Request, res: Response) => {
         res.send(html);
@@ -35,9 +35,13 @@ const startServer = async (html: string) => {
         res.redirect(authUrl(nonce, state));
     });
 
-    server.get(`${BASE_PATH}/oauth2/callback`, (req: Request, res: Response) => {
-        const tokensSet = getIdPortenTokenSet(req);
-        console.log('Fikk TokenSet', tokensSet);
+    server.get(`${BASE_PATH}/oauth2/callback`, async (req: Request, res: Response) => {
+        try {
+            const tokensSet = await getIdPortenTokenSet(req);
+            console.log('Fikk TokenSet', tokensSet);
+        } catch (error) {
+            console.error('Kunne ikke hente token set', error);
+        }
     });
 
     server.get(`${BASE_PATH}/internal/isAlive`, (req: Request, res: Response) =>
