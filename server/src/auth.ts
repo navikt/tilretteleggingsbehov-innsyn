@@ -1,5 +1,4 @@
-import { Client, Issuer } from 'openid-client';
-import { Session } from 'express-session';
+import { Client, Issuer, TokenSet } from 'openid-client';
 import { Request } from 'express';
 
 const discoveryUrl = process.env.IDPORTEN_WELL_KNOWN_URL!;
@@ -31,7 +30,7 @@ export const init = async () => {
     }
 };
 
-export const authUrl = (session: Session, nonce: string, state: string) =>
+export const authUrl = (nonce: string, state: string) =>
     idportenClient.authorizationUrl({
         scope: idPortenScope,
         redirect_uri: redirectUri,
@@ -43,7 +42,9 @@ export const authUrl = (session: Session, nonce: string, state: string) =>
         acr_valus: 'Level4',
     });
 
-export const getIdPortenTokens = (req: Request) => {
+export const getIdPortenTokenSet = async (req: Request): Promise<TokenSet> => {
     const params = idportenClient.callbackParams(req);
-    const nonce = req.session;
+    const nonce = (req.session as any).nonce;
+    const state = (req.session as any).state;
+    return await idportenClient.callback(redirectUri, params, { nonce, state });
 };

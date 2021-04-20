@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { authUrl, init } from './auth';
+import { authUrl, getIdPortenTokenSet, init } from './auth';
 import { generators } from 'openid-client';
 
 const path = require('path');
@@ -26,10 +26,17 @@ const startServer = async (html: string) => {
     });
 
     server.get(`${BASE_PATH}/login`, (req: Request, res: Response) => {
-        res.redirect(authUrl(req.session, generators.nonce(), generators.state()));
+        const nonce = generators.nonce();
+        const state = generators.state();
+        (req.session as any).nonce = nonce;
+        (req.session as any).state = state;
+        res.redirect(authUrl(nonce, state));
     });
 
-    server.get(`${BASE_PATH}/oauth2/callback`, (req: Request, res: Response) => {});
+    server.get(`${BASE_PATH}/oauth2/callback`, (req: Request, res: Response) => {
+        const tokensSet = getIdPortenTokenSet(req);
+        console.log('Fikk TokenSet', tokensSet);
+    });
 
     server.get(`${BASE_PATH}/internal/isAlive`, (req: Request, res: Response) =>
         res.sendStatus(200)
