@@ -21,7 +21,7 @@ const server = express();
 const startServer = async (html: string) => {
     await init();
 
-    server.use(session({ secret: process.env.SESSION_SECRET! }));
+    server.use(session({ secret: "anySecret" })); // TODO
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
     server.get(BASE_PATH, (req: Request, res: Response) => {
         res.send(html);
