@@ -5,21 +5,23 @@ import { generators } from 'openid-client';
 const path = require('path');
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const { injectDecoratorServerSide } = require('@navikt/nav-dekoratoren-moduler/ssr');
 
 const PORT = 3000;
-const BASE_PATH = '/person/behov-for-tilrettelegging';
 
+const BASE_PATH = '/person/behov-for-tilrettelegging';
 const LOCAL_LOGIN_URL = 'http://localhost:8080/finn-kandidat-api/local/selvbetjening-login';
 const LOCAL_LOGIN_WITH_REDIRECT = `${LOCAL_LOGIN_URL}?redirect=http://localhost:${PORT}${BASE_PATH}/`;
-const LOGIN_URL = process.env.LOGIN_URL || LOCAL_LOGIN_WITH_REDIRECT;
 
+const LOGIN_URL = process.env.LOGIN_URL || LOCAL_LOGIN_WITH_REDIRECT;
 const buildPath = path.join(__dirname, '../../build');
 const server = express();
 
 const startServer = async (html: string) => {
     await init();
 
+    server.use(session());
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
     server.get(BASE_PATH, (req: Request, res: Response) => {
         res.send(html);
