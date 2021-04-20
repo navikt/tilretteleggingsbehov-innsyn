@@ -35,35 +35,39 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+exports.__esModule = true;
+var openid_client_1 = require("openid-client");
+var auth_1 = require("./auth");
 var path = require('path');
 var express = require('express');
-var mustacheExpress = require('mustache-express');
 var cookieParser = require('cookie-parser');
+var init = require('./auth').init;
 var injectDecoratorServerSide = require('@navikt/nav-dekoratoren-moduler/ssr').injectDecoratorServerSide;
 var PORT = 3000;
 var BASE_PATH = '/person/behov-for-tilrettelegging';
 var LOCAL_LOGIN_URL = 'http://localhost:8080/finn-kandidat-api/local/selvbetjening-login';
 var LOCAL_LOGIN_WITH_REDIRECT = LOCAL_LOGIN_URL + "?redirect=http://localhost:" + PORT + BASE_PATH + "/";
 var LOGIN_URL = process.env.LOGIN_URL || LOCAL_LOGIN_WITH_REDIRECT;
-var buildPath = path.join(__dirname, '../build');
+var buildPath = path.join(__dirname, '../../build');
 var server = express();
+init();
 var startServer = function (html) {
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
     server.get(BASE_PATH, function (req, res) {
         res.send(html);
     });
     server.get('/login', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var session;
         return __generator(this, function (_a) {
-            session = req.session;
-            session.nonce = generators.nonce();
-            session.state = generators.state();
-            res.redirect(auth.authUrl(session));
+            res.redirect(auth_1.authUrl(req.session, openid_client_1.generators.nonce(), openid_client_1.generators.state()));
             return [2 /*return*/];
         });
     }); });
-    server.get(BASE_PATH + "/internal/isAlive", function (req, res) { return res.sendStatus(200); });
-    server.get(BASE_PATH + "/internal/isReady", function (req, res) { return res.sendStatus(200); });
+    server.get(BASE_PATH + "/internal/isAlive", function (req, res) {
+        return res.sendStatus(200);
+    });
+    server.get(BASE_PATH + "/internal/isReady", function (req, res) {
+        return res.sendStatus(200);
+    });
     server.get(BASE_PATH + "/redirect-til-login", function (_, res) {
         res.redirect(LOGIN_URL);
     });
@@ -82,9 +86,6 @@ var logError = function (feil) { return function (error) {
 }; };
 var initialiserServer = function () {
     console.log('Initialiserer server ...');
-    server.engine('html', mustacheExpress());
-    server.set('view engine', 'mustache');
-    server.set('views', buildPath);
     server.use(cookieParser());
     renderAppMedDekoratør().then(startServer, logError('Kunne ikke rendre app!'));
 };
