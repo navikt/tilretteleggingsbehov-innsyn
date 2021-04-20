@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { authUrl, getIdPortenTokenSet, init } from './auth';
 import { generators } from 'openid-client';
+import session from 'express-session';
 
 const path = require('path');
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
 const { injectDecoratorServerSide } = require('@navikt/nav-dekoratoren-moduler/ssr');
 
 const PORT = 3000;
@@ -21,7 +21,7 @@ const server = express();
 const startServer = async (html: string) => {
     await init();
 
-    server.use(session({ secret: process.env.SESSION_SECRET }));
+    server.use(session({ secret: process.env.SESSION_SECRET! }));
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
     server.get(BASE_PATH, (req: Request, res: Response) => {
         res.send(html);
