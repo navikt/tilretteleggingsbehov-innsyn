@@ -18,7 +18,7 @@ const LOGIN_URL = process.env.LOGIN_URL || LOCAL_LOGIN_WITH_REDIRECT;
 const buildPath = path.join(__dirname, '../../build');
 const server = express();
 
-init();
+// init();
 
 const startServer = (html: string) => {
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
