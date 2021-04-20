@@ -6,7 +6,7 @@ metadata:
   labels:
     team: arbeidsgiver
 spec:
-  image: { { image } }
+  image: {{ image }}
   port: 3000
   ingresses:
     - https://tilretteleggingsbehov-innsyn.dev.nav.no/person/behov-for-tilrettelegging
