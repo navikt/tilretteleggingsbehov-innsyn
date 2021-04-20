@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import { authUrl, init } from './auth';
+import { generators } from 'openid-client';
 
 const path = require('path');
 const express = require('express');
@@ -15,17 +17,17 @@ const LOGIN_URL = process.env.LOGIN_URL || LOCAL_LOGIN_WITH_REDIRECT;
 const buildPath = path.join(__dirname, '../../build');
 const server = express();
 
-// init();
+const startServer = async (html: string) => {
+    await init();
 
-const startServer = (html: string) => {
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
     server.get(BASE_PATH, (req: Request, res: Response) => {
         res.send(html);
     });
 
-    // server.get('/login', async (req: Request, res: Response) => {
-    //     res.redirect(authUrl(req.session, generators.nonce(), generators.state()));
-    // });
+    server.get('/login', async (req: Request, res: Response) => {
+        res.redirect(authUrl(req.session, generators.nonce(), generators.state()));
+    });
 
     server.get(`${BASE_PATH}/internal/isAlive`, (req: Request, res: Response) =>
         res.sendStatus(200)
