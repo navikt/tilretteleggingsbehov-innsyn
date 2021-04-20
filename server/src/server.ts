@@ -1,11 +1,8 @@
-import { generators } from 'openid-client';
-import { authUrl } from './auth';
 import { Request, Response } from 'express';
 
 const path = require('path');
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const { init } = require('./auth');
 const { injectDecoratorServerSide } = require('@navikt/nav-dekoratoren-moduler/ssr');
 
 const PORT = 3000;
@@ -26,9 +23,9 @@ const startServer = (html: string) => {
         res.send(html);
     });
 
-    server.get('/login', async (req: Request, res: Response) => {
-        res.redirect(authUrl(req.session, generators.nonce(), generators.state()));
-    });
+    // server.get('/login', async (req: Request, res: Response) => {
+    //     res.redirect(authUrl(req.session, generators.nonce(), generators.state()));
+    // });
 
     server.get(`${BASE_PATH}/internal/isAlive`, (req: Request, res: Response) =>
         res.sendStatus(200)
