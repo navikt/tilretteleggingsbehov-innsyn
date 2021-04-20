@@ -25,7 +25,7 @@ const startServer = async (html: string) => {
         res.send(html);
     });
 
-    server.get('/login', async (req: Request, res: Response) => {
+    server.get(`${BASE_PATH}/login`, (req: Request, res: Response) => {
         res.redirect(authUrl(req.session, generators.nonce(), generators.state()));
     });
 
