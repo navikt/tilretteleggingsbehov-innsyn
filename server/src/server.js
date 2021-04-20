@@ -1,4 +1,5 @@
 import { generators } from 'openid-client';
+import { authUrl } from './auth';
 
 const path = require('path');
 const express = require('express');
@@ -26,7 +27,7 @@ const startServer = html => {
     });
 
     server.get('/login', async (req, res) => {
-        res.redirect(auth.authUrl(req.session), generators.nonce(), generators.state());
+        res.redirect(authUrl(req.session, generators.nonce(), generators.state()));
     });
 
     server.get(`${BASE_PATH}/internal/isAlive`, (req, res) => res.sendStatus(200));
