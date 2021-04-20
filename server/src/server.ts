@@ -4,7 +4,6 @@ import { Request, Response } from 'express';
 
 const path = require('path');
 const express = require('express');
-const mustacheExpress = require('mustache-express');
 const cookieParser = require('cookie-parser');
 const { init } = require('./auth');
 const { injectDecoratorServerSide } = require('@navikt/nav-dekoratoren-moduler/ssr');
@@ -60,9 +59,6 @@ const logError = (feil: string) => (error: string) => {
 
 const initialiserServer = () => {
     console.log('Initialiserer server ...');
-    server.engine('html', mustacheExpress());
-    server.set('view engine', 'mustache');
-    server.set('views', buildPath);
     server.use(cookieParser());
 
     renderAppMedDekoratør().then(startServer, logError('Kunne ikke rendre app!'));
