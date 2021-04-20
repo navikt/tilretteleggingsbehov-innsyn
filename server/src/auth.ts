@@ -47,6 +47,10 @@ export const getIdPortenTokenSet = async (req: Request): Promise<TokenSet> => {
     const params = idportenClient.callbackParams(req);
     const nonce = (req.session as any).nonce;
     const state = (req.session as any).state;
+
+    console.log('nonce: ', nonce);
+    console.log('state: ', state);
+
     const additionalClaims = {
         clientAssertionPayload: {
             aud: idportenIssuerName,
