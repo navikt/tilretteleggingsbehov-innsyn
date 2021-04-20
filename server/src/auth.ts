@@ -5,8 +5,7 @@ const discoveryUrl = process.env.IDPORTEN_WELL_KNOWN_URL!;
 const clientId = process.env.IDPORTEN_CLIENT_ID!;
 const redirectUri = process.env.IDPORTEN_REDIRECT_URI!;
 const jwk = process.env.IDPORTEN_CLIENT_JWK!;
-const idPortenScope = 'openid profile',
-
+const idPortenScope = 'openid profile';
 
 let idportenClient: Client;
 
@@ -34,6 +33,6 @@ export const authUrl = (session: Session, nonce: string, state: string) =>
         response_mode: 'query',
         nonce,
         state,
-        resource: "https://nav.no",
-        acr_valus: "Level4"
-    })
+        resource: 'https://nav.no',
+        acr_valus: 'Level4',
+    });
