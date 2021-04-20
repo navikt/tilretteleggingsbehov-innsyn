@@ -1,5 +1,6 @@
 import { Client, Issuer } from 'openid-client';
 import { Session } from 'express-session';
+import { Request } from 'express';
 
 const discoveryUrl = process.env.IDPORTEN_WELL_KNOWN_URL!;
 const clientId = process.env.IDPORTEN_CLIENT_ID!;
@@ -41,3 +42,8 @@ export const authUrl = (session: Session, nonce: string, state: string) =>
         resource: 'https://nav.no',
         acr_valus: 'Level4',
     });
+
+export const getIdPortenTokens = (req: Request) => {
+    const params = idportenClient.callbackParams(req);
+    const nonce = req.session;
+};

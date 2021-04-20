@@ -29,6 +29,8 @@ const startServer = async (html: string) => {
         res.redirect(authUrl(req.session, generators.nonce(), generators.state()));
     });
 
+    server.get(`${BASE_PATH}/oauth2/callback`, (req: Request, res: Response) => {});
+
     server.get(`${BASE_PATH}/internal/isAlive`, (req: Request, res: Response) =>
         res.sendStatus(200)
     );
