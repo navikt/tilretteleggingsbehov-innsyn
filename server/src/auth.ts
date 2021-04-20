@@ -8,10 +8,11 @@ const jwk = process.env.IDPORTEN_CLIENT_JWK!;
 const idPortenScope = 'openid profile';
 
 let idportenClient: Client;
+let idportenIssuerName: String;
 
 export const init = async () => {
     const idportenIssuer = await Issuer.discover(discoveryUrl);
-
+    idportenIssuerName = idportenIssuer.metadata.issuer;
     try {
         idportenClient = new idportenIssuer.Client(
             {
@@ -46,5 +47,10 @@ export const getIdPortenTokenSet = async (req: Request): Promise<TokenSet> => {
     const params = idportenClient.callbackParams(req);
     const nonce = (req.session as any).nonce;
     const state = (req.session as any).state;
-    return await idportenClient.callback(redirectUri, params, { nonce, state });
+    const additionalClaims = {
+        clientAssertionPayload: {
+            aud: idportenIssuerName,
+        },
+    };
+    return await idportenClient.callback(redirectUri, params, { nonce, state }, additionalClaims);
 };
