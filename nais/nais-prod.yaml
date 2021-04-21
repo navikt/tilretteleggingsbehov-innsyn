@@ -25,3 +25,5 @@ spec:
     outbound:
       external:
         - host: dekoratoren.nav.no
+  envFrom:
+    - secret: tilretteleggingsbehov-innsyn-redis-password

@@ -34,3 +34,5 @@ spec:
       - "https://nav.no"
     accessTokenLifetime: 3600
     sessionLifetime: 7200
+  envFrom:
+    - secret: tilretteleggingsbehov-innsyn-redis-password
