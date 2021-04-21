@@ -26,9 +26,9 @@ export const setupSession = () => {
 const setupRedis = () => {
     const store = RedisStore(session);
     const options = {
-        host: process.env.REDIS_HOST,
+        host: 'tilretteleggingsbehov-innsyn-redis.arbeidsgiver.svc.cluster.local',
         password: process.env.REDIS_PASSWORD,
-        port: parseInt(process.env.REDIS_PORT!),
+        port: 6379,
     };
     const client = redis.createClient(options);
     client.unref();
