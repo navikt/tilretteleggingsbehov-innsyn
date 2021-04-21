@@ -33,7 +33,9 @@ const setupRedis = () => {
     };
     const client = redis.createClient(options);
     client.unref();
+
     client.on('debug', log.debug);
+    client.on('error', log.error);
 
     return new store({
         client: client,
