@@ -39,7 +39,7 @@ const startServer = async (html: string) => {
     server.get(`${BASE_PATH}/oauth2/callback`, async (req: Request, res: Response) => {
         try {
             const tokensSet = await getIdPortenTokenSet(req);
-            log.info('Fikk TokenSet', tokensSet);
+            log.info('Fikk TokenSet ' + tokensSet);
         } catch (error) {
             log.error('Kunne ikke hente token set', error);
         }
@@ -56,7 +56,7 @@ const startServer = async (html: string) => {
     });
 
     server.listen(PORT, () => {
-        log.info('Server kjører på port', PORT);
+        log.info('Server kjører på port ' + PORT);
     });
 };
 

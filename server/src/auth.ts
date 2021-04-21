@@ -28,7 +28,7 @@ export const init = async () => {
             }
         );
     } catch (err) {
-        log.error('Kunne ikke opprette idportenClient', err);
+        log.error('Kunne ikke opprette idportenClient ' + err);
     }
 };
 
@@ -49,8 +49,8 @@ export const getIdPortenTokenSet = async (req: Request): Promise<TokenSet> => {
     const nonce = (req.session as any).nonce;
     const state = (req.session as any).state;
 
-    log.info('nonce: ', nonce);
-    log.info('state: ', state);
+    log.info('nonce: ' + nonce);
+    log.info('state: ' + state);
 
     const additionalClaims = {
         clientAssertionPayload: {
