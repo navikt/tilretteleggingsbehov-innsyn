@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { authUrl, getIdPortenTokenSet, init } from './auth';
 import { generators } from 'openid-client';
-import session from 'express-session';
+import { setupSession } from './session';
 
 const path = require('path');
 const express = require('express');
@@ -20,8 +20,7 @@ const server = express();
 
 const startServer = async (html: string) => {
     await init();
-
-    server.use(session({ secret: 'anySecret' })); // TODO
+    server.use(setupSession());
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
     server.get(BASE_PATH, (req: Request, res: Response) => {
         res.send(html);
