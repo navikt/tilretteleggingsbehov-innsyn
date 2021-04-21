@@ -23,6 +23,8 @@ spec:
       value: https://api-gw-q1.oera.no
   accessPolicy:
     outbound:
+      rules:
+        - application: tilretteleggingsbehov-innsyn-redis
       external:
         - host: dekoratoren.dev.nav.no
   idporten:
