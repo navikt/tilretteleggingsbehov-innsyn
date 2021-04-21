@@ -18,7 +18,8 @@
     "openid-client": "^4.6.0",
     "promise": "^8.0.3",
     "redis": "^3.1.2",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@types/connect-redis": "^0.0.16",

@@ -1,5 +1,6 @@
 import { Client, Issuer, TokenSet } from 'openid-client';
 import { Request } from 'express';
+import { log } from './logging';
 
 const discoveryUrl = process.env.IDPORTEN_WELL_KNOWN_URL!;
 const clientId = process.env.IDPORTEN_CLIENT_ID!;
@@ -27,7 +28,7 @@ export const init = async () => {
             }
         );
     } catch (err) {
-        console.log('Kunne ikke opprette idportenClient', err);
+        log.error('Kunne ikke opprette idportenClient', err);
     }
 };
 
@@ -48,8 +49,8 @@ export const getIdPortenTokenSet = async (req: Request): Promise<TokenSet> => {
     const nonce = (req.session as any).nonce;
     const state = (req.session as any).state;
 
-    console.log('nonce: ', nonce);
-    console.log('state: ', state);
+    log.info('nonce: ', nonce);
+    log.info('state: ', state);
 
     const additionalClaims = {
         clientAssertionPayload: {

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { authUrl, getIdPortenTokenSet, init } from './auth';
 import { generators } from 'openid-client';
 import { setupSession } from './session';
+import { log } from './logging';
 
 const path = require('path');
 const express = require('express');
@@ -38,9 +39,9 @@ const startServer = async (html: string) => {
     server.get(`${BASE_PATH}/oauth2/callback`, async (req: Request, res: Response) => {
         try {
             const tokensSet = await getIdPortenTokenSet(req);
-            console.log('Fikk TokenSet', tokensSet);
+            log.info('Fikk TokenSet', tokensSet);
         } catch (error) {
-            console.error('Kunne ikke hente token set', error);
+            log.error('Kunne ikke hente token set', error);
         }
     });
 
@@ -55,7 +56,7 @@ const startServer = async (html: string) => {
     });
 
     server.listen(PORT, () => {
-        console.log('Server kjører på port', PORT);
+        log.info('Server kjører på port', PORT);
     });
 };
 
@@ -65,14 +66,14 @@ const renderAppMedDekoratør = (): Promise<string> => {
 };
 
 const logError = (feil: string) => (error: string) => {
-    console.error('> ' + feil);
-    console.error('> ' + error);
+    log.error(feil);
+    log.error(error);
 
     process.exit(1);
 };
 
 const initialiserServer = () => {
-    console.log('Initialiserer server ...');
+    log.info('Initialiserer server ...');
     server.use(cookieParser());
 
     renderAppMedDekoratør().then(startServer, logError('Kunne ikke rendre app!'));

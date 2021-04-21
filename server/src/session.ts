@@ -1,6 +1,7 @@
 import session, { SessionOptions } from 'express-session';
 import redis from 'redis';
 import RedisStore from 'connect-redis';
+import { log } from './logging';
 
 export const setupSession = () => {
     const options: SessionOptions = {
@@ -32,7 +33,7 @@ const setupRedis = () => {
     };
     const client = redis.createClient(options);
     client.unref();
-    client.on('debug', console.log);
+    client.on('debug', log.debug);
 
     return new store({
         client: client,
