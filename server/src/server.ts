@@ -23,17 +23,18 @@ export type RequestMedSession = Request & {
     session: Session & { nonce: string | null; state: string | null; tokenSet: TokenSet | null };
 };
 
-const startServer = async (html: string) => {
+const startServer = async (/*html: string*/) => {
     await initIdPortenIssuer();
 
     // Trenger denne for å kunne autentisere mot ID-Porten
     server.set('trust proxy', 1);
+
     server.use(setupSession());
 
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
-    server.get(BASE_PATH, (req: Request, res: Response) => {
-        res.send(html);
-    });
+    // server.get(BASE_PATH, (req: Request, res: Response) => {
+    //     res.send(html);
+    // });
 
     server.get(`${BASE_PATH}/login`, (req: RequestMedSession, res: Response) => {
         const nonce = generators.nonce();
@@ -83,17 +84,19 @@ const startServer = async (html: string) => {
     });
 };
 
+/*
 const renderAppMedDekoratør = (): Promise<string> => {
     const env = process.env.NAIS_CLUSTER_NAME === 'prod-gcp' ? 'prod' : 'dev';
     return injectDecoratorServerSide({ env, filePath: `${buildPath}/index.html` });
 };
+*/
 
 const initialiserServer = async () => {
     log.info('Initialiserer server ...');
 
     try {
-        const html = await renderAppMedDekoratør();
-        startServer(html);
+        // const html = await renderAppMedDekoratør();
+        startServer();
     } catch (error) {
         log.error('Kunne ikke rendre app:', error);
         process.exit(1);
