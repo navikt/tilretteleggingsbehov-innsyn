@@ -17,25 +17,32 @@ export const setupSession = () => {
         unset: 'destroy',
     };
 
-    if (process.env.NAIS_CLUSTER_NAME) {
-        options.cookie!.secure = true;
-        options.store = setupRedis();
-    }
+    // TODO
+    // if (process.env.NAIS_CLUSTER_NAME) {
+    options.cookie!.secure = true;
+    options.store = setupRedis();
+    // }
     return session(options);
 };
 
 const setupRedis = () => {
     const store = RedisStore(session);
     const options = {
-        host: 'tilretteleggingsbehov-innsyn-redis.arbeidsgiver.svc.cluster.local',
-        password: process.env.REDIS_PASSWORD,
+        host: 'localhost',
+        // TODO
+        // host: 'tilretteleggingsbehov-innsyn-redis.arbeidsgiver.svc.cluster.local',
+        // password: process.env.REDIS_PASSWORD,
         port: 6379,
     };
     const client = redis.createClient(options);
     client.unref();
 
-    client.on('debug', log.debug);
-    client.on('error', log.error);
+    // todo
+    // client.on('debug', log.debug);
+    // client.on('error', log.error);
+
+    // client.on('debug', console.log);
+    client.on('error', console.log);
 
     return new store({
         client: client,

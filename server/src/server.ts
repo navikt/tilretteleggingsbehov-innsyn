@@ -20,7 +20,7 @@ const buildPath = path.join(__dirname, '../../build');
 const server = express();
 
 const startServer = async (html: string) => {
-    await init();
+    // await init();
     server.use(setupSession());
 
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
@@ -33,16 +33,26 @@ const startServer = async (html: string) => {
         const state = generators.state();
         (req.session as any).nonce = nonce;
         (req.session as any).state = state;
-        res.redirect(authUrl(nonce, state));
+
+        res.redirect(`${BASE_PATH}/oauth2/callback`);
+
+        // TODO
+        // res.redirect(authUrl(nonce, state));
     });
 
     server.get(`${BASE_PATH}/oauth2/callback`, async (req: Request, res: Response) => {
-        try {
-            const tokensSet = await getIdPortenTokenSet(req);
-            log.info('Fikk TokenSet ' + tokensSet);
-        } catch (error) {
-            log.error('Kunne ikke hente token set', error);
-        }
+        const nonce = (req.session as any).nonce;
+        const state = (req.session as any).state;
+
+        console.log(JSON.stringify(req.session));
+        // console.log('state: ' + state);
+
+        // try {
+        //     const tokensSet = await getIdPortenTokenSet(req);
+        //     log.info('Fikk TokenSet ' + tokensSet);
+        // } catch (error) {
+        //     log.error('Kunne ikke hente token set', error);
+        // }
     });
 
     server.get(`${BASE_PATH}/internal/isAlive`, (req: Request, res: Response) =>
