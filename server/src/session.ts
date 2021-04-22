@@ -32,7 +32,6 @@ const setupRedis = () => {
 
     const client = redis.createClient({
         db: 1,
-        // TODO
         host: 'tilretteleggingsbehov-innsyn-redis.arbeidsgiver.svc.cluster.local',
         password: process.env.REDIS_PASSWORD,
         port: 6379,
