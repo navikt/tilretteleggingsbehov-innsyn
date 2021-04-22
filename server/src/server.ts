@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
-import { authUrl, getIdPortenTokenSet, initIdPortenIssuer } from './auth';
+import { authUrl, getIdPortenTokenSet, initIdPortenIssuer, oppdaterToken } from './auth';
 import { generators, TokenSet } from 'openid-client';
 import { setupSession } from './session';
 import { log } from './logging';
 import { Session } from 'express-session';
+import { loggers } from 'winston';
 
 const path = require('path');
 const express = require('express');
@@ -43,6 +44,34 @@ const startServer = async (/*html: string*/) => {
         req.session.state = state;
 
         res.redirect(authUrl(nonce, state));
+    });
+
+    server.use(async (req: RequestMedSession, res: Response, next: () => void) => {
+        let currentTokens = req.session.tokenSet;
+
+        if (!currentTokens) {
+            res.redirect(`${BASE_PATH}/login`);
+        } else {
+            const currentTokenSet = new TokenSet(currentTokens);
+
+            if (currentTokenSet.expired() && currentTokenSet.refresh_token) {
+                log.debug('Oppdaterer utløpt token');
+
+                try {
+                    const oppdatertTokenSet = await oppdaterToken(currentTokenSet.refresh_token);
+                    req.session.tokenSet = new TokenSet(oppdatertTokenSet);
+                } catch (error) {
+                    log.error('Kunne ikke oppdatere utløpt token:', error);
+                    req.session.destroy((error) => {
+                        log.error('Klarte ikke å slette utløpt token:', error);
+                    });
+
+                    res.redirect(`${BASE_PATH}/login`);
+                }
+            }
+
+            next();
+        }
     });
 
     server.get(`${BASE_PATH}/oauth2/callback`, async (req: RequestMedSession, res: Response) => {

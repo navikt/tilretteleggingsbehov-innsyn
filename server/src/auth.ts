@@ -57,3 +57,13 @@ export const getIdPortenTokenSet = async (req: RequestMedSession): Promise<Token
 
     return await idportenClient.callback(redirectUri, params, { nonce, state }, additionalClaims);
 };
+
+export const oppdaterToken = async (refreshToken: string) => {
+    const additionalClaims = {
+        clientAssertionPayload: {
+            aud: idportenIssuerName,
+        },
+    };
+
+    return await idportenClient.refresh(refreshToken, additionalClaims);
+};
