@@ -47,8 +47,8 @@ export const authUrl = (nonce: string, state: string) =>
 
 export const getIdPortenTokenSet = async (req: RequestMedSession): Promise<TokenSet> => {
     const params = idportenClient.callbackParams(req);
-    const nonce = req.session.nonce;
-    const state = req.session.state;
+    const nonce = req.session.nonce!;
+    const state = req.session.state!;
     const additionalClaims = {
         clientAssertionPayload: {
             aud: idportenIssuerName,
