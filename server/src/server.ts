@@ -20,7 +20,7 @@ const buildPath = path.join(__dirname, '../../build');
 const server = express();
 
 export type RequestMedSession = Request & {
-    session: Session & { nonce: string; state: string; tokenSet: TokenSet };
+    session: Session & { nonce: string | null; state: string | null; tokenSet: TokenSet | null };
 };
 
 const startServer = async (html: string) => {
@@ -46,15 +46,23 @@ const startServer = async (html: string) => {
 
     server.get(`${BASE_PATH}/oauth2/callback`, async (req: RequestMedSession, res: Response) => {
         try {
-            const tokensSet = await getIdPortenTokenSet(req);
-            // TODO: Fjern logging
-            log.info('Fikk TokenSet ' + JSON.stringify(tokensSet));
+            const session = req.session;
+            const tokenSet = await getIdPortenTokenSet(req);
 
-            // TODO
-            // reset nonce og state
-            // lagre token i session
-            // sende cookie med id_token
-            // redirect til riktig sted
+            // TODO: Fjern logging
+            log.info('Fikk TokenSet ' + JSON.stringify(tokenSet));
+
+            session.nonce = null;
+            session.state = null;
+            session.tokenSet = tokenSet;
+
+            res.cookie('tilretteleggingsbehov-innsyn-id-token', tokenSet.id_token, {
+                secure: true,
+                sameSite: 'lax',
+                maxAge: 2 * 60 * 60 * 1000, // 2 timer
+            });
+
+            res.redirect(BASE_PATH);
         } catch (error) {
             log.error('Kunne ikke hente token set', error);
         }
