@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { authUrl, getIdPortenTokenSet, init } from './auth';
+import { authUrl, getIdPortenTokenSet, initIdPortenIssuer } from './auth';
 import { generators } from 'openid-client';
 import { setupSession } from './session';
 import { log } from './logging';
@@ -47,8 +47,8 @@ const setupHeaders = (app: any) => {
 };
 
 const startServer = async (html: string) => {
-    // await init();
-    server.set('trust proxy', 1);
+    await initIdPortenIssuer();
+    // server.set('trust proxy', 1);
     // setupHeaders(server);
     // server.use(cookieParser('secret'));
     server.use(setupSession());
@@ -63,23 +63,17 @@ const startServer = async (html: string) => {
         const state = generators.state();
         (req.session as any).nonce = nonce;
         (req.session as any).state = state;
-        res.redirect(`${BASE_PATH}/oauth2/callback`);
-        // res.redirect(authUrl(nonce, state));
+        // res.redirect(`${BASE_PATH}/oauth2/callback`);
+        res.redirect(authUrl(nonce, state));
     });
 
     server.get(`${BASE_PATH}/oauth2/callback`, async (req: Request, res: Response) => {
-        const nonce = (req.session as any).nonce;
-        const state = (req.session as any).state;
-
-        console.log('Session:', JSON.stringify(req.session));
-        // console.log('state: ' + state);
-
-        // try {
-        //     const tokensSet = await getIdPortenTokenSet(req);
-        //     log.info('Fikk TokenSet ' + tokensSet);
-        // } catch (error) {
-        //     log.error('Kunne ikke hente token set', error);
-        // }
+        try {
+            const tokensSet = await getIdPortenTokenSet(req);
+            log.info('Fikk TokenSet ' + tokensSet);
+        } catch (error) {
+            log.error('Kunne ikke hente token set', error);
+        }
     });
 
     server.get(`${BASE_PATH}/internal/isAlive`, (req: Request, res: Response) =>

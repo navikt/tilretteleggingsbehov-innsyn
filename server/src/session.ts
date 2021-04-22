@@ -9,9 +9,9 @@ const RedisStore = require('connect-redis')(session);
 export const setupSession = () => {
     const options: SessionOptions = {
         cookie: {
-            // maxAge: 2 * 60 * 60 * 1000, // To timer
+            maxAge: 2 * 60 * 60 * 1000, // To timer
             sameSite: 'lax',
-            // httpOnly: true,
+            httpOnly: true,
         },
         secret: 'secret', // TODO
         resave: false,
@@ -21,7 +21,7 @@ export const setupSession = () => {
 
     // TODO
     // if (process.env.NAIS_CLUSTER_NAME) {
-    // options.cookie!.secure = true;
+    options.cookie!.secure = true;
     options.store = setupRedis();
     // }
     return session(options);
@@ -32,10 +32,9 @@ const setupRedis = () => {
 
     const client = redis.createClient({
         db: 1,
-        host: 'localhost',
         // TODO
-        // host: 'tilretteleggingsbehov-innsyn-redis.arbeidsgiver.svc.cluster.local',
-        // password: process.env.REDIS_PASSWORD,
+        host: 'tilretteleggingsbehov-innsyn-redis.arbeidsgiver.svc.cluster.local',
+        password: process.env.REDIS_PASSWORD,
         port: 6379,
     });
 

@@ -11,7 +11,7 @@ const idPortenScope = 'openid profile';
 let idportenClient: Client;
 let idportenIssuerName: String;
 
-export const init = async () => {
+export const initIdPortenIssuer = async () => {
     const idportenIssuer = await Issuer.discover(discoveryUrl);
     idportenIssuerName = idportenIssuer.metadata.issuer;
     try {
