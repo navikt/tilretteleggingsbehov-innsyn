@@ -88,16 +88,16 @@ const renderAppMedDekoratør = (): Promise<string> => {
     return injectDecoratorServerSide({ env, filePath: `${buildPath}/index.html` });
 };
 
-const logError = (feil: string) => (error: string) => {
-    log.error(feil);
-    log.error(error);
-
-    process.exit(1);
-};
-
-const initialiserServer = () => {
+const initialiserServer = async () => {
     log.info('Initialiserer server ...');
-    renderAppMedDekoratør().then(startServer, logError('Kunne ikke rendre app!'));
+
+    try {
+        const html = await renderAppMedDekoratør();
+        startServer(html);
+    } catch (error) {
+        log.error('Kunne ikke rendre app:', error);
+        process.exit(1);
+    }
 };
 
 initialiserServer();
