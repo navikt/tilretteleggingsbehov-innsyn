@@ -29,3 +29,4 @@ spec:
         - host: dekoratoren.nav.no
   envFrom:
     - secret: tilretteleggingsbehov-innsyn-redis-password
+    - secret: tilretteleggingsbehov-innsyn-session-secret

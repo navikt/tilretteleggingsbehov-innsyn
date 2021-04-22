@@ -2,9 +2,7 @@ import session, { SessionOptions } from 'express-session';
 import redis from 'redis';
 import { log } from './logging';
 
-/* tslint:disable */
 const RedisStore = require('connect-redis')(session);
-/* tslint:enable */
 
 export const setupSession = () => {
     const options: SessionOptions = {
@@ -13,7 +11,7 @@ export const setupSession = () => {
             sameSite: 'lax',
             httpOnly: true,
         },
-        secret: 'secret', // TODO
+        secret: process.env.SESSION_SECRET!,
         resave: false,
         name: 'tilretteleggingsbehov-innsyn',
         saveUninitialized: false,

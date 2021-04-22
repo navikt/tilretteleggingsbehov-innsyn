@@ -38,3 +38,4 @@ spec:
     sessionLifetime: 7200
   envFrom:
     - secret: tilretteleggingsbehov-innsyn-redis-password
+    - secret: tilretteleggingsbehov-innsyn-session-secret
