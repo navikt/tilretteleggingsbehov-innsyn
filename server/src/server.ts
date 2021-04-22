@@ -48,7 +48,7 @@ const setupHeaders = (app: any) => {
 
 const startServer = async (html: string) => {
     await initIdPortenIssuer();
-    server.set('trust proxy', 1);
+    // server.set('trust proxy', 1);
     setupHeaders(server);
     server.use(cookieParser('secret'));
     server.use(setupSession());

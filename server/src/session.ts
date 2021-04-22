@@ -19,8 +19,8 @@ export const setupSession = () => {
         saveUninitialized: false,
     };
 
-    // TODO
     // if (process.env.NAIS_CLUSTER_NAME) {
+    // TODO Prøv uten denne
     options.cookie!.secure = true;
     options.store = setupRedis();
     // }
