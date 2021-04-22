@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { authUrl, getIdPortenTokenSet, initIdPortenIssuer } from './auth';
-import { generators } from 'openid-client';
+import { generators, TokenSet } from 'openid-client';
 import { setupSession } from './session';
 import { log } from './logging';
+import { Session } from 'express-session';
 
 const path = require('path');
 const express = require('express');
@@ -18,6 +19,10 @@ const LOGIN_URL = process.env.LOGIN_URL || LOCAL_LOGIN_WITH_REDIRECT;
 const buildPath = path.join(__dirname, '../../build');
 const server = express();
 
+export type RequestMedSession = Request & {
+    session: Session & { nonce: string; state: string; tokenSet: TokenSet };
+};
+
 const startServer = async (html: string) => {
     await initIdPortenIssuer();
 
@@ -30,19 +35,26 @@ const startServer = async (html: string) => {
         res.send(html);
     });
 
-    server.get(`${BASE_PATH}/login`, (req: Request, res: Response) => {
+    server.get(`${BASE_PATH}/login`, (req: RequestMedSession, res: Response) => {
         const nonce = generators.nonce();
         const state = generators.state();
-        (req.session as any).nonce = nonce;
-        (req.session as any).state = state;
+        req.session.nonce = nonce;
+        req.session.state = state;
 
         res.redirect(authUrl(nonce, state));
     });
 
-    server.get(`${BASE_PATH}/oauth2/callback`, async (req: Request, res: Response) => {
+    server.get(`${BASE_PATH}/oauth2/callback`, async (req: RequestMedSession, res: Response) => {
         try {
             const tokensSet = await getIdPortenTokenSet(req);
-            log.info('Fikk TokenSet ' + tokensSet);
+            // TODO: Fjern logging
+            log.info('Fikk TokenSet ' + JSON.stringify(tokensSet));
+
+            // TODO
+            // reset nonce og state
+            // lagre token i session
+            // sende cookie med id_token
+            // redirect til riktig sted
         } catch (error) {
             log.error('Kunne ikke hente token set', error);
         }

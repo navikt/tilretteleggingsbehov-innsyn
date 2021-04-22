@@ -1,6 +1,7 @@
 import { Client, Issuer, TokenSet } from 'openid-client';
 import { Request } from 'express';
 import { log } from './logging';
+import { RequestMedSession } from './server';
 
 const discoveryUrl = process.env.IDPORTEN_WELL_KNOWN_URL!;
 const clientId = process.env.IDPORTEN_CLIENT_ID!;
@@ -44,18 +45,15 @@ export const authUrl = (nonce: string, state: string) =>
         acr_valus: 'Level4',
     });
 
-export const getIdPortenTokenSet = async (req: Request): Promise<TokenSet> => {
+export const getIdPortenTokenSet = async (req: RequestMedSession): Promise<TokenSet> => {
     const params = idportenClient.callbackParams(req);
-    const nonce = (req.session as any).nonce;
-    const state = (req.session as any).state;
-
-    log.info('nonce: ' + nonce);
-    log.info('state: ' + state);
-
+    const nonce = req.session.nonce;
+    const state = req.session.state;
     const additionalClaims = {
         clientAssertionPayload: {
             aud: idportenIssuerName,
         },
     };
+
     return await idportenClient.callback(redirectUri, params, { nonce, state }, additionalClaims);
 };
