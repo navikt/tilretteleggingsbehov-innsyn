@@ -1,51 +1,52 @@
 import session, { SessionOptions } from 'express-session';
 import redis from 'redis';
-import RedisStore from 'connect-redis';
 import { log } from './logging';
+
+/* tslint:disable */
+const RedisStore = require('connect-redis')(session);
+/* tslint:enable */
 
 export const setupSession = () => {
     const options: SessionOptions = {
         cookie: {
-            maxAge: 2 * 60 * 60 * 1000, // To timer
+            // maxAge: 2 * 60 * 60 * 1000, // To timer
             sameSite: 'lax',
-            httpOnly: true,
+            // httpOnly: true,
         },
         secret: 'secret', // TODO
-        name: 'tilretteleggingsbehov-innsyn',
         resave: false,
+        name: 'tilretteleggingsbehov-innsyn',
         saveUninitialized: false,
-        unset: 'destroy',
     };
 
     // TODO
     // if (process.env.NAIS_CLUSTER_NAME) {
-    options.cookie!.secure = true;
+    // options.cookie!.secure = true;
     options.store = setupRedis();
     // }
     return session(options);
 };
 
 const setupRedis = () => {
-    const store = RedisStore(session);
-    const options = {
+    log.info('Setter opp redis');
+
+    const client = redis.createClient({
+        db: 1,
         host: 'localhost',
         // TODO
         // host: 'tilretteleggingsbehov-innsyn-redis.arbeidsgiver.svc.cluster.local',
         // password: process.env.REDIS_PASSWORD,
         port: 6379,
-    };
-    const client = redis.createClient(options);
+    });
+
     client.unref();
 
-    // todo
-    // client.on('debug', log.debug);
-    // client.on('error', log.error);
+    client.on('info', log.info);
+    client.on('debug', log.debug);
+    client.on('error', log.error);
 
-    // client.on('debug', console.log);
-    client.on('error', console.log);
-
-    return new store({
-        client: client,
+    return new RedisStore({
+        client,
         disableTouch: true,
     });
 };

@@ -19,8 +19,38 @@ const LOGIN_URL = process.env.LOGIN_URL || LOCAL_LOGIN_WITH_REDIRECT;
 const buildPath = path.join(__dirname, '../../build');
 const server = express();
 
+const setupHeaders = (app: any) => {
+    const cspString = `default-src 'self'; upgrade-insecure-requests; block-all-mixed-content; base-uri; plugin-types`;
+
+    app.disable('x-powered-by');
+    app.use((req: any, res: any, next: any) => {
+        res.header('X-Frame-Options', 'DENY');
+        res.header('X-Xss-Protection', '1; mode=block');
+        res.header('X-Content-Type-Options', 'nosniff');
+        res.header('Referrer-Policy', 'no-referrer');
+
+        res.header('Content-Security-Policy', cspString);
+        res.header('X-WebKit-CSP', cspString);
+        res.header('X-Content-Security-Policy', cspString);
+
+        res.header('Feature-Policy', "geolocation 'none'; microphone 'none'; camera 'none'");
+        if (process.env.NODE_ENV === 'development') {
+            res.header('Access-Control-Allow-Origin', 'http://localhost:1234');
+            res.header(
+                'Access-Control-Allow-Headers',
+                'Origin, X-Requested-With, Content-Type, Accept'
+            );
+            res.header('Access-Control-Allow-Methods', 'GET, POST');
+        }
+        next();
+    });
+};
+
 const startServer = async (html: string) => {
     // await init();
+    server.set('trust proxy', 1);
+    // setupHeaders(server);
+    // server.use(cookieParser('secret'));
     server.use(setupSession());
 
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
@@ -33,10 +63,7 @@ const startServer = async (html: string) => {
         const state = generators.state();
         (req.session as any).nonce = nonce;
         (req.session as any).state = state;
-
         res.redirect(`${BASE_PATH}/oauth2/callback`);
-
-        // TODO
         // res.redirect(authUrl(nonce, state));
     });
 
@@ -44,7 +71,7 @@ const startServer = async (html: string) => {
         const nonce = (req.session as any).nonce;
         const state = (req.session as any).state;
 
-        console.log(JSON.stringify(req.session));
+        console.log('Session:', JSON.stringify(req.session));
         // console.log('state: ' + state);
 
         // try {
@@ -84,8 +111,6 @@ const logError = (feil: string) => (error: string) => {
 
 const initialiserServer = () => {
     log.info('Initialiserer server ...');
-    server.use(cookieParser());
-
     renderAppMedDekoratør().then(startServer, logError('Kunne ikke rendre app!'));
 };
 
