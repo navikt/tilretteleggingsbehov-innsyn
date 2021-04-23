@@ -6,7 +6,8 @@ metadata:
   labels:
     team: arbeidsgiver
 spec:
-  image: { { image } }
+  # prettier-ignore
+  image: {{ image }}
   port: 3000
   ingresses:
     - https://www.nav.no/person/behov-for-tilrettelegging
