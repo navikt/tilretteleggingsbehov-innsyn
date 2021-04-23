@@ -6,7 +6,7 @@ metadata:
   labels:
     team: arbeidsgiver
 spec:
-  image: {{ image }}
+  image: { { image } }
   port: 3000
   ingresses:
     - https://www.nav.no/person/behov-for-tilrettelegging
@@ -16,11 +16,6 @@ spec:
   readiness:
     initialDelay: 5
     path: /person/behov-for-tilrettelegging/internal/isReady
-  env:
-    - name: LOGIN_URL
-      value: https://loginservice.nav.no/login?redirect=https://www.nav.no/person/behov-for-tilrettelegging
-    - name: APIGW_URL
-      value: https://api-gw.oera.no
   accessPolicy:
     outbound:
       rules:

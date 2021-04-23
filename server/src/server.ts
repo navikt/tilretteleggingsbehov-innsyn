@@ -1,30 +1,24 @@
+import path from 'path';
 import { Request, Response } from 'express';
-import { authUrl, getIdPortenTokenSet, initIdPortenIssuer, oppdaterToken } from './auth';
+import { Session } from 'express-session';
 import { generators, TokenSet } from 'openid-client';
+import { injectDecoratorServerSide } from '@navikt/nav-dekoratoren-moduler/ssr';
+import { authUrl, getIdPortenTokenSet, initIdPortenIssuer, oppdaterToken } from './auth';
 import { setupSession } from './session';
 import { log } from './logging';
-import { Session } from 'express-session';
-import { loggers } from 'winston';
-
-const path = require('path');
-const express = require('express');
-const { injectDecoratorServerSide } = require('@navikt/nav-dekoratoren-moduler/ssr');
 
 const PORT = 3000;
-
 const BASE_PATH = '/person/behov-for-tilrettelegging';
-const LOCAL_LOGIN_URL = 'http://localhost:8080/finn-kandidat-api/local/selvbetjening-login';
-const LOCAL_LOGIN_WITH_REDIRECT = `${LOCAL_LOGIN_URL}?redirect=http://localhost:${PORT}${BASE_PATH}/`;
-
-const LOGIN_URL = process.env.LOGIN_URL || LOCAL_LOGIN_WITH_REDIRECT;
 const buildPath = path.join(__dirname, '../../build');
+
+const express = require('express');
 const server = express();
 
 export type RequestMedSession = Request & {
     session: Session & { nonce: string | null; state: string | null; tokenSet: TokenSet | null };
 };
 
-const startServer = async (/*html: string*/) => {
+const startServer = async (html: string) => {
     await initIdPortenIssuer();
 
     // Trenger denne for å kunne autentisere mot ID-Porten
@@ -32,10 +26,16 @@ const startServer = async (/*html: string*/) => {
 
     server.use(setupSession());
 
+    server.get(
+        [`${BASE_PATH}/internal/isAlive`, `${BASE_PATH}/internal/isReady`],
+        (req: Request, res: Response) => res.sendStatus(200)
+    );
+
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
-    // server.get(BASE_PATH, (req: Request, res: Response) => {
-    //     res.send(html);
-    // });
+
+    server.get(BASE_PATH, (req: Request, res: Response) => {
+        res.send(html);
+    });
 
     server.get(`${BASE_PATH}/login`, (req: RequestMedSession, res: Response) => {
         log.info('Login');
@@ -117,34 +117,22 @@ const startServer = async (/*html: string*/) => {
         }
     });
 
-    server.get(`${BASE_PATH}/internal/isAlive`, (req: Request, res: Response) =>
-        res.sendStatus(200)
-    );
-    server.get(`${BASE_PATH}/internal/isReady`, (req: Request, res: Response) =>
-        res.sendStatus(200)
-    );
-    server.get(`${BASE_PATH}/redirect-til-login`, (_: Request, res: Response) => {
-        res.redirect(LOGIN_URL);
-    });
-
     server.listen(PORT, () => {
         log.info('Server kjører på port ' + PORT);
     });
 };
 
-/*
 const renderAppMedDekoratør = (): Promise<string> => {
     const env = process.env.NAIS_CLUSTER_NAME === 'prod-gcp' ? 'prod' : 'dev';
     return injectDecoratorServerSide({ env, filePath: `${buildPath}/index.html` });
 };
-*/
 
 const initialiserServer = async () => {
     log.info('Initialiserer server ...');
 
     try {
-        // const html = await renderAppMedDekoratør();
-        startServer();
+        const html = await renderAppMedDekoratør();
+        startServer(html);
     } catch (error) {
         log.error('Kunne ikke rendre app:', error);
         process.exit(1);
