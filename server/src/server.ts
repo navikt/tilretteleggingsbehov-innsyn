@@ -124,7 +124,8 @@ const startServer = async (html: string) => {
 
 const renderAppMedDekoratør = (): Promise<string> => {
     const env = process.env.NAIS_CLUSTER_NAME === 'prod-gcp' ? 'prod' : 'dev';
-    return injectDecoratorServerSide({ env, filePath: `${buildPath}/index.html` });
+    return injectDecoratorServerSide({ filePath: `${buildPath}/index.html`, env });
+    // return injectDecoratorServerSide({ env, filePath: `${buildPath}/index.html` });
 };
 
 const initialiserServer = async () => {
@@ -132,7 +133,7 @@ const initialiserServer = async () => {
 
     try {
         const html = await renderAppMedDekoratør();
-        await startServer(html);
+        startServer(html);
     } catch (error) {
         log.error('Kunne ikke rendre app:', error);
         process.exit(1);
