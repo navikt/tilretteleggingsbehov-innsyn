@@ -38,6 +38,8 @@ const startServer = async (/*html: string*/) => {
     // });
 
     server.get(`${BASE_PATH}/login`, (req: RequestMedSession, res: Response) => {
+        log.info('Login');
+
         const nonce = generators.nonce();
         const state = generators.state();
         req.session.nonce = nonce;
@@ -47,15 +49,18 @@ const startServer = async (/*html: string*/) => {
     });
 
     server.use(async (req: RequestMedSession, res: Response, next: () => void) => {
+        log.info('Check auth');
+
         let currentTokens = req.session.tokenSet;
 
         if (!currentTokens) {
+            log.info('Har ikke token i session, redirecter til login');
             res.redirect(`${BASE_PATH}/login`);
         } else {
             const currentTokenSet = new TokenSet(currentTokens);
 
             if (currentTokenSet.expired() && currentTokenSet.refresh_token) {
-                log.debug('Oppdaterer utløpt token');
+                log.info('Oppdaterer utløpt token');
 
                 try {
                     const oppdatertTokenSet = await oppdaterToken(currentTokenSet.refresh_token);
@@ -68,6 +73,8 @@ const startServer = async (/*html: string*/) => {
 
                     res.redirect(`${BASE_PATH}/login`);
                 }
+            } else {
+                log.info('Fant gyldig token i session');
             }
 
             next();
@@ -75,6 +82,8 @@ const startServer = async (/*html: string*/) => {
     });
 
     server.get(`${BASE_PATH}/oauth2/callback`, async (req: RequestMedSession, res: Response) => {
+        log.info('Callback');
+
         try {
             const session = req.session;
             const tokenSet = await getIdPortenTokenSet(req);
@@ -92,6 +101,7 @@ const startServer = async (/*html: string*/) => {
                 maxAge: 2 * 60 * 60 * 1000, // 2 timer
             });
 
+            log.info('Har fått token, redirecter tilbake til base path');
             res.redirect(BASE_PATH);
         } catch (error) {
             log.error('Kunne ikke hente token set', error);
