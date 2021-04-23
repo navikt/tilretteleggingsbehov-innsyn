@@ -6,6 +6,7 @@ import { injectDecoratorServerSide } from '@navikt/nav-dekoratoren-moduler/ssr';
 import { authUrl, getIdPortenTokenSet, initIdPortenIssuer, oppdaterToken } from './auth';
 import { setupSession } from './session';
 import { log } from './logging';
+import { start } from 'repl';
 
 const PORT = 3000;
 const BASE_PATH = '/person/behov-for-tilrettelegging';
@@ -122,22 +123,17 @@ const startServer = async (html: string) => {
     });
 };
 
-const renderAppMedDekoratør = (): Promise<string> => {
-    const env = process.env.NAIS_CLUSTER_NAME === 'prod-gcp' ? 'prod' : 'dev';
-    return injectDecoratorServerSide({ filePath: `${buildPath}/index.html`, env });
-    // return injectDecoratorServerSide({ env, filePath: `${buildPath}/index.html` });
-};
-
 const initialiserServer = async () => {
-    log.info('Initialiserer server ...');
+    const env = process.env.NAIS_CLUSTER_NAME === 'prod-gcp' ? 'prod' : 'dev';
 
-    try {
-        const html = await renderAppMedDekoratør();
-        startServer(html);
-    } catch (error) {
-        log.error('Kunne ikke rendre app:', error);
-        process.exit(1);
-    }
+    injectDecoratorServerSide({ env, filePath: `${buildPath}/index.html` })
+        .then((html) => {
+            startServer(html);
+        })
+        .catch((error) => {
+            log.error('Kunne ikke rendre app:', error);
+            process.exit(1);
+        });
 };
 
 initialiserServer();
