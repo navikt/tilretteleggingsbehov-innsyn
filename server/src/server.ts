@@ -132,7 +132,7 @@ const initialiserServer = async () => {
 
     try {
         const html = await renderAppMedDekoratør();
-        startServer(html);
+        await startServer(html);
     } catch (error) {
         log.error('Kunne ikke rendre app:', error);
         process.exit(1);
