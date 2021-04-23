@@ -49,6 +49,15 @@ const startServer = async (/*html: string*/) => {
     });
 
     server.use(async (req: RequestMedSession, res: Response, next: () => void) => {
+        const kreverIngenInnlogging = [
+            `${BASE_PATH}/login`,
+            `${BASE_PATH}/oauth2/callback`,
+            `${BASE_PATH}/internal/isAlive`,
+            `${BASE_PATH}/internal/isReady`,
+        ];
+
+        if (kreverIngenInnlogging.includes(req.path)) return next();
+
         log.info('Check auth');
 
         let currentTokens = req.session.tokenSet;

@@ -11,7 +11,7 @@ export const setupSession = () => {
             sameSite: 'lax',
             httpOnly: true,
         },
-        secret: process.env.SESSION_SECRET!,
+        secret: process.env.NAIS_CLUSTER_NAME ? process.env.SESSION_SECRET! : 'en secret',
         resave: false,
         name: 'tilretteleggingsbehov-innsyn',
         saveUninitialized: false,
