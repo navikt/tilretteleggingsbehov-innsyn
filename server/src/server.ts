@@ -125,7 +125,6 @@ const startServer = async (html: string) => {
 const renderAppMedDekoratør = (): Promise<string> => {
     const env = process.env.NAIS_CLUSTER_NAME === 'prod-gcp' ? 'prod' : 'dev';
     return injectDecoratorServerSide({ filePath: `${buildPath}/index.html`, env });
-    // return injectDecoratorServerSide({ env, filePath: `${buildPath}/index.html` });
 };
 
 const initialiserServer = async () => {
