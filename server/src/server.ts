@@ -5,6 +5,7 @@ import { TokenSet } from 'openid-client';
 import { injectDecoratorServerSide } from '@navikt/nav-dekoratoren-moduler/ssr';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import * as idPortenClient from './idPortenClient';
+import * as tokendingsClient from './tokenDingsClient';
 import { setupSession } from './session';
 import { log } from './logging';
 import {
@@ -20,12 +21,19 @@ const tilretteleggingsbehovApiUrl = process.env.FINN_KANDIDAT_API!;
 const buildPath = path.join(__dirname, '../../build');
 const server = express();
 
+export type SessionMedTokenSet = Session & {
+    nonce: string | null;
+    state: string | null;
+    tokenSet: TokenSet | null;
+};
+
 export type RequestMedSession = Request & {
-    session: Session & { nonce: string | null; state: string | null; tokenSet: TokenSet | null };
+    session: SessionMedTokenSet;
 };
 
 const startServer = async (html: string) => {
     await idPortenClient.init();
+    await tokendingsClient.init();
 
     // Trenger denne for å kunne autentisere mot ID-Porten
     server.set('trust proxy', 1);
@@ -70,9 +78,11 @@ const startServer = async (html: string) => {
     });
 };
 
-const brukAccessToken: RequestHandler = (req, res, next) => {
+const brukAccessToken: RequestHandler = async (req, res, next) => {
     // TODO: Hent access token for API
-    // Lag en tokenDings klient
+
+    const accessToken = await tokendingsClient.getAccessToken(req.session as SessionMedTokenSet);
+
     // Send HTTP request til tokenDings med de rette parametrene for å få access token
     //  Rette parametre er:
     // Feilhåndtering: Hvis tokenet vi sender ikke er ok - kan være et angrep

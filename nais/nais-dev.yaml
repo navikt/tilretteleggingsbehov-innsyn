@@ -23,6 +23,7 @@ spec:
         - application: tilretteleggingsbehov-innsyn-redis
       external:
         - host: dekoratoren.dev.nav.no
+        - host: finn-kandidat-api.dev-fss-pub.nais.io
   idporten:
     enabled: true
     clientURI: "https://nav.no"
@@ -35,6 +36,8 @@ spec:
   env:
     - name: FINN_KANDIDAT_API
       value: https://finn-kandidat-api.dev-fss-pub.nais.io/finn-kandidat-api
+    - name: FINN_KANDIDAT_API_CLIENT_ID
+      value: dev-fss:arbeidsgiver:finn-kandidat-api
   envFrom:
     - secret: tilretteleggingsbehov-innsyn-redis-password
     - secret: tilretteleggingsbehov-innsyn-session-secret
