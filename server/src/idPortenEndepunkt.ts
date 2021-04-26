@@ -1,8 +1,8 @@
-import { Response } from 'express';
-import { generators, TokenSet } from 'openid-client';
+import {Response} from 'express';
+import {generators, TokenSet} from 'openid-client';
 import * as idPortenClient from './idPortenClient';
-import { log } from './logging';
-import { RequestMedSession, BASE_PATH } from './server';
+import {log} from './logging';
+import {BASE_PATH, RequestMedSession} from './server';
 
 export const loginHosIdPorten = (req: RequestMedSession, res: Response) => {
     log.info('Login');
@@ -15,7 +15,7 @@ export const loginHosIdPorten = (req: RequestMedSession, res: Response) => {
     res.redirect(idPortenClient.getAuthorizationUrl(nonce, state));
 };
 
-export const sjekkAtLoggetInnHosIdPorten = async (
+export const sikreAtErLoggetInnHosIdPorten = async (
     req: RequestMedSession,
     res: Response,
     next: () => void

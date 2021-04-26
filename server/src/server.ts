@@ -8,7 +8,7 @@ import * as idPortenClient from './idPortenClient';
 import { setupSession } from './session';
 import { log } from './logging';
 import {
-    sjekkAtLoggetInnHosIdPorten,
+    sikreAtErLoggetInnHosIdPorten,
     idPortenCallbackEndepunkt,
     loginHosIdPorten,
 } from './idPortenEndepunkt';
@@ -49,7 +49,7 @@ const startServer = async (html: string) => {
         ];
 
         if (kreverIngenInnlogging.includes(req.path)) return next();
-        await sjekkAtLoggetInnHosIdPorten(req as any, res, next);
+        await sikreAtErLoggetInnHosIdPorten(req as any, res, next);
     });
 
     server.get(BASE_PATH, (req: Request, res: Response) => {
@@ -72,6 +72,10 @@ const startServer = async (html: string) => {
 
 const brukAccessToken: RequestHandler = (req, res, next) => {
     // TODO: Hent access token for API
+    // Lag en tokenDings klient
+    // Send HTTP request til tokenDings med de rette parametrene for å få access token
+    //  Rette parametre er:
+    // Feilhåndtering: Hvis tokenet vi sender ikke er ok - kan være et angrep
 };
 
 const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =>
