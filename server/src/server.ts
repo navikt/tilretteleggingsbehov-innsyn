@@ -78,9 +78,8 @@ const startServer = async (html: string) => {
                 }
             } else {
                 log.info('Fant gyldig token i session');
+                next();
             }
-
-            next();
         }
     });
 
