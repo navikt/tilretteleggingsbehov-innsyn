@@ -54,6 +54,6 @@ export const getAccessToken = async (session: SessionMedTokenSet): Promise<strin
     if (tokenSet.access_token) {
         return tokenSet.access_token;
     } else {
-        throw Error('Kunne ikke hente access token fra TokenDings');
+        throw new Error('Kunne ikke hente access token fra TokenDings');
     }
 };
