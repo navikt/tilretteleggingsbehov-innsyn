@@ -31,12 +31,6 @@ const startServer = async (html: string) => {
         (req: Request, res: Response) => res.sendStatus(200)
     );
 
-    server.use(BASE_PATH, express.static(buildPath, { index: false }));
-
-    server.get(BASE_PATH, (req: Request, res: Response) => {
-        res.send(html);
-    });
-
     server.get(`${BASE_PATH}/login`, (req: RequestMedSession, res: Response) => {
         log.info('Login');
 
@@ -89,6 +83,13 @@ const startServer = async (html: string) => {
             next();
         }
     });
+
+    server.get(BASE_PATH, (req: Request, res: Response) => {
+        console.log('Server HTML');
+        res.send(html);
+    });
+
+    server.use(BASE_PATH, express.static(buildPath, { index: false }));
 
     server.get(`${BASE_PATH}/oauth2/callback`, async (req: RequestMedSession, res: Response) => {
         log.info('Callback');
