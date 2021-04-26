@@ -33,6 +33,8 @@ spec:
       - "https://nav.no"
     accessTokenLifetime: 3600
     sessionLifetime: 7200
+  tokenx:
+    enabled: true
   env:
     - name: FINN_KANDIDAT_API
       value: https://finn-kandidat-api.prod-fss-pub.nais.io/finn-kandidat-api
