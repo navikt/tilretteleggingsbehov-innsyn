@@ -47,7 +47,9 @@ export const getAccessToken = async (session: SessionMedTokenSet): Promise<strin
         },
     };
 
-    log.info('Henter access token fra TokenDings. Bruker TokenSet: ' + session.tokenSet);
+    log.info(
+        'Henter access token fra TokenDings. Bruker TokenSet: ' + JSON.stringify(session.tokenSet)
+    );
 
     const tokenSet = await tokendingsClient.grant(
         {
