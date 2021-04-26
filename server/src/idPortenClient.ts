@@ -5,30 +5,28 @@ import { RequestMedSession } from './server';
 let idportenClient: Client;
 let idportenIssuerName: String;
 
-const idPortenConfig = {
+const config = {
     discoveryUrl: process.env.IDPORTEN_WELL_KNOWN_URL!,
     clientId: process.env.IDPORTEN_CLIENT_ID!,
     redirectUri: process.env.IDPORTEN_REDIRECT_URI!,
     jwk: process.env.IDPORTEN_CLIENT_JWK!,
 };
 
-export const initIdPortenIssuer = async () => {
-    const idportenIssuer = await Issuer.discover(idPortenConfig.discoveryUrl);
+export const init = async () => {
+    const idportenIssuer = await Issuer.discover(config.discoveryUrl);
     idportenIssuerName = idportenIssuer.metadata.issuer;
+
     try {
         idportenClient = new idportenIssuer.Client(
             {
-                client_id: idPortenConfig.clientId,
+                client_id: config.clientId,
                 token_endpoint_auth_method: 'private_key_jwt',
                 token_endpoint_auth_signing_alg: 'RS256',
-                redirect_uris: [
-                    idPortenConfig.redirectUri,
-                    'http://localhost:3000/oauth2/callback',
-                ],
+                redirect_uris: [config.redirectUri, 'http://localhost:3000/oauth2/callback'],
                 response_types: ['code'],
             },
             {
-                keys: [JSON.parse(idPortenConfig.jwk)],
+                keys: [JSON.parse(config.jwk)],
             }
         );
     } catch (err) {
@@ -36,12 +34,12 @@ export const initIdPortenIssuer = async () => {
     }
 };
 
-export const authUrl = (nonce: string, state: string) => {
+export const getAuthorizationUrl = (nonce: string, state: string): string => {
     const sikkerhetsnivå = 'Level4';
 
     return idportenClient.authorizationUrl({
         scope: 'openid profile',
-        redirect_uri: idPortenConfig.redirectUri,
+        redirect_uri: config.redirectUri,
         response_type: 'code',
         response_mode: 'query',
         nonce,
@@ -51,7 +49,7 @@ export const authUrl = (nonce: string, state: string) => {
     });
 };
 
-export const getIdPortenTokenSet = async (req: RequestMedSession): Promise<TokenSet> => {
+export const getTokenSet = async (req: RequestMedSession): Promise<TokenSet> => {
     const params = idportenClient.callbackParams(req);
     const nonce = req.session.nonce!;
     const state = req.session.state!;
@@ -62,7 +60,7 @@ export const getIdPortenTokenSet = async (req: RequestMedSession): Promise<Token
     };
 
     return await idportenClient.callback(
-        idPortenConfig.redirectUri,
+        config.redirectUri,
         params,
         { nonce, state },
         additionalClaims

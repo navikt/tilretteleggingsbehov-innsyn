@@ -21,6 +21,7 @@ export const setupSession = () => {
         options.cookie!.secure = true;
         options.store = setupRedis();
     }
+
     return session(options);
 };
 

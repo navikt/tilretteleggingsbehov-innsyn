@@ -1,14 +1,19 @@
 import path from 'path';
 import { Request, Response } from 'express';
 import { Session } from 'express-session';
-import { generators, TokenSet } from 'openid-client';
+import { TokenSet } from 'openid-client';
 import { injectDecoratorServerSide } from '@navikt/nav-dekoratoren-moduler/ssr';
-import { authUrl, getIdPortenTokenSet, initIdPortenIssuer, oppdaterToken } from './auth';
+import * as idPortenClient from './idPortenClient';
 import { setupSession } from './session';
 import { log } from './logging';
+import {
+    sjekkAtLoggetInnHosIdPorten,
+    idPortenCallbackEndepunkt,
+    loginHosIdPorten,
+} from './idPortenEndepunkt';
 
 const PORT = 3000;
-const BASE_PATH = '/person/behov-for-tilrettelegging';
+export const BASE_PATH = '/person/behov-for-tilrettelegging';
 const buildPath = path.join(__dirname, '../../build');
 
 const express = require('express');
@@ -19,7 +24,7 @@ export type RequestMedSession = Request & {
 };
 
 const startServer = async (html: string) => {
-    await initIdPortenIssuer();
+    await idPortenClient.init();
 
     // Trenger denne for å kunne autentisere mot ID-Porten
     server.set('trust proxy', 1);
@@ -31,16 +36,8 @@ const startServer = async (html: string) => {
         (req: Request, res: Response) => res.sendStatus(200)
     );
 
-    server.get(`${BASE_PATH}/login`, (req: RequestMedSession, res: Response) => {
-        log.info('Login');
-
-        const nonce = generators.nonce();
-        const state = generators.state();
-        req.session.nonce = nonce;
-        req.session.state = state;
-
-        res.redirect(authUrl(nonce, state));
-    });
+    server.get(`${BASE_PATH}/login`, loginHosIdPorten);
+    server.get(`${BASE_PATH}/oauth2/callback`, idPortenCallbackEndepunkt);
 
     server.use(async (req: RequestMedSession, res: Response, next: () => void) => {
         const kreverIngenInnlogging = [
@@ -51,36 +48,7 @@ const startServer = async (html: string) => {
         ];
 
         if (kreverIngenInnlogging.includes(req.path)) return next();
-
-        log.info('Check auth');
-
-        let currentTokens = req.session.tokenSet;
-
-        if (!currentTokens) {
-            log.info('Har ikke token i session, redirecter til login');
-            res.redirect(`${BASE_PATH}/login`);
-        } else {
-            const currentTokenSet = new TokenSet(currentTokens);
-
-            if (currentTokenSet.expired() && currentTokenSet.refresh_token) {
-                log.info('Oppdaterer utløpt token');
-
-                try {
-                    const oppdatertTokenSet = await oppdaterToken(currentTokenSet.refresh_token);
-                    req.session.tokenSet = new TokenSet(oppdatertTokenSet);
-                } catch (error) {
-                    log.error('Kunne ikke oppdatere utløpt token:', error);
-                    req.session.destroy((error) => {
-                        log.error('Klarte ikke å slette utløpt token:', error);
-                    });
-
-                    res.redirect(`${BASE_PATH}/login`);
-                }
-            } else {
-                log.info('Fant gyldig token i session');
-                next();
-            }
-        }
+        await sjekkAtLoggetInnHosIdPorten(req, res, next);
     });
 
     server.get(BASE_PATH, (req: Request, res: Response) => {
@@ -89,33 +57,6 @@ const startServer = async (html: string) => {
     });
 
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
-
-    server.get(`${BASE_PATH}/oauth2/callback`, async (req: RequestMedSession, res: Response) => {
-        log.info('Callback');
-
-        try {
-            const session = req.session;
-            const tokenSet = await getIdPortenTokenSet(req);
-
-            // TODO: Fjern logging
-            log.info('Fikk TokenSet ' + JSON.stringify(tokenSet));
-
-            session.nonce = null;
-            session.state = null;
-            session.tokenSet = tokenSet;
-
-            res.cookie('tilretteleggingsbehov-innsyn-id-token', tokenSet.id_token, {
-                secure: true,
-                sameSite: 'lax',
-                maxAge: 2 * 60 * 60 * 1000, // 2 timer
-            });
-
-            log.info('Har fått token, redirecter tilbake til base path');
-            res.redirect(BASE_PATH);
-        } catch (error) {
-            log.error('Kunne ikke hente token set', error);
-        }
-    });
 
     server.listen(PORT, () => {
         log.info('Server kjører på port ' + PORT);
@@ -127,7 +68,7 @@ const renderAppMedDekoratør = (): Promise<string> => {
     return injectDecoratorServerSide({ filePath: `${buildPath}/index.html`, env });
 };
 
-const initialiserServer = async () => {
+const hentDekoratørOgStartServer = async () => {
     log.info('Initialiserer server ...');
 
     try {
@@ -139,4 +80,4 @@ const initialiserServer = async () => {
     }
 };
 
-initialiserServer();
+hentDekoratørOgStartServer();
