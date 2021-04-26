@@ -47,6 +47,8 @@ export const getAccessToken = async (session: SessionMedTokenSet): Promise<strin
         },
     };
 
+    log.info('Henter access token fra TokenDings. Bruker TokenSet: ' + session.tokenSet);
+
     const tokenSet = await tokendingsClient.grant(
         {
             grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',
