@@ -32,6 +32,9 @@ spec:
       - "https://nav.no"
     accessTokenLifetime: 3600
     sessionLifetime: 7200
+  env:
+    - name: FINN_KANDIDAT_API
+      value: https://finn-kandidat-api.dev-fss-pub.nais.io/finn-kandidat-api
   envFrom:
     - secret: tilretteleggingsbehov-innsyn-redis-password
     - secret: tilretteleggingsbehov-innsyn-session-secret

@@ -23,6 +23,18 @@ spec:
         - application: tilretteleggingsbehov-innsyn-redis
       external:
         - host: dekoratoren.nav.no
+  idporten:
+    enabled: true
+    clientURI: "https://nav.no"
+    redirectPath: "/oauth2/callback"
+    frontchannelLogoutPath: "/oauth2/logout"
+    postLogoutRedirectURIs:
+      - "https://nav.no"
+    accessTokenLifetime: 3600
+    sessionLifetime: 7200
+  env:
+    - name: FINN_KANDIDAT_API
+      value: https://finn-kandidat-api.prod-fss-pub.nais.io/finn-kandidat-api
   envFrom:
     - secret: tilretteleggingsbehov-innsyn-redis-password
     - secret: tilretteleggingsbehov-innsyn-session-secret

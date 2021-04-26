@@ -1,8 +1,9 @@
 import path from 'path';
-import { Request, Response } from 'express';
+import express, { Request, RequestHandler, Response } from 'express';
 import { Session } from 'express-session';
 import { TokenSet } from 'openid-client';
 import { injectDecoratorServerSide } from '@navikt/nav-dekoratoren-moduler/ssr';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import * as idPortenClient from './idPortenClient';
 import { setupSession } from './session';
 import { log } from './logging';
@@ -12,11 +13,11 @@ import {
     loginHosIdPorten,
 } from './idPortenEndepunkt';
 
-const PORT = 3000;
+export const PORT = 3000;
 export const BASE_PATH = '/person/behov-for-tilrettelegging';
-const buildPath = path.join(__dirname, '../../build');
 
-const express = require('express');
+const tilretteleggingsbehovApiUrl = process.env.FINN_KANDIDAT_API!;
+const buildPath = path.join(__dirname, '../../build');
 const server = express();
 
 export type RequestMedSession = Request & {
@@ -36,10 +37,10 @@ const startServer = async (html: string) => {
         (req: Request, res: Response) => res.sendStatus(200)
     );
 
-    server.get(`${BASE_PATH}/login`, loginHosIdPorten);
-    server.get(`${BASE_PATH}/oauth2/callback`, idPortenCallbackEndepunkt);
+    server.get(`${BASE_PATH}/login`, loginHosIdPorten as any);
+    server.get(`${BASE_PATH}/oauth2/callback`, idPortenCallbackEndepunkt as any);
 
-    server.use(async (req: RequestMedSession, res: Response, next: () => void) => {
+    server.use(async (req: Request, res: Response, next: () => void) => {
         const kreverIngenInnlogging = [
             `${BASE_PATH}/login`,
             `${BASE_PATH}/oauth2/callback`,
@@ -48,7 +49,7 @@ const startServer = async (html: string) => {
         ];
 
         if (kreverIngenInnlogging.includes(req.path)) return next();
-        await sjekkAtLoggetInnHosIdPorten(req, res, next);
+        await sjekkAtLoggetInnHosIdPorten(req as any, res, next);
     });
 
     server.get(BASE_PATH, (req: Request, res: Response) => {
@@ -58,10 +59,32 @@ const startServer = async (html: string) => {
 
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
 
+    server.get(
+        `${BASE_PATH}/tilretteleggingsbehov`,
+        brukAccessToken,
+        setupProxy(`${BASE_PATH}`, tilretteleggingsbehovApiUrl)
+    );
+
     server.listen(PORT, () => {
         log.info('Server kjører på port ' + PORT);
     });
 };
+
+const brukAccessToken: RequestHandler = (req, res, next) => {
+    // TODO: Hent access token for API
+};
+
+const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =>
+    createProxyMiddleware(fraPath, {
+        target: tilTarget,
+        changeOrigin: true,
+        secure: true,
+        pathRewrite: (path: string) => {
+            const nyPath = path.replace(fraPath, '');
+            console.log(`Proxy fra '${path}' til '${tilTarget + nyPath}'`);
+            return nyPath;
+        },
+    });
 
 const renderAppMedDekoratør = (): Promise<string> => {
     const env = process.env.NAIS_CLUSTER_NAME === 'prod-gcp' ? 'prod' : 'dev';
