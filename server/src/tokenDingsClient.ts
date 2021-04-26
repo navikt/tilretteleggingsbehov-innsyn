@@ -41,13 +41,22 @@ export const getAccessToken = async (session: SessionMedTokenSet): Promise<strin
     // -> lagre i session
     // returner
 
-    const tokenSet = await tokendingsClient.grant({
-        grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',
-        client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-        subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
-        audience: process.env.FINN_KANDIDAT_API_CLIENT_ID,
-        subject_token: session.tokenSet?.access_token,
-    });
+    const additionalClaims = {
+        clientAssertionPayload: {
+            nbf: Math.floor(Date.now() / 1000),
+        },
+    };
+
+    const tokenSet = await tokendingsClient.grant(
+        {
+            grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',
+            client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+            subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
+            audience: process.env.FINN_KANDIDAT_API_CLIENT_ID,
+            subject_token: session.tokenSet?.access_token,
+        },
+        additionalClaims
+    );
 
     log.info('TokenSet fra TokenDings: ' + JSON.stringify(tokenSet)); // TODO fjern
 
