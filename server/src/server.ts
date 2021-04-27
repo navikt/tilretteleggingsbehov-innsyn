@@ -79,13 +79,14 @@ const startServer = async (html: string) => {
 };
 
 const brukAccessToken: RequestHandler = async (req, res, next) => {
-    // TODO: Hent access token for API
-
     const accessToken = await tokendingsClient.getAccessToken(req.session as SessionMedTokenSet);
 
-    // Send HTTP request til tokenDings med de rette parametrene for å få access token
-    //  Rette parametre er:
-    // Feilhåndtering: Hvis tokenet vi sender ikke er ok - kan være et angrep
+    req.headers = {
+        ...req.headers,
+        Authorization: `Bearer ${accessToken}`,
+    };
+
+    next();
 };
 
 const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =>
