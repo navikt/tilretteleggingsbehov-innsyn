@@ -1,6 +1,6 @@
 import { Client, Issuer, TokenSet } from 'openid-client';
 import { log } from './logging';
-import { RequestMedSession } from './server';
+import { RequestMedSession } from './session';
 
 let idportenClient: Client;
 let idportenIssuerName: String;

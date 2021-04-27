@@ -1,8 +1,22 @@
-import session, { SessionOptions } from 'express-session';
+import session, { Session, SessionOptions } from 'express-session';
 import redis from 'redis';
 import { log } from './logging';
+import { TokenSetParameters } from 'openid-client';
+import { tokenSetSessionKey } from './tokenDingsClient';
+import { Request } from 'express';
 
 const RedisStore = require('connect-redis')(session);
+
+export type RequestMedSession = Request & {
+    session: SessionMedTokenSet;
+};
+
+export type SessionMedTokenSet = Session & {
+    nonce: string | null;
+    state: string | null;
+    tokenSet?: TokenSetParameters;
+    [tokenSetSessionKey]?: TokenSetParameters;
+};
 
 export const setupSession = () => {
     const options: SessionOptions = {

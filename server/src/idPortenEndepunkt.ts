@@ -2,7 +2,8 @@ import { Response } from 'express';
 import { generators, TokenSet } from 'openid-client';
 import * as idPortenClient from './idPortenClient';
 import { log } from './logging';
-import { BASE_PATH, RequestMedSession } from './server';
+import { BASE_PATH } from './server';
+import { RequestMedSession } from './session';
 
 export const loginHosIdPorten = (req: RequestMedSession, res: Response) => {
     log.info('Login');

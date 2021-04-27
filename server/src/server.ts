@@ -1,12 +1,10 @@
 import path from 'path';
 import express, { Request, RequestHandler, Response } from 'express';
-import { Session } from 'express-session';
-import { TokenSet } from 'openid-client';
 import { injectDecoratorServerSide } from '@navikt/nav-dekoratoren-moduler/ssr';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import * as idPortenClient from './idPortenClient';
 import * as tokendingsClient from './tokenDingsClient';
-import { setupSession } from './session';
+import { SessionMedTokenSet, setupSession } from './session';
 import { log } from './logging';
 import {
     sikreAtErLoggetInnHosIdPorten,
@@ -20,16 +18,6 @@ export const BASE_PATH = '/person/behov-for-tilrettelegging';
 const tilretteleggingsbehovApiUrl = process.env.FINN_KANDIDAT_API!;
 const buildPath = path.join(__dirname, '../../build');
 const server = express();
-
-export type SessionMedTokenSet = Session & {
-    nonce: string | null;
-    state: string | null;
-    tokenSet: TokenSet | null;
-};
-
-export type RequestMedSession = Request & {
-    session: SessionMedTokenSet;
-};
 
 const startServer = async (html: string) => {
     await idPortenClient.init();

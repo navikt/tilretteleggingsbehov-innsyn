@@ -1,6 +1,6 @@
-import { Client, Issuer } from 'openid-client';
+import { Client, Issuer, TokenSet } from 'openid-client';
 import { log } from './logging';
-import { SessionMedTokenSet } from './server';
+import { SessionMedTokenSet } from './session';
 
 let tokendingsClient: Client;
 let tokendingsIssuerName: String;
@@ -29,26 +29,23 @@ export const init = async () => {
     }
 };
 
-const tokenSetSessionKey = 'finn-kandidat-api_token-set';
+export const tokenSetSessionKey = 'finn-kandidat-api_token-set';
 
 export const getAccessToken = async (session: SessionMedTokenSet): Promise<string> => {
-    // sjekk session
-    // const cachedTokenSet: string = session[tokenSetSessionKey]
-    // har token som ikke er utgått -> returner
-    // ingen token
-    // -> hent token
-    // -> lagre i session
-    // returner
+    const cachedTokenSetString = session[tokenSetSessionKey];
+
+    if (cachedTokenSetString) {
+        const tokenSet = new TokenSet(cachedTokenSetString);
+        if (!tokenSet.expired() && tokenSet.access_token) {
+            return tokenSet.access_token;
+        }
+    }
 
     const additionalClaims = {
         clientAssertionPayload: {
             nbf: Math.floor(Date.now() / 1000),
         },
     };
-
-    log.info(
-        'Henter access token fra TokenDings. Bruker TokenSet: ' + JSON.stringify(session.tokenSet)
-    );
 
     try {
         const tokenSet = await tokendingsClient.grant(
@@ -61,9 +58,10 @@ export const getAccessToken = async (session: SessionMedTokenSet): Promise<strin
             },
             additionalClaims
         );
-        log.info('TokenSet fra TokenDings: ' + JSON.stringify(tokenSet)); // TODO fjern
 
         if (tokenSet.access_token) {
+            session[tokenSetSessionKey] = tokenSet;
+
             return tokenSet.access_token;
         } else {
             log.info('Ingen access_token i svar fra TokenDings');
