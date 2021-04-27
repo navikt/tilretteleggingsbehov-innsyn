@@ -68,7 +68,7 @@ const startServer = async (html: string) => {
     server.use(BASE_PATH, express.static(buildPath, { index: false }));
 
     server.get(
-        `${BASE_PATH}/tilretteleggingsbehov`,
+        [`${BASE_PATH}/tilretteleggingsbehov`, `${BASE_PATH}/oppfolgingsstatus`],
         brukAccessToken,
         setupProxy(`${BASE_PATH}`, tilretteleggingsbehovApiUrl)
     );
