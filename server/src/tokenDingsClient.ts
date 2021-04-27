@@ -37,7 +37,7 @@ export const getAccessToken = async (session: SessionMedTokenSet): Promise<strin
     if (cachedTokenSetString) {
         const tokenSet = new TokenSet(cachedTokenSetString);
         if (!tokenSet.expired() && tokenSet.access_token) {
-            log.info('Bruker access token fra cache');
+            log.info('Bruker access token fra cache:', tokenSet.access_token);
             return tokenSet.access_token;
         }
     }
