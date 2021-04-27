@@ -1,6 +1,5 @@
 import { Client, Issuer } from 'openid-client';
 import { log } from './logging';
-import { Session } from 'express-session';
 import { SessionMedTokenSet } from './server';
 
 let tokendingsClient: Client;
@@ -51,22 +50,27 @@ export const getAccessToken = async (session: SessionMedTokenSet): Promise<strin
         'Henter access token fra TokenDings. Bruker TokenSet: ' + JSON.stringify(session.tokenSet)
     );
 
-    const tokenSet = await tokendingsClient.grant(
-        {
-            grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',
-            client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-            subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
-            audience: process.env.FINN_KANDIDAT_API_CLIENT_ID,
-            subject_token: session.tokenSet?.access_token,
-        },
-        additionalClaims
-    );
+    try {
+        const tokenSet = await tokendingsClient.grant(
+            {
+                grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',
+                client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+                subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
+                audience: process.env.FINN_KANDIDAT_API_CLIENT_ID,
+                subject_token: session.tokenSet?.access_token,
+            },
+            additionalClaims
+        );
+        log.info('TokenSet fra TokenDings: ' + JSON.stringify(tokenSet)); // TODO fjern
 
-    log.info('TokenSet fra TokenDings: ' + JSON.stringify(tokenSet)); // TODO fjern
-
-    if (tokenSet.access_token) {
-        return tokenSet.access_token;
-    } else {
-        throw new Error('Kunne ikke hente access token fra TokenDings');
+        if (tokenSet.access_token) {
+            return tokenSet.access_token;
+        } else {
+            log.info('Ingen access_token i svar fra TokenDings');
+            throw new Error('Ingen access_token i svar fra TokenDings');
+        }
+    } catch (e) {
+        log.info('Kunne ikke hente token fra TokenDings');
+        throw new Error('Kunne ikke få svar fra TokenDings');
     }
 };
