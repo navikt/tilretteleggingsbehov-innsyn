@@ -70,7 +70,7 @@ export const getAccessToken = async (session: SessionMedTokenSet): Promise<strin
             throw new Error('Ingen access_token i svar fra TokenDings');
         }
     } catch (e) {
-        log.info('Kunne ikke hente token fra TokenDings');
+        log.info('Kunne ikke hente token fra TokenDings', e);
         throw new Error('Kunne ikke få svar fra TokenDings');
     }
 };
