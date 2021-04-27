@@ -60,6 +60,8 @@ export const getAccessToken = async (session: SessionMedTokenSet): Promise<strin
             additionalClaims
         );
 
+        log.info('Fikk token fra TokenDings: ' + JSON.stringify(tokenSet));
+
         if (tokenSet.access_token) {
             session[tokenSetSessionKey] = tokenSet;
 
