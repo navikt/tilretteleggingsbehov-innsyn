@@ -21,7 +21,7 @@ export const sikreAtErLoggetInnHosIdPorten = async (
     res: Response,
     next: () => void
 ) => {
-    log.info('Check auth');
+    log.info(`Check auth for URL: ${req.url}`);
 
     let currentTokens = req.session.tokenSet;
 
