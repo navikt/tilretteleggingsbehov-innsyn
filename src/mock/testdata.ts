@@ -13,7 +13,3 @@ export const enKandidat: Kandidat = {
     arbeidshverdagen: [Arbeidshverdagen.PersonligBistand],
     utfordringerMedNorsk: [UtfordringerMedNorsk.Skrive, UtfordringerMedNorsk.Lese],
 };
-
-export const enOppfølgingsstatus = {
-    underOppfolging: true,
-};
