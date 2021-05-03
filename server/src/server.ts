@@ -15,7 +15,7 @@ import {
 export const PORT = 3000;
 export const BASE_PATH = '/person/behov-for-tilrettelegging';
 
-const tilretteleggingsbehovApiUrl = process.env.FINN_KANDIDAT_API!;
+const finnKandidatApiUrl = process.env.FINN_KANDIDAT_API!;
 const buildPath = path.join(__dirname, '../../build');
 const server = express();
 
@@ -58,7 +58,7 @@ const startServer = async (html: string) => {
     server.get(
         `${BASE_PATH}/tilretteleggingsbehov`,
         brukAccessToken,
-        setupProxy(`${BASE_PATH}`, tilretteleggingsbehovApiUrl)
+        setupProxy(`${BASE_PATH}`, finnKandidatApiUrl)
     );
 
     server.listen(PORT, () => {
