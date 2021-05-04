@@ -37,7 +37,6 @@ export const getAccessToken = async (session: SessionMedTokenSet): Promise<strin
     if (cachedTokenSetString) {
         const tokenSet = new TokenSet(cachedTokenSetString);
         if (!tokenSet.expired() && tokenSet.access_token) {
-            log.info('Bruker access token fra cache:', tokenSet.access_token);
             return tokenSet.access_token;
         }
     }
@@ -48,30 +47,22 @@ export const getAccessToken = async (session: SessionMedTokenSet): Promise<strin
         },
     };
 
-    try {
-        const tokenSet = await tokendingsClient.grant(
-            {
-                grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',
-                client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-                subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
-                audience: process.env.FINN_KANDIDAT_API_CLIENT_ID,
-                subject_token: session.tokenSet?.access_token,
-            },
-            additionalClaims
-        );
+    const tokenSet = await tokendingsClient.grant(
+        {
+            grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',
+            client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+            subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
+            audience: process.env.FINN_KANDIDAT_API_CLIENT_ID,
+            subject_token: session.tokenSet?.access_token,
+        },
+        additionalClaims
+    );
 
-        log.info('Fikk token fra TokenDings: ' + JSON.stringify(tokenSet));
+    if (tokenSet.access_token) {
+        session[tokenSetSessionKey] = tokenSet;
 
-        if (tokenSet.access_token) {
-            session[tokenSetSessionKey] = tokenSet;
-
-            return tokenSet.access_token;
-        } else {
-            log.info('Ingen access_token i svar fra TokenDings');
-            throw new Error('Ingen access_token i svar fra TokenDings');
-        }
-    } catch (e) {
-        log.info('Kunne ikke hente token fra TokenDings', e);
-        throw new Error('Kunne ikke få svar fra TokenDings');
+        return tokenSet.access_token;
+    } else {
+        throw new Error('Ingen access_token i svar fra TokenDings');
     }
 };

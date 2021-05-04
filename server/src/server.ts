@@ -49,7 +49,6 @@ const startServer = async (html: string) => {
     });
 
     server.get(BASE_PATH, (req: Request, res: Response) => {
-        console.log('Server HTML');
         res.send(html);
     });
 
