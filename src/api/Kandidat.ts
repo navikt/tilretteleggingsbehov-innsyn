@@ -10,7 +10,3 @@ export interface Kandidat {
     arbeidshverdagen: Arbeidshverdagen[];
     utfordringerMedNorsk: UtfordringerMedNorsk[];
 }
-
-export interface Oppfølgingsstatus {
-    underOppfolging: boolean;
-}

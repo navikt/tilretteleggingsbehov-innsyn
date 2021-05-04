@@ -15,6 +15,19 @@ npm run start
 npm run mock
 ```
 
+## Utvikling av server
+
+Kjøre Redis i Docker-container
+```sh
+docker run -d -p 6379:6379 --name tilretteleggingsbehov-innsyn-redis -d redis
+```
+
+Koble til Redis
+```sh
+npm install -g redis-cli # Installer CLI
+rdcli -h localhost -p 6379
+```
+
 ## Testing i NAVs preprod (for NAV-ansatte)
 * Sørg for at stub-oidc-provider er installert gjennom https://myapps.microsoft.com
 * Logg inn på tynnklient
