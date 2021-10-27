@@ -5,8 +5,8 @@ metadata:
   labels:
     team: arbeidsgiver
   annotations:
-    nais.io/read-only-file-system: "false"
-    nais.io/run-as-user: "999"
+    "nais.io/run-as-group": "0"
+    "nais.io/read-only-file-system": "false"
   name: tilretteleggingsbehov-innsyn-redis
   namespace: arbeidsgiver
 spec:
