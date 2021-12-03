@@ -1,45 +1,45 @@
 apiVersion: nais.io/v1alpha1
 kind: Application
 metadata:
-  name: tilretteleggingsbehov-innsyn
-  namespace: arbeidsgiver
-  labels:
-    team: arbeidsgiver
+    name: tilretteleggingsbehov-innsyn
+    namespace: arbeidsgiver
+    labels:
+        team: arbeidsgiver
 spec:
-  # prettier-ignore
-  image: {{ image }}
-  port: 3000
-  ingresses:
-    - https://tilretteleggingsbehov-innsyn.dev.nav.no/person/behov-for-tilrettelegging
-  liveness:
-    initialDelay: 5
-    path: /person/behov-for-tilrettelegging/internal/isAlive
-  readiness:
-    initialDelay: 5
-    path: /person/behov-for-tilrettelegging/internal/isReady
-  accessPolicy:
-    outbound:
-      rules:
-        - application: tilretteleggingsbehov-innsyn-redis
-      external:
-        - host: dekoratoren.dev.nav.no
-        - host: finn-kandidat-api.dev-fss-pub.nais.io
-  idporten:
-    enabled: true
-    clientURI: "https://nav.no"
-    redirectPath: "/oauth2/callback"
-    frontchannelLogoutPath: "/oauth2/logout"
-    postLogoutRedirectURIs:
-      - "https://nav.no"
-    accessTokenLifetime: 3600
-    sessionLifetime: 7200
-  tokenx:
-    enabled: true
-  env:
-    - name: FINN_KANDIDAT_API
-      value: https://finn-kandidat-api.dev-fss-pub.nais.io/finn-kandidat-api
-    - name: FINN_KANDIDAT_API_CLIENT_ID
-      value: dev-fss:arbeidsgiver:finn-kandidat-api
-  envFrom:
-    - secret: tilretteleggingsbehov-innsyn-redis-password
-    - secret: tilretteleggingsbehov-innsyn-session-secret
+    # prettier-ignore
+    image: {{ image }}
+    port: 3000
+    ingresses:
+        - https://tilretteleggingsbehov-innsyn.dev.nav.no/person/behov-for-tilrettelegging
+    liveness:
+        initialDelay: 5
+        path: /person/behov-for-tilrettelegging/internal/isAlive
+    readiness:
+        initialDelay: 5
+        path: /person/behov-for-tilrettelegging/internal/isReady
+    accessPolicy:
+        outbound:
+            rules:
+                - application: tilretteleggingsbehov-innsyn-redis
+            external:
+                - host: dekoratoren.dev.nav.no
+                - host: finn-kandidat-api.dev-fss-pub.nais.io
+    idporten:
+        enabled: true
+        clientURI: 'https://nav.no'
+        redirectPath: '/oauth2/callback'
+        frontchannelLogoutPath: '/oauth2/logout'
+        postLogoutRedirectURIs:
+            - 'https://nav.no'
+        accessTokenLifetime: 3600
+        sessionLifetime: 7200
+    tokenx:
+        enabled: true
+    env:
+        - name: FINN_KANDIDAT_API
+          value: https://finn-kandidat-api.dev-fss-pub.nais.io/finn-kandidat-api
+        - name: FINN_KANDIDAT_API_CLIENT_ID
+          value: dev-fss:arbeidsgiver:finn-kandidat-api
+    envFrom:
+        - secret: tilretteleggingsbehov-innsyn-redis-password
+        - secret: tilretteleggingsbehov-innsyn-session-secret

@@ -1,23 +1,23 @@
-apiVersion: "nais.io/v1"
-kind: "Alert"
+apiVersion: 'nais.io/v1'
+kind: 'Alert'
 metadata:
-  name: tilretteleggingsbehov-innsyn-alert
-  namespace: arbeidsgiver
-  labels:
-    team: arbeidsgiver
+    name: tilretteleggingsbehov-innsyn-alert
+    namespace: arbeidsgiver
+    labels:
+        team: arbeidsgiver
 spec:
-  receivers:
-    slack:
-      channel: 'inkludering-alerts-prod'
-  alerts:
-    - alert: Applikasjon nede
-      expr: sum(up{app="tilretteleggingsbehov-innsyn", job="kubernetes-pods"}) == 0
-      for: 1s
-      description: "tilretteleggingsbehov-innsyn er nede"
-      action: "Sjekk logs.adeo.no for logger: https://logs.adeo.no/goto/182e3f3bb1b04560391528cfb57d1674"
+    receivers:
+        slack:
+            channel: 'inkludering-alerts-prod'
+    alerts:
+        - alert: Applikasjon nede
+          expr: sum(up{app="tilretteleggingsbehov-innsyn", job="kubernetes-pods"}) == 0
+          for: 1s
+          description: 'tilretteleggingsbehov-innsyn er nede'
+          action: 'Sjekk logs.adeo.no for logger: https://logs.adeo.no/goto/182e3f3bb1b04560391528cfb57d1674'
 
-    - alert: Det har skjedd en feil i tilretteleggingsbehov-innsyn
-      expr: sum(increase(logd_messages_total{log_app="tilretteleggingsbehov-innsyn",log_level="Error"}[10m])) > 0
-      for: 10s
-      description: "tilretteleggingsbehov-innsyn har logget en feil"
-      action: "Sjekk logs.adeo.no for logger: https://logs.adeo.no/goto/4c7200521a39985a7354e986d2cd4624"
+        - alert: Det har skjedd en feil i tilretteleggingsbehov-innsyn
+          expr: sum(increase(logd_messages_total{log_app="tilretteleggingsbehov-innsyn",log_level="Error"}[10m])) > 0
+          for: 10s
+          description: 'tilretteleggingsbehov-innsyn har logget en feil'
+          action: 'Sjekk logs.adeo.no for logger: https://logs.adeo.no/goto/4c7200521a39985a7354e986d2cd4624'

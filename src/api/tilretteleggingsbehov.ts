@@ -67,5 +67,5 @@ const tilretteleggingsbehov: Record<Kategori, Behovtekst[]> = {
 };
 
 export const hentTeksterForValgteBehov = (kategori: Kategori, behov: Behov[]) => {
-    return (tilretteleggingsbehov[kategori] as Behovtekst[]).filter(b => behov.includes(b.behov));
+    return (tilretteleggingsbehov[kategori] as Behovtekst[]).filter((b) => behov.includes(b.behov));
 };
