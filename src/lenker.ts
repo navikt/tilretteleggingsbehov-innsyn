@@ -7,14 +7,14 @@ type Lenker = {
 };
 
 const prod: Lenker = {
-    dittNav: 'https://www.nav.no/no/ditt-nav',
+    dittNav: 'https://www.nav.no/person/dittnav/',
     personopplysninger: 'https://www.nav.no/person/personopplysninger',
     kontaktVeileder: 'https://aktivitetsplan.nav.no/dialog',
 };
 
 const dev: Lenker = {
-    dittNav: 'https://www-q0.nav.no/no/ditt-nav',
-    personopplysninger: 'https://www-q0.nav.no/person/personopplysninger',
+    dittNav: 'https://www.dev.nav.no/person/dittnav/',
+    personopplysninger: 'https://www.dev.nav.no/person/personopplysninger',
     kontaktVeileder: 'https://aktivitetsplan-q.nav.no/dialog',
 };
 

@@ -1,16 +1,16 @@
 import React, { FunctionComponent } from 'react';
-import Lenke from 'nav-frontend-lenker';
-import { VenstreChevron } from 'nav-frontend-chevron';
-import './Tilbake.less';
 import lenker from '../lenker';
+import { Back } from '@navikt/ds-icons';
+import { Link } from '@navikt/ds-react';
+import './Tilbake.less';
 
 const Tilbake: FunctionComponent = () => {
     return (
         <div className="tilbake">
-            <Lenke className="tilbake__lenke" href={lenker.personopplysninger}>
-                <VenstreChevron className="tilbake__chevron" />
+            <Link className="tilbake__lenke" href={lenker.personopplysninger}>
+                <Back className="tilbake__chevron" />
                 <span>Tilbake</span>
-            </Lenke>
+            </Link>
         </div>
     );
 };

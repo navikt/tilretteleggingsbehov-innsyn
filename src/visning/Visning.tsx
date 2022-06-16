@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from 'react';
-import { Normaltekst, Element, Undertittel } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
+import { BodyLong, Heading, Link } from '@navikt/ds-react';
 
 import { hentTeksterForValgteBehov } from '../api/tilretteleggingsbehov';
 import { Kandidat } from '../api/Kandidat';
 import Behovgruppe from './Behovgruppe';
 import lenker from '../lenker';
-import './Visning.less';
 import { Kategori } from '../api/Behov';
+import './Visning.less';
+import { Dialog } from '@navikt/ds-icons';
 
 interface Props {
     kandidat: Kandidat;
@@ -16,7 +16,9 @@ interface Props {
 const Visning: FunctionComponent<Props> = ({ kandidat }) => {
     return (
         <div className="visning">
-            <Undertittel className="visning__undertittel">Behovene som er registrert:</Undertittel>
+            <Heading level="2" size="medium">
+                Behovene som er registrert:
+            </Heading>
             <div className="visning__behovkategorier">
                 <Behovgruppe
                     overskrift="Arbeidstid"
@@ -45,11 +47,16 @@ const Visning: FunctionComponent<Props> = ({ kandidat }) => {
                     )}
                 />
             </div>
-            <Element tag="h3">Stemmer ikke informasjonen?</Element>
-            <Normaltekst>
+            <Heading level="3" size="small">
+                Stemmer ikke informasjonen?
+            </Heading>
+            <BodyLong>
                 <span>Mener du at behovene dine for tilrettelegging ikke er riktig? </span>
-                <Lenke href={lenker.kontaktVeileder}>Ta kontakt med veilederen din.</Lenke>
-            </Normaltekst>
+                <Link href={lenker.kontaktVeileder}>
+                    Ta kontakt med veilederen din.
+                    <Dialog />
+                </Link>
+            </BodyLong>
         </div>
     );
 };
