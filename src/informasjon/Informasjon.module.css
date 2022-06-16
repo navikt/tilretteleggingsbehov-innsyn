@@ -1,0 +1,7 @@
+.tittel:global(.navds-heading) {
+    margin-bottom: 0.5rem;
+}
+
+.tekst:not(:last-child) {
+    margin-bottom: 1.5rem;
+}

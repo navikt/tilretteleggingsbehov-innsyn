@@ -6,8 +6,8 @@ import { Kandidat } from '../api/Kandidat';
 import Behovgruppe from './Behovgruppe';
 import lenker from '../lenker';
 import { Kategori } from '../api/Behov';
-import './Visning.less';
 import { Dialog } from '@navikt/ds-icons';
+import css from './Visning.module.css';
 
 interface Props {
     kandidat: Kandidat;
@@ -15,11 +15,11 @@ interface Props {
 
 const Visning: FunctionComponent<Props> = ({ kandidat }) => {
     return (
-        <div className="visning">
+        <div className={css.visning}>
             <Heading level="2" size="medium">
                 Behovene som er registrert:
             </Heading>
-            <div className="visning__behovkategorier">
+            <div className={css.behovskategorier}>
                 <Behovgruppe
                     overskrift="Arbeidstid"
                     beskrivelse="Behov for tilrettelegging av arbeidstiden"

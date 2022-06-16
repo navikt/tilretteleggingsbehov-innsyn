@@ -6,7 +6,7 @@ import Informasjon from './informasjon/Informasjon';
 import Tilbake from './tilbake/Tilbake';
 import Visning from './visning/Visning';
 import { Heading } from '@navikt/ds-react';
-import './App.less';
+import css from './App.module.css';
 
 const App = () => {
     const [respons, setRespons] = useState<Respons>({
@@ -32,19 +32,19 @@ const App = () => {
     }, [respons]);
 
     return (
-        <div className="app">
+        <div className={css.app}>
             <Brødsmulesti />
-            <div className="app__tilbake-og-header">
+            <div className={css.tilbakeOgHeader}>
                 <Tilbake />
-                <header className="app__header">
+                <header className={css.header}>
                     <Tavleikon />
                     <Heading level="1" size="large">
                         Behov for tilrettelegging
                     </Heading>
                 </header>
-                <span className="app__spacer" />
+                <span className={css.spacer} />
             </div>
-            <main className="app__main">
+            <main className={css.main}>
                 <Informasjon respons={respons} />
                 {respons.status === Status.Suksess && <Visning kandidat={respons.kandidat} />}
             </main>
