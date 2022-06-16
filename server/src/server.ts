@@ -16,7 +16,7 @@ export const PORT = 3000;
 export const BASE_PATH = '/person/behov-for-tilrettelegging';
 
 const finnKandidatApiUrl = process.env.FINN_KANDIDAT_API!;
-const buildPath = path.join(__dirname, '../../build');
+const buildPath = path.join(__dirname, '../build');
 const server = express();
 
 const startServer = async (html: string) => {
