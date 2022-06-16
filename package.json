@@ -3,6 +3,21 @@
     "version": "0.1.0",
     "private": true,
     "homepage": "/person/behov-for-tilrettelegging",
+    "scripts": {
+        "start": "react-scripts start",
+        "start:mock": "REACT_APP_MOCK=true npm start",
+        "build": "react-scripts build",
+        "eject": "react-scripts eject",
+        "server:install": "cd server && npm ci",
+        "server:build": "tsc -b server/tsconfig.json",
+        "server:start": "node server/build/server.js",
+        "server:watch": "run-p server:watch:tsc server:watch:node",
+        "server:watch:tsc": "tsc -b server/tsconfig.json --watch",
+        "server:watch:node": "nodemon -w server/build -x node server/build/server.js",
+        "test": "snyk test",
+        "prepare": "husky install",
+        "format": "prettier --write ."
+    },
     "dependencies": {
         "@craco/craco": "^6.4.0",
         "@navikt/ds-css": "^0.18.12",
@@ -25,21 +40,6 @@
         "prettier": "^2.5.0",
         "pretty-quick": "^3.1.2",
         "snyk": "^1.745.0"
-    },
-    "scripts": {
-        "start": "craco start",
-        "start:mock": "REACT_APP_MOCK=true npm start",
-        "build": "craco build",
-        "eject": "craco eject",
-        "server:install": "cd server && npm ci",
-        "server:build": "tsc -b server/tsconfig.json",
-        "server:start": "node server/build/server.js",
-        "server:watch": "run-p server:watch:tsc server:watch:node",
-        "server:watch:tsc": "tsc -b server/tsconfig.json --watch",
-        "server:watch:node": "nodemon -w server/build -x node server/build/server.js",
-        "test": "snyk test",
-        "prepare": "husky install",
-        "format": "prettier --write ."
     },
     "eslintConfig": {
         "extends": "react-app"
