@@ -2,6 +2,12 @@
     flex: 1;
     margin-bottom: 1rem;
 
+    &:hover {
+        .tilbake__chevron {
+            transform: translateX(-3px);
+        }
+    }
+
     &__lenke {
         display: inline-flex;
         align-items: center;
@@ -9,7 +15,8 @@
     }
 
     &__chevron {
-        margin-right: 0.5rem;
+        margin-right: 0.25rem;
+        transition: transform 200ms;
     }
 
     @media (min-width: 40rem) {

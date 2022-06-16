@@ -6,6 +6,7 @@
     "dependencies": {
         "@craco/craco": "^6.4.0",
         "@navikt/ds-css": "^0.18.12",
+        "@navikt/ds-icons": "^0.8.17",
         "@navikt/ds-react": "^0.19.12",
         "@types/node": "^16.11.6",
         "@types/react": "^17.0.33",
