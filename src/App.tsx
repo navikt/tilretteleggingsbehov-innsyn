@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { hentTilretteleggingsbehov, Respons, Status } from './api/api';
 import { ReactComponent as Tavleikon } from './tavleikon/tavleikon.svg';
-import { Systemtittel } from 'nav-frontend-typografi';
 import Brødsmulesti from './brødsmulesti/Brødsmulesti';
 import Informasjon from './informasjon/Informasjon';
 import Tilbake from './tilbake/Tilbake';
 import Visning from './visning/Visning';
+import { Heading } from '@navikt/ds-react';
 import './App.less';
 
 const App = () => {
@@ -32,15 +32,15 @@ const App = () => {
     }, [respons]);
 
     return (
-        <div className="app typo-normal">
+        <div className="app">
             <Brødsmulesti />
             <div className="app__tilbake-og-header">
                 <Tilbake />
                 <header className="app__header">
                     <Tavleikon />
-                    <Systemtittel tag="h1" className="blokk-m">
+                    <Heading level="1" size="large">
                         Behov for tilrettelegging
-                    </Systemtittel>
+                    </Heading>
                 </header>
                 <span className="app__spacer" />
             </div>
