@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { ReactComponent as Kontoikon } from './kontoikon.svg';
-import './Brødsmulesti.less';
-import Lenke from 'nav-frontend-lenker';
+import { Link } from '@navikt/ds-react';
 import lenker from '../lenker';
+import './Brødsmulesti.less';
 
 const Skilletegn = () => <span className="brødsmulesti__skilletegn">/</span>;
 
@@ -10,13 +10,13 @@ const Brødsmulesti: FunctionComponent = () => {
     return (
         <nav className="brødsmulesti">
             <Kontoikon />
-            <Lenke className="brødsmulesti__steg" href={lenker.dittNav}>
+            <Link className="brødsmulesti__steg" href={lenker.dittNav}>
                 Ditt NAV
-            </Lenke>
+            </Link>
             <Skilletegn />
-            <Lenke className="brødsmulesti__steg" href={lenker.personopplysninger}>
+            <Link className="brødsmulesti__steg" href={lenker.personopplysninger}>
                 Personopplysninger
-            </Lenke>
+            </Link>
             <Skilletegn />
             <span className="brødsmulesti__steg">Behov for tilrettelegging</span>
         </nav>
