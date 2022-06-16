@@ -22,15 +22,14 @@
         "@navikt/ds-css": "^0.18.12",
         "@navikt/ds-icons": "^0.8.17",
         "@navikt/ds-react": "^0.19.12",
-        "@types/node": "^16.11.6",
-        "@types/react": "^17.0.33",
-        "@types/react-dom": "^17.0.10",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
-        "react-scripts": "^4.0.3",
-        "typescript": "^4.4.4"
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-scripts": "^5.0.1",
+        "typescript": "^4.7.3"
     },
     "devDependencies": {
+        "@types/react": "^18.0.12",
+        "@types/react-dom": "^18.0.5",
         "fetch-mock": "^9.11.0",
         "husky": "^7.0.0",
         "nodemon": "^2.0.14",
