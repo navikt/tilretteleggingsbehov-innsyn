@@ -2,25 +2,25 @@ import React, { FunctionComponent } from 'react';
 import { ReactComponent as Kontoikon } from './kontoikon.svg';
 import { Link } from '@navikt/ds-react';
 import lenker from '../lenker';
-import './Brødsmulesti.less';
-
-const Skilletegn = () => <span className="brødsmulesti__skilletegn">/</span>;
+import css from './Brødsmulesti.module.css';
 
 const Brødsmulesti: FunctionComponent = () => {
     return (
-        <nav className="brødsmulesti">
+        <nav className={css.brødsmulesti}>
             <Kontoikon />
-            <Link className="brødsmulesti__steg" href={lenker.dittNav}>
+            <Link className={css.steg} href={lenker.dittNav}>
                 Ditt NAV
             </Link>
             <Skilletegn />
-            <Link className="brødsmulesti__steg" href={lenker.personopplysninger}>
+            <Link className={css.steg} href={lenker.personopplysninger}>
                 Personopplysninger
             </Link>
             <Skilletegn />
-            <span className="brødsmulesti__steg">Behov for tilrettelegging</span>
+            <span className={css.steg}>Behov for tilrettelegging</span>
         </nav>
     );
 };
+
+const Skilletegn = () => <span>/</span>;
 
 export default Brødsmulesti;

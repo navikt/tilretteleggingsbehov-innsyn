@@ -10,26 +10,22 @@ jobs:
         name: Bygg applikasjon
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v1
-            - uses: actions/setup-node@v1
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v2
               with:
-                  node-version: 10
-            - uses: actions/cache@v1
-              with:
-                  path: ~/.npm
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-node-
+                  node-version: 16
+                  cache: 'npm'
+                  cache-dependency-path: |
+                      package-lock.json
+                      server/package-lock.json
             - name: Installer avhengigheter
-              run: npm install
+              run: npm ci
             - name: Bygg applikasjon
-              run: |
-                  export NODE_OPTIONS=--max-old-space-size=8192
-                  npm run build
+              run: npm run build
             - name: Installer avhengigheter for server
-              run: npm run server:install
+              run: cd server && npm ci
             - name: Bygg server
-              run: npm run server:build
+              run: cd server && npm run build
             - name: Bygg og publiser Docker-image
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -41,7 +37,7 @@ jobs:
     deploy-til-dev:
         name: Deploy til dev
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/oppgrader-designbibliotek'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/fjern-craco-og-less'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1

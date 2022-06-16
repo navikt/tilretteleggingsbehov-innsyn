@@ -3,21 +3,27 @@
     "version": "0.1.0",
     "private": true,
     "homepage": "/person/behov-for-tilrettelegging",
+    "scripts": {
+        "start": "react-scripts start",
+        "start:mock": "REACT_APP_MOCK=true npm start",
+        "build": "react-scripts build",
+        "eject": "react-scripts eject",
+        "test": "snyk test",
+        "prepare": "husky install",
+        "format": "prettier --write ."
+    },
     "dependencies": {
-        "@craco/craco": "^6.4.0",
         "@navikt/ds-css": "^0.18.12",
         "@navikt/ds-icons": "^0.8.17",
         "@navikt/ds-react": "^0.19.12",
-        "@types/node": "^16.11.6",
-        "@types/react": "^17.0.33",
-        "@types/react-dom": "^17.0.10",
-        "craco-less": "^1.20.0",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
-        "react-scripts": "^4.0.3",
-        "typescript": "^4.4.4"
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-scripts": "^5.0.1",
+        "typescript": "^4.7.3"
     },
     "devDependencies": {
+        "@types/react": "^18.0.12",
+        "@types/react-dom": "^18.0.5",
         "fetch-mock": "^9.11.0",
         "husky": "^7.0.0",
         "nodemon": "^2.0.14",
@@ -25,21 +31,6 @@
         "prettier": "^2.5.0",
         "pretty-quick": "^3.1.2",
         "snyk": "^1.745.0"
-    },
-    "scripts": {
-        "start": "craco start",
-        "start:mock": "REACT_APP_MOCK=true npm start",
-        "build": "craco build",
-        "eject": "craco eject",
-        "server:install": "cd server && npm ci",
-        "server:build": "tsc -b server/tsconfig.json",
-        "server:start": "node server/build/server.js",
-        "server:watch": "run-p server:watch:tsc server:watch:node",
-        "server:watch:tsc": "tsc -b server/tsconfig.json --watch",
-        "server:watch:node": "nodemon -w server/build -x node server/build/server.js",
-        "test": "snyk test",
-        "prepare": "husky install",
-        "format": "prettier --write ."
     },
     "eslintConfig": {
         "extends": "react-app"

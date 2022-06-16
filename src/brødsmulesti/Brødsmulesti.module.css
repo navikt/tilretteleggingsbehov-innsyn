@@ -5,14 +5,14 @@
     margin-bottom: 2rem;
     flex-wrap: wrap;
     min-height: 45px;
+}
 
-    &__steg {
-        margin: 5px;
-    }
+.brødsmulesti svg {
+    height: 30px;
+    width: 30px;
+    margin: 5px;
+}
 
-    svg {
-        height: 30px;
-        width: 30px;
-        margin: 5px;
-    }
+.steg {
+    margin: 5px;
 }

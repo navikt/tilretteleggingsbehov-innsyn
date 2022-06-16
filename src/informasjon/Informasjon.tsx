@@ -1,20 +1,20 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { Alert, BodyLong, Heading, Loader } from '@navikt/ds-react';
 import { Respons, Status } from '../api/api';
-import './Informasjon.less';
+import css from './Informasjon.module.css';
 
 const Tittel = ({ children }: { children: ReactNode }) => (
-    <Heading level="2" size="small" className="informasjon__tittel">
+    <Heading level="2" size="small" className={css.tittel}>
         {children}
     </Heading>
 );
 
 const Tekst = ({ children }: { children: ReactNode }) => (
-    <BodyLong className="informasjon__tekst">{children}</BodyLong>
+    <BodyLong className={css.tekst}>{children}</BodyLong>
 );
 
 const BehovForTilrettelegging = () => (
-    <Alert variant="info" className="informasjon">
+    <Alert variant="info">
         <Tittel>Du har behov for tilrettelegging</Tittel>
         <Tekst>
             Veilederen din har registrert at du har behov for tilrettelegging for å kunne jobbe.
@@ -24,7 +24,7 @@ const BehovForTilrettelegging = () => (
 );
 
 const IngenBehovForTilrettelegging = () => (
-    <Alert variant="info" className="informasjon">
+    <Alert variant="info">
         <Tittel>Du har ikke behov for tilrettelegging</Tittel>
         <Tekst>
             Vi har ikke registrert at du har behov for tilrettelegging for å kunne jobbe. Mange
@@ -53,7 +53,7 @@ const Informasjon: FunctionComponent<Props> = ({ respons }) => {
         return <IngenBehovForTilrettelegging />;
     } else if (respons.status === Status.Feil || respons.status === Status.UkjentFeil) {
         return (
-            <Alert variant="error" className="informasjon">
+            <Alert variant="error">
                 <Tekst>Det skjedde dessverre en feil, vennligst prøv igjen senere.</Tekst>
             </Alert>
         );
