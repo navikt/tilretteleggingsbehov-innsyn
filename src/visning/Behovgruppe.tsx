@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import { Normaltekst, Element } from 'nav-frontend-typografi';
 import { Behovtekst } from '../api/tilretteleggingsbehov';
+import { BodyShort, Heading } from '@navikt/ds-react';
 
 interface Props {
     overskrift: String;
@@ -12,12 +12,14 @@ const Behovgruppe: FunctionComponent<Props> = ({ overskrift, beskrivelse, behov 
     if (behov.length === 0) return null;
     return (
         <section className="visning__behovgruppe">
-            <Element tag="h3">{overskrift}</Element>
-            <Normaltekst>{beskrivelse}</Normaltekst>
+            <Heading level="3" size="small">
+                {overskrift}
+            </Heading>
+            <BodyShort>{beskrivelse}</BodyShort>
             <ul className="visning__behovliste">
                 {behov.map((b) => (
                     <li key={b.beskrivelse}>
-                        <Normaltekst>{b.beskrivelse}</Normaltekst>
+                        <BodyShort>{b.beskrivelse}</BodyShort>
                     </li>
                 ))}
             </ul>
