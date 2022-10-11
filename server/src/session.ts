@@ -43,10 +43,12 @@ const setupRedis = () => {
     log.info('Setter opp redis');
 
     const client = redis.createClient({
-        db: 1,
-        host: 'tilretteleggingsbehov-innsyn-redis.arbeidsgiver.svc.cluster.local',
+        database: 1,
+        socket: {
+            host: 'tilretteleggingsbehov-innsyn-redis.arbeidsgiver.svc.cluster.local',
+            port: 6379,
+        },
         password: process.env.REDIS_PASSWORD,
-        port: 6379,
     });
 
     client.unref();
