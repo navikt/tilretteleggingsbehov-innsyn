@@ -101,18 +101,7 @@ jobs:
               run: >
                   snyk monitor
                   --org=toi
-                  --file=package.json
-                  --project-name=${{ github.repository }}
-                  --remote-repo-url=https://github.com/${{ github.repository }}.git
-              env:
-                  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - name: Monitor dependencies in server with Snyk
-              run: >
-                  snyk monitor
-                  --org=toi
-                  --file=server/package.json
-                  --project-name=${{ github.repository }}
+                  --all-projects
                   --remote-repo-url=https://github.com/${{ github.repository }}.git
               env:
                   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
