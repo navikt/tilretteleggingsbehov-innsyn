@@ -88,6 +88,13 @@ jobs:
               with:
                   node-version: 16
                   cache: 'npm'
+                  cache-dependency-path: |
+                      package-lock.json
+                      server/package-lock.json
+            - name: Installer avhengigheter
+              run: npm ci
+            - name: Installer avhengigheter for server
+              run: cd server && npm ci
             - name: Install Snyk CLI
               uses: snyk/actions/setup@master
             - name: Monitor dependencies in root with Snyk
