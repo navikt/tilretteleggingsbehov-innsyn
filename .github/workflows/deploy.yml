@@ -87,6 +87,7 @@ jobs:
             - uses: actions/setup-node@v2
               with:
                   node-version: 16
+                  cache: 'npm'
             - name: Install Snyk CLI
               uses: snyk/actions/setup@master
             - name: Monitor dependencies in root with Snyk
@@ -94,7 +95,6 @@ jobs:
                   snyk monitor
                   --org=toi
                   --file=package.json
-                  --package-manager=npm
                   --project-name=${{ github.repository }}
                   --remote-repo-url=https://github.com/${{ github.repository }}.git
               env:
@@ -105,7 +105,6 @@ jobs:
                   snyk monitor
                   --org=toi
                   --file=server/package.json
-                  --package-manager=npm
                   --project-name=${{ github.repository }}
                   --remote-repo-url=https://github.com/${{ github.repository }}.git
               env:
