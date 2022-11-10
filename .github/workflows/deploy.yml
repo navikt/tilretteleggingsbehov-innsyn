@@ -76,3 +76,29 @@ jobs:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
                   CLUSTER: prod-gcp
                   RESOURCE: nais/alerts.yaml
+
+    snyk-monitor:
+        name: Monitor dependencies with Snyk
+        if: github.ref == 'refs/heads/master'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v1
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: 16
+                  cache: 'npm'
+                  cache-dependency-path: |
+                      package-lock.json
+                      server/package-lock.json
+            - name: Install Snyk CLI
+              uses: snyk/actions/setup@master
+            - name: Monitor dependencies with Snyk
+              run: >
+                  snyk monitor
+                  --org=toi
+                  --project-name=${{ github.repository }}
+                  --remote-repo-url=https://github.com/${{ github.repository }}.git
+              env:
+                  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
