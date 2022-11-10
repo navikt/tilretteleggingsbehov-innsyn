@@ -87,10 +87,6 @@ jobs:
             - uses: actions/setup-node@v2
               with:
                   node-version: 16
-                  cache: 'npm'
-                  cache-dependency-path: |
-                      package-lock.json
-                      server/package-lock.json
             - name: Install Snyk CLI
               uses: snyk/actions/setup@master
             - name: Monitor dependencies with Snyk
