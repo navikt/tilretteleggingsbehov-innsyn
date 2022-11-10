@@ -94,6 +94,7 @@ jobs:
                   snyk monitor
                   --org=toi
                   --file=package.json
+                  --package-manager=npm
                   --project-name=${{ github.repository }}
                   --remote-repo-url=https://github.com/${{ github.repository }}.git
               env:
@@ -104,6 +105,7 @@ jobs:
                   snyk monitor
                   --org=toi
                   --file=server/package.json
+                  --package-manager=npm
                   --project-name=${{ github.repository }}
                   --remote-repo-url=https://github.com/${{ github.repository }}.git
               env:
