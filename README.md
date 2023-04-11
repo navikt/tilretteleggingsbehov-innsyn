@@ -32,7 +32,7 @@ rdcli -h localhost -p 6379
 
 * Gå til [dev.nav.no/person/personopplysninger](https://www.dev.nav.no/person/personopplysninger)
 * Velg "TestId"
-* Logg inn med en syntetisk testbruker (du finner mange slike i [Rekrutteringsbistand](https://rekrutteringsbistand.dev.intern.nav.no/kandidater))
+* Logg inn med en syntetisk testbruker (du finner mange slike i [Rekrutteringsbistand](https://rekrutteringsbistand.intern.dev.nav.no/kandidater))
 * Scroll ned og trykk på "Behov for tilrettelegging" under "Flere opplysninger om deg"
 * Du skal nå se tilretteleggingsbehovene for vedkommende
 
