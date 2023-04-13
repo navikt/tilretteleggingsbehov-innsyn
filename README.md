@@ -30,7 +30,7 @@ rdcli -h localhost -p 6379
 
 ## Testing i dev-miljø
 
-* Gå til [dev.nav.no/person/personopplysninger](https://www.dev.nav.no/person/personopplysninger)
+* Gå til [ekstern.dev.nav.no/person/personopplysninger](https://www.ekstern.dev.nav.no/person/personopplysninger)
 * Velg "TestId"
 * Logg inn med en syntetisk testbruker (du finner mange slike i [Rekrutteringsbistand](https://rekrutteringsbistand.intern.dev.nav.no/kandidater))
 * Scroll ned og trykk på "Behov for tilrettelegging" under "Flere opplysninger om deg"
