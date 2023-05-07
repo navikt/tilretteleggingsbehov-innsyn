@@ -30,7 +30,7 @@
         "prettier": "^2.5.0",
         "pretty-quick": "^3.1.2",
         "react-scripts": "^5.0.1",
-        "snyk": "^1.745.0"
+        "snyk": "^1.1064.0"
     },
     "eslintConfig": {
         "extends": "react-app"
